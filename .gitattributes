@@ -1,0 +1,4 @@
+# 워크플로의 run: 블록은 우분투 셸에서 돈다. CRLF 가 섞이면 스크립트가 깨진다.
+* text=auto eol=lf
+*.png binary
+*.jpg binary

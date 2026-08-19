@@ -1,0 +1,84 @@
+# 리센느, 지금
+
+쇼츠로 세어 본 리센느의 숫자를 한 장에 모은 페이지. 단일 HTML 이 `data/*.json` 을 읽어 그린다.
+
+## 열어 보기
+
+`index.html` 을 파일로 직접 열면 브라우저가 `data/*.json` 읽기를 막는다. 서버로 띄운다.
+
+```
+python -m http.server 8000
+```
+
+→ http://localhost:8000
+
+## 구조
+
+```
+index.html              단일 파일. 렌더만 한다
+data/*.json             수치. 수집 스크립트가 여기만 다시 쓴다
+scripts/수집.py         구독자·조회수·트렌드·순위를 다시 받아 data/ 에 쓴다
+```
+
+| 파일 | 내용 | 갱신 |
+|---|---|---|
+| `live.json` | 구독자 2채널 · MV 11편 · 일별 90일 | 매일 |
+| `trends.json` | 구글 트렌드 126주 · 발매 7 · 업로드 26 | 주 1회 · **통째로 교체** |
+| `rank.json` | playboard 한국·전세계 순위 27주 | 주 1회 |
+| `club.json` | 걸그룹 100만 클럽 44팀 | 월 1회 |
+| `reputation.json` | 개인 브랜드평판 TOP 10 | 수동 (매월 초 발표) |
+| `searches.json` | 급상승 관련검색어 24개 | 월 1회 |
+| `archive.json` | 쇼츠 카드 20장 | 쇼츠 올릴 때 |
+| `milestone.json` | 100만 돌파일 — **한 번 쓰고 다시 안 쓴다** | 한 번 |
+| `status.json` | 항목별 마지막 수집 결과 | 매 수집 |
+
+## 갱신
+
+```
+python -X utf8 scripts/수집.py daily     # 구독자 2채널 · MV 11편 조회수
+python -X utf8 scripts/수집.py weekly    # 구글 트렌드 126주 · playboard 순위
+python -X utf8 scripts/수집.py daily --확인   # 아무것도 쓰지 않고 조회만
+```
+
+`YOUTUBE_API_KEY` 가 있으면 YouTube Data API v3 를, 없으면 yt-dlp 를 쓴다.
+Actions IP 는 yt-dlp 봇 차단이 잦으니 워크플로에서는 저장소 secret 에 키를 넣는다.
+
+처음 만들 때 쓴 변환 스크립트(`대시보드_데이터변환.py`)는 **이 저장소에 없다.**
+작성자 로컬의 쇼츠 작업 폴더를 읽고, 화면에서 뺀 검색어 목록을 담고 있어 저장소 밖에 둔다.
+data/ 를 채우는 일은 이제 `scripts/수집.py` 가 한다.
+
+## 지킬 것
+
+- **공개 저장소다.** `.gitignore` 를 먼저 확인하고 커밋한다. 전사 원문 · 화자배정 · 성문 프로필 ·
+  얼굴 이미지 · 개인 신상은 어떤 경로로도 올리지 않는다.
+- **API 키는 저장소 secret 에만.** 워크플로 YAML 에도 남기지 않는다.
+- **구글 트렌드는 매주 전체를 교체한다.** 새 최고점이 나오면 지난 126주 값이 전부 재정규화돼
+  내려간다. 마지막 점만 이어 붙이면 틀린 그림이 된다.
+- **수집 실패는 덮어쓰지 않는다.** 성공했을 때만 JSON 을 쓰고 실패는 `status.json` 에 남긴다.
+- **썸네일은 참조만 한다.** `i.ytimg.com` 을 그대로 쓰고 파일을 저장소에 복사하지 않는다.
+  카드·줄 전체가 그 영상 링크가 되어야 유튜브 약관을 지킨다.
+
+## 아직 안 한 것
+
+- **원격 저장소와 Pages.** 아래 순서로 켠다.
+
+  ```
+  gh repo create rescene-now --public --source=. --push
+  ```
+
+  그 다음 저장소 Settings → Pages → Source 를 `main` 브랜치 루트로 두고,
+  Settings → Secrets → Actions 에 `YOUTUBE_API_KEY` 를 넣는다.
+  Settings → Actions → Workflow permissions 는 **Read and write** 여야 봇이 커밋할 수 있다.
+
+- **걸그룹 100만 클럽 44팀 값은 수동이다.** `club.json` 에 그룹 이름만 있고 채널 ID 가 없어
+  자동으로 다시 조회할 수 없다. 리센느·안원잘부 자리는 daily 가 매일 다시 계산하므로
+  화면 06 의 문턱 연출은 자동으로 맞는다. 44팀 구독자 자체는 한 달에 몇 만 명 움직여야
+  순위가 바뀌는 구간이라 자동화 이득이 가장 작다. 채널 ID 를 한 번 모으면 월간 자동화를 붙일 수 있다
+  (핸들 추측은 남의 채널을 준다 — 유튜브 채널검색 `sp=EgIQAg` 를 긁을 것).
+
+- **브랜드평판 TOP 10 은 매월 초 발표라 수동이다.** brikorea 원표를 확인하고
+  `data/reputation.json` 을 고친 뒤 커밋한다.
+
+---
+
+리센느와 소속사·제작사와 아무 관계가 없는 팬 제작 페이지다. 만든 곳 · [유튜브 @data-viz](https://www.youtube.com/@data-viz)

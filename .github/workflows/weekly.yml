@@ -1,0 +1,49 @@
+name: weekly
+
+# 월요일 09:20 KST = 일요일 00:20 UTC. 구글 트렌드와 playboard 순위.
+# 둘 다 공개 API 가 없어 실패할 수 있다. 실패하면 JSON 을 그대로 두고
+# status.json 에 실패로 남긴다 — 화면 09 에 그대로 보인다.
+on:
+  schedule:
+    - cron: "20 0 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-write
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 수집
+        id: 수집
+        continue-on-error: true      # 한쪽이 실패해도 다른 쪽 결과는 커밋한다
+        run: python -X utf8 scripts/수집.py weekly
+
+      - name: 커밋
+        run: |
+          git config user.name  "rescene-now bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet data/; then
+            echo "바뀐 값 없음 — 커밋 건너뜀"
+            exit 0
+          fi
+          git add data/
+          git commit -m "data: 트렌드·순위 주간 갱신 ($(date -u +%m-%d))"
+          git push
+
+      - name: 실패했으면 워크플로도 실패로 표시
+        if: steps.수집.outcome == 'failure'
+        run: |
+          echo "수집 일부 실패 — status.json 에 남았고 화면에는 직전 값이 보인다"
+          exit 1

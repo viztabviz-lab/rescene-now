@@ -1,0 +1,42 @@
+# 공개 저장소다. 여기 없는 파일은 커밋되고, 한 번 push 하면 히스토리에서 지워도 남는다.
+# 새 확장자를 다루기 전에 이 파일을 먼저 고칠 것.
+
+# 원본 자료 — 저작권·개인정보
+*.srt
+*.vtt
+*.mp4
+*.mkv
+*.wav
+*.mp3
+*.npz
+*_스크립트.txt
+*_화면자막.txt
+*_화자배정.json
+*_대조표.txt
+_작업/
+_tmp/
+_얼굴군집/
+_아바타/
+_모델/
+_메뉴사진/
+
+# 저장소 밖에서 도는 도구 (개인 경로와 제외 단어 목록이 들어 있다)
+데이터변환.py
+scripts/데이터변환.py
+
+# 비밀
+.env
+*.key
+credentials*.json
+client_secret*.json
+
+# 파이썬
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini

@@ -1,0 +1,49 @@
+name: daily
+
+# 매일 09:00 KST = 00:00 UTC. 구독자와 MV 조회수.
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-write        # weekly 와 같은 파일을 건드리므로 겹쳐 돌지 않게 한다
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: yt-dlp 설치 (API 키가 없을 때의 대비책)
+        run: pip install --quiet yt-dlp
+
+      - name: 수집
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: python -X utf8 scripts/수집.py daily
+
+      - name: 커밋
+        # 구독자 값이 그대로여도 커밋한다. status.json 이 「오늘 확인했다」를 기록하고
+        # 화면 09 가 그 날짜를 「마지막 갱신」으로 보여주기 때문이다 — 건너뛰면
+        # 값은 최신인데 갱신일만 며칠 전으로 남아 화면이 거짓말을 한다.
+        # 유튜브 구독자는 3자리 반올림이라 며칠씩 같은 값이 이어지는 게 정상이다.
+        run: |
+          git config user.name  "rescene-now bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet data/; then
+            echo "쓸 것이 없다 — 수집이 아무것도 못 바꿨다"
+            exit 0
+          fi
+          리센느=$(python -c "import json;print(json.load(open('data/live.json',encoding='utf-8'))['채널']['리센느']['구독자'])")
+          git add data/
+          git commit -m "data: 리센느 ${리센느} ($(date -u +%m-%d))"
+          git push

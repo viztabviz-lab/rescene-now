@@ -1,0 +1,846 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>리센느, 지금</title>
+<meta name="description" content="쇼츠로 세어 본 리센느의 숫자를 한 장에 모았다. 구독자·조회수·검색 관심도.">
+<meta property="og:title" content="리센느, 지금">
+<meta property="og:description" content="110주 동안 아무 일도 없었고, 최근 16주에 전부 일어났다.">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+  --bg:#1a1a19;
+  --surface:#232322;
+  --line:#2f2f2d;
+  --track:#3a3a37;
+  --ink:#f2f2f0;
+  --ink-2:#b4b4ae;
+  --ink-3:#8a8a86;
+  --pink:#fc6fcf;
+  --pink-dim:#7d3a68;
+  --warn:#e0a06a;
+  --r:12px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard Variable",Pretendard,-apple-system,"Malgun Gothic",sans-serif;
+  font-size:16px;line-height:1.7;word-break:keep-all;
+  -webkit-font-smoothing:antialiased;
+}
+.num{font-variant-numeric:tabular-nums}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--pink);outline-offset:3px;border-radius:6px}
+
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px 96px}
+@media (max-width:420px){.wrap{padding:0 16px 80px}}
+
+/* ── 머리 ── */
+.top{padding:56px 0 8px}
+.brandline{display:flex;align-items:center;gap:9px;margin-bottom:18px}
+.brandline i{width:10px;height:10px;border-radius:3px;background:var(--pink);flex:none}
+.brandline span{font-size:12.5px;letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase}
+h1{
+  font-size:clamp(38px,10vw,68px);font-weight:800;letter-spacing:-.035em;
+  line-height:1.05;margin:0 0 14px;
+}
+h1 em{font-style:normal;color:var(--pink)}
+.top p{color:var(--ink-2);max-width:38ch;margin:0;font-size:clamp(15px,3.6vw,17px)}
+
+/* ── 섹션 ── */
+section{padding-top:64px}
+.eyebrow{
+  font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-3);margin:0 0 8px;display:flex;gap:8px;align-items:center;
+}
+.eyebrow b{color:var(--pink);font-weight:600}
+h2{
+  font-size:clamp(22px,5.4vw,30px);font-weight:800;letter-spacing:-.025em;
+  line-height:1.3;margin:0 0 10px;
+}
+.sub{color:var(--ink-2);margin:0 0 22px;font-size:15px;max-width:52ch}
+.foot{color:var(--ink-3);font-size:12.5px;margin:14px 0 0;max-width:56ch;line-height:1.6}
+.foot b{color:var(--ink-2);font-weight:600}
+
+/* ── 00 게이지 ── */
+.hero{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:26px 22px;
+}
+.hero .cap{font-size:13px;color:var(--ink-3);letter-spacing:.02em}
+.hero .big{
+  font-size:clamp(56px,17vw,104px);font-weight:800;letter-spacing:-.045em;
+  line-height:1;margin:8px 0 4px;color:var(--pink);
+}
+.hero .of{font-size:14px;color:var(--ink-3);margin-bottom:20px}
+.gauge{height:14px;background:var(--track);border-radius:7px;overflow:hidden}
+.gauge i{display:block;height:100%;background:var(--pink);border-radius:7px}
+.hero .left{
+  display:flex;justify-content:space-between;gap:12px;margin-top:11px;
+  font-size:13.5px;color:var(--ink-2);
+}
+.hero .left b{color:var(--ink);font-weight:700}
+.done{border-color:var(--pink)}
+.done .big{font-size:clamp(34px,9vw,56px)}
+
+/* ── 01 타일 ── */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (min-width:760px){.tiles{grid-template-columns:repeat(4,1fr)}}
+.tile{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:16px 15px 13px;display:flex;flex-direction:column;gap:2px;min-width:0;
+}
+.tile .k{font-size:12px;color:var(--ink-3);letter-spacing:.01em}
+.tile .v{font-size:clamp(25px,7vw,32px);font-weight:800;letter-spacing:-.03em;line-height:1.15}
+.tile.on .v{color:var(--pink)}
+.tile .d{font-size:12px;color:var(--ink-3);margin-top:1px}
+.tile svg{margin-top:9px;display:block;width:100%;height:30px;overflow:visible}
+
+/* ── 차트 공통 ── */
+.chart{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:18px 16px 14px;position:relative;
+}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin:0 0 14px;font-size:12.5px;color:var(--ink-2)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:11px;height:11px;border-radius:3px;flex:none}
+.legend i.line{height:3px;border-radius:2px;width:16px}
+.scalenote{font-size:12px;color:var(--ink-3);margin:0 0 12px;padding-left:9px;border-left:2px solid var(--pink)}
+
+.tip{
+  position:absolute;pointer-events:none;opacity:0;transition:opacity .1s;
+  background:#0e0e0d;border:1px solid var(--track);border-radius:8px;
+  padding:7px 10px;font-size:12.5px;line-height:1.45;white-space:nowrap;z-index:5;
+  transform:translate(-50%,-115%);
+}
+.tip b{color:var(--pink)}
+.tip.show{opacity:1}
+
+/* ── 막대 목록 ── */
+.rows{display:flex;flex-direction:column;gap:2px}
+.row{
+  display:grid;grid-template-columns:auto 1fr auto;gap:11px;align-items:center;
+  padding:7px 4px;border-radius:8px;text-decoration:none;min-width:0;
+}
+.row:hover{background:#ffffff08}
+.row .rk{
+  font-size:12px;color:var(--ink-3);width:20px;text-align:right;font-weight:600;flex:none;
+}
+.row .mid{min-width:0}
+.row .nm{
+  font-size:14.5px;color:var(--ink-2);white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis;margin-bottom:5px;
+}
+.row.on .nm{color:var(--ink);font-weight:700}
+.row.on .rk{color:var(--pink)}
+.bar{height:9px;background:var(--track);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ink-3);border-radius:4px}
+.row.on .bar i{background:var(--pink)}
+.row .val{font-size:13.5px;color:var(--ink-2);white-space:nowrap;font-weight:600}
+.row.on .val{color:var(--ink)}
+.row .thumb{
+  width:52px;height:30px;border-radius:5px;object-fit:cover;flex:none;
+  background:var(--track);
+}
+.row.mv{grid-template-columns:auto auto 1fr auto}
+
+/* ── 06 문턱 ── */
+.club{display:flex;flex-direction:column;gap:1px}
+.club .cr{
+  display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:baseline;
+  padding:7px 8px;border-radius:7px;font-size:14.5px;
+}
+.club .cr .r{font-size:12.5px;color:var(--ink-3);text-align:right;font-weight:600}
+.club .cr .g{color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.club .cr .s{color:var(--ink-2);font-weight:600;font-size:13.5px}
+.club .cr.me{background:#fc6fcf14;border:1px solid var(--pink)}
+.club .cr.me .r,.club .cr.me .g,.club .cr.me .s{color:var(--pink)}
+.club .cr.me .g{font-weight:700}
+.threshold{
+  display:flex;align-items:center;gap:11px;margin:9px 2px;
+  font-size:12px;color:var(--ink-3);letter-spacing:.06em;
+}
+.threshold::before,.threshold::after{content:"";flex:1;border-top:1px dashed var(--track)}
+.gap{
+  text-align:center;color:var(--ink-3);font-size:12px;padding:6px 0;letter-spacing:.2em;
+}
+
+/* ── 07 낱말 ── */
+.two{display:grid;gap:14px}
+@media (min-width:700px){.two{grid-template-columns:1fr 1fr}}
+.pane{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 15px;
+}
+.pane h3{font-size:14px;margin:0 0 3px;font-weight:700;letter-spacing:-.01em}
+.pane .when{font-size:11.5px;color:var(--ink-3);margin:0 0 13px;letter-spacing:.02em}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{
+  font-size:13px;border:1px solid var(--line);background:#ffffff06;
+  border-radius:999px;padding:4px 11px;color:var(--ink-3);
+}
+.chip.on{border-color:var(--pink);color:var(--pink);background:#fc6fcf12;font-weight:600}
+.tally{
+  margin-top:14px;padding-top:12px;border-top:1px solid var(--line);
+  font-size:13px;color:var(--ink-2);
+}
+.tally b{color:var(--pink);font-weight:700}
+
+/* ── 08 카드 ── */
+.cards{display:grid;grid-template-columns:1fr;gap:10px}
+@media (min-width:620px){.cards{grid-template-columns:1fr 1fr}}
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  overflow:hidden;text-decoration:none;display:flex;flex-direction:column;
+}
+.card:hover{border-color:var(--track)}
+.card img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:var(--track)}
+.card .body{padding:13px 14px 14px;display:flex;flex-direction:column;gap:5px;flex:1}
+.card .n{font-size:11.5px;color:var(--ink-3);letter-spacing:.03em}
+.card .t{font-size:15px;font-weight:700;letter-spacing:-.015em;line-height:1.35}
+.card .c{font-size:13px;color:var(--ink-2);line-height:1.55;flex:1}
+.card .m{font-size:12.5px;color:var(--pink);font-weight:700;letter-spacing:.01em}
+.card.soon{border-style:dashed}
+.card.soon .n{color:var(--warn)}
+.card .ph{
+  aspect-ratio:16/9;display:grid;place-items:center;
+  background:repeating-linear-gradient(135deg,#2a2a28 0 8px,#232322 8px 16px);
+  color:var(--ink-3);font-size:12.5px;letter-spacing:.04em;
+}
+
+/* ── 09 표 ── */
+.tablewrap{
+  overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:560px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+td{color:var(--ink-2)}
+td:first-child{color:var(--ink);font-weight:600;white-space:normal}
+tbody tr:last-child td{border-bottom:0}
+.ok{color:var(--ink-3)}
+.bad{color:var(--warn);font-weight:600}
+
+details{margin-top:12px;font-size:13px;color:var(--ink-3)}
+summary{cursor:pointer;padding:5px 0;color:var(--ink-3)}
+summary:hover{color:var(--ink-2)}
+details table{min-width:0;font-size:12.5px;margin-top:6px}
+details td,details th{padding:5px 12px 5px 0;border-bottom:1px solid var(--line)}
+
+footer{
+  margin-top:72px;padding-top:22px;border-top:1px solid var(--line);
+  font-size:12.5px;color:var(--ink-3);line-height:1.7;
+}
+footer a{color:var(--ink-2)}
+footer p{max-width:60ch}
+.err{
+  background:#2a1f1a;border:1px solid var(--warn);border-radius:var(--r);
+  padding:16px 18px;color:var(--warn);font-size:14px;margin-top:40px;
+}
+.err code{background:#00000040;padding:2px 6px;border-radius:4px;font-size:13px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="brandline"><i></i><span>Rescene · Data</span></div>
+  <h1>리센느,<br><em>지금</em></h1>
+  <p>110주 동안 아무 일도 없었고, 최근 16주에 전부 일어났다. 쇼츠로 세어 본 숫자를 한 장에 모았다.</p>
+</header>
+
+<main id="main" hidden>
+
+  <section id="s0">
+    <div class="hero" id="hero"></div>
+  </section>
+
+  <section id="s1">
+    <p class="eyebrow"><b>01</b> 지금 이 순간</p>
+    <h2>네 개의 숫자</h2>
+    <div class="tiles" id="tiles"></div>
+    <p class="foot" id="tiles-foot"></p>
+  </section>
+
+  <section id="s2">
+    <p class="eyebrow"><b>02</b> 구글 검색 관심도</p>
+    <h2>110주 동안 곡선은 바닥에 있었다</h2>
+    <p class="sub" id="s2-sub"></p>
+    <div class="chart">
+      <p class="scalenote" id="s2-scale"></p>
+      <div class="legend">
+        <span><i class="line" style="background:var(--pink)"></i>검색 관심도</span>
+        <span><i style="background:var(--ink-3);border-radius:2px;width:9px;height:9px;transform:rotate(45deg)"></i>앨범 발매</span>
+        <span><i style="background:var(--pink-dim);width:3px;height:13px;border-radius:2px"></i>안원잘부 업로드 <span style="color:var(--ink-3)">(높을수록 많이 본 편)</span></span>
+      </div>
+      <div id="s2-chart"></div>
+    </div>
+    <p class="foot" id="s2-foot"></p>
+  </section>
+
+  <section id="s3">
+    <p class="eyebrow"><b>03</b> 안원잘부 구독자 순위</p>
+    <h2>27주 동안 한 번도 내려가지 않았다</h2>
+    <p class="sub" id="s3-sub"></p>
+    <div class="chart">
+      <p class="scalenote">세로축은 한국 구독자 순위다. 위로 갈수록 높은 순위이고, 눈금은 로그다 — 아래쪽 한 칸이 위쪽 한 칸보다 훨씬 많은 순위를 담는다.</p>
+      <div id="s3-chart"></div>
+    </div>
+    <p class="foot" id="s3-foot"></p>
+  </section>
+
+  <section id="s4">
+    <p class="eyebrow"><b>04</b> 뮤직비디오</p>
+    <h2>11편 중 절반이 최근 1년에 나왔다</h2>
+    <p class="sub" id="s4-sub"></p>
+    <div class="legend">
+      <span><i style="background:var(--pink)"></i>최근 1년</span>
+      <span><i style="background:var(--ink-3)"></i>그 이전</span>
+    </div>
+    <div class="rows" id="s4-rows"></div>
+    <p class="foot" id="s4-foot"></p>
+  </section>
+
+  <section id="s5">
+    <p class="eyebrow"><b>05</b> 개인 브랜드평판</p>
+    <h2>TOP 10에 리센느가 다섯</h2>
+    <p class="sub" id="s5-sub"></p>
+    <div class="legend">
+      <span><i style="background:var(--pink)"></i>리센느</span>
+      <span><i style="background:var(--ink-3)"></i>그 외</span>
+    </div>
+    <div class="rows" id="s5-rows"></div>
+    <p class="foot" id="s5-foot"></p>
+  </section>
+
+  <section id="s6">
+    <p class="eyebrow"><b>06</b> 걸그룹 100만 클럽</p>
+    <h2 id="s6-h">44팀, 리센느는 45번째</h2>
+    <p class="sub" id="s6-sub"></p>
+    <div class="chart" style="padding:14px 12px">
+      <div class="club" id="s6-club"></div>
+    </div>
+    <p class="foot" id="s6-foot"></p>
+  </section>
+
+  <section id="s7">
+    <p class="eyebrow"><b>07</b> 함께 검색된 말</p>
+    <h2>2년 동안 없던 말이 생겼다</h2>
+    <p class="sub" id="s7-sub"></p>
+    <div class="two" id="s7-two"></div>
+    <p class="foot" id="s7-foot"></p>
+  </section>
+
+  <section id="s8">
+    <p class="eyebrow"><b>08</b> 아카이브</p>
+    <h2>우리가 세어 본 것들</h2>
+    <p class="sub" id="s8-sub"></p>
+    <div class="cards" id="s8-cards"></div>
+  </section>
+
+  <section id="s9">
+    <p class="eyebrow"><b>09</b> 출처</p>
+    <h2>어디서 가져왔고 언제 잰 값인가</h2>
+    <p class="sub">수집이 실패하면 화면에는 직전 값이 그대로 보이고, 이 표에 실패로 남는다.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>항목</th><th>출처</th><th>기준</th><th>주기</th><th>결과</th></tr></thead>
+        <tbody id="s9-rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    <p id="ft-when"></p>
+    <p>구글 트렌드 값과 브랜드평판 지수는 <b>단위 없는 상대 지표</b>다. 개수나 건수로 읽으면 안 된다. 유튜브가 공개하는 구독자 수는 유효숫자 3자리 반올림이라 1만 단위로 뛴다.</p>
+    <p id="ft-gap"></p>
+    <p>만든 곳 · <a href="https://www.youtube.com/@data-viz">유튜브 @data-viz</a> · 리센느와 소속사·제작사와 아무 관계가 없는 팬 제작 페이지다.</p>
+  </footer>
+</main>
+
+<div class="err" id="err" hidden>
+  <b>데이터를 불러오지 못했다.</b><br>
+  <span id="err-msg"></span><br><br>
+  파일을 직접 열면 브라우저가 <code>data/*.json</code> 읽기를 막는다.
+  폴더에서 <code>python -m http.server 8000</code> 을 돌리고
+  <code>http://localhost:8000</code> 으로 열 것.
+</div>
+
+</div>
+
+<script>
+const 파일 = ["live","trends","rank","club","reputation","searches","archive","milestone","status"];
+const $ = s => document.querySelector(s);
+const el = (t,c,x) => { const n=document.createElement(t); if(c)n.className=c; if(x!==undefined)n.textContent=x; return n; };
+
+/* 값은 만 단위로 줄여 적는다 — 자릿수가 적어야 세로 화면에서 읽힌다 */
+function 만(n){
+  if(n>=1e8){ const 억=Math.floor(n/1e8), 남=Math.round((n%1e8)/1e4);
+    return 남 ? `${억}억 ${남.toLocaleString("ko")}만` : `${억}억`; }
+  if(n>=1e4){ const v=n/1e4;
+    return (v>=100 ? Math.round(v).toLocaleString("ko") : String(+v.toFixed(1))) + "만"; }
+  return n.toLocaleString("ko");
+}
+const 콤마 = n => n.toLocaleString("ko");
+const 날 = s => s ? s.slice(2).replace(/-/g,".") : "";
+
+/* ─────────────────────────────────────────── 00 게이지 */
+function 그리기_hero(live, milestone){
+  const h = $("#hero"), 돌파 = milestone.백만돌파;
+  h.innerHTML = "";
+  if(돌파){
+    h.classList.add("done");
+    h.append(
+      el("div","cap","리센느 공식 채널"),
+      el("div","big","100만 돌파"),
+      el("div","of", `${돌파} · 걸그룹 100만 클럽 44팀 안으로`)
+    );
+    const g = el("div","gauge"); const i=el("i"); i.style.width="100%"; g.append(i); h.append(g);
+    const l = el("div","left");
+    l.append(el("span",null,"지금"), el("b",null, 만(live.채널.리센느.구독자)));
+    h.append(l);
+    return;
+  }
+  const 진행 = live.채널.리센느.구독자 / live.목표 * 100;
+  h.append(
+    el("div","cap","리센느 공식 채널"),
+    el("div","big", 만(live.채널.리센느.구독자)),
+    el("div","of", `100만까지 남은 ${콤마(live.남은수)}명`)
+  );
+  const g = el("div","gauge"); const i = el("i");
+  i.style.width = 진행.toFixed(1)+"%"; g.append(i); h.append(g);
+  const l = el("div","left");
+  const a = el("span",null,`${진행.toFixed(1)}% 왔다`);
+  const b = el("span"); b.append("기준 ", el("b",null,날(live.채널.리센느.기준)));
+  l.append(a,b); h.append(l);
+}
+
+/* ─────────────────────────────────────────── 01 타일 */
+function 스파크(값들){
+  if(!값들 || 값들.length < 7) return null;
+  const W=100,H=30,min=Math.min(...값들),max=Math.max(...값들),범위=(max-min)||1;
+  const pt = 값들.map((v,i)=>[i/(값들.length-1)*W, H-(v-min)/범위*H]);
+  const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
+  svg.setAttribute("viewBox",`0 0 ${W} ${H}`); svg.setAttribute("preserveAspectRatio","none");
+  svg.setAttribute("aria-hidden","true");
+  const p=document.createElementNS(svg.namespaceURI,"path");
+  p.setAttribute("d", pt.map((q,i)=>(i?"L":"M")+q[0].toFixed(2)+" "+q[1].toFixed(2)).join(" "));
+  p.setAttribute("fill","none"); p.setAttribute("stroke","var(--pink)");
+  p.setAttribute("stroke-width","2"); p.setAttribute("vector-effect","non-scaling-stroke");
+  p.setAttribute("stroke-linejoin","round"); p.setAttribute("stroke-linecap","round");
+  const d=document.createElementNS(svg.namespaceURI,"circle");
+  d.setAttribute("cx",pt.at(-1)[0]); d.setAttribute("cy",pt.at(-1)[1]); d.setAttribute("r","2.6");
+  d.setAttribute("fill","var(--pink)"); d.setAttribute("vector-effect","non-scaling-stroke");
+  svg.append(p,d); return svg;
+}
+function 타일(k,v,d,강조,값들){
+  const t = el("div","tile"+(강조?" on":""));
+  t.append(el("div","k",k), el("div","v num",v), el("div","d",d));
+  const s = 스파크(값들); if(s) t.append(s);
+  return t;
+}
+function 그리기_tiles(live){
+  const c=$("#tiles"); c.innerHTML="";
+  const 안 = live.채널.안원잘부, 리 = live.채널.리센느;
+  const 최근 = ch => (ch.일별||[]).slice(-30).map(d=>d.구독);
+  const 리곡선 = 최근(리);
+  c.append(
+    타일("리센느 공식", 만(리.구독자), `100만까지 ${콤마(live.남은수)}`, true, 리곡선),
+    타일("안원잘부", 만(안.구독자), `공식의 ${live.배수}배`, false, 최근(안)),
+    타일("구글 관심도", String(live.트렌드.현재), `최고 ${live.트렌드.최고} 대비`, false, null),
+    타일("MV 누적", 만(live.MV.합계), `본편 ${live.MV.목록.length}편`, false, null)
+  );
+  $("#tiles-foot").innerHTML =
+    `곡선은 최근 30일이다. <b>계단으로 보이는 건 사실 그대로다</b> — 유튜브 공개 구독자는 3자리 반올림이라 1만 단위로 뛴다. `+
+    (리곡선.length >= 7 ? "" :
+      `리센느 공식은 측정점이 ${리곡선.length}개뿐이라 아직 곡선을 그리지 않았다 — 매일 하나씩 쌓인다.`);
+}
+
+/* ─────────────────────────────────────────── 도구 */
+const NS="http://www.w3.org/2000/svg";
+function svg(w,h){
+  const s=document.createElementNS(NS,"svg");
+  s.setAttribute("viewBox",`0 0 ${w} ${h}`); s.setAttribute("role","img");
+  return s;
+}
+function 요소(n,attrs){
+  const e=document.createElementNS(NS,n);
+  for(const k in attrs) e.setAttribute(k,attrs[k]);
+  return e;
+}
+function 툴팁(부모){
+  const t=el("div","tip"); 부모.append(t);
+  return {
+    보이기(x,y,html){ t.innerHTML=html; t.style.left=x+"px"; t.style.top=y+"px"; t.classList.add("show"); },
+    숨기기(){ t.classList.remove("show"); }
+  };
+}
+
+/* ─────────────────────────────────────────── 02 트렌드 */
+function 그리기_trends(t){
+  const 집 = t.집계;
+  $("#s2-sub").textContent =
+    `데뷔 후 ${집.바닥주수}주 중 ${집["4이하인주"]}주가 4 이하였다. 그 사이 앨범이 6장 나왔지만 곡선은 움직이지 않았다.`;
+  $("#s2-scale").textContent = t.값의의미 + " 가장 높은 주가 100이다.";
+
+  // 위쪽 T 위 구간은 안원잘부 업로드 눈금 전용 레인이다. 곡선과 겹치지 않게 비워 둔다.
+  const W=1000,H=320,L=34,R=8,T=52,B=30,레인=34;
+  const 주 = t.주간, n = 주.length;
+  const px = i => L + i/(n-1)*(W-L-R);
+  const py = v => T + (1 - v/100)*(H-T-B);
+
+  const wrap = $("#s2-chart"); wrap.innerHTML="";
+  const s = svg(W,H);
+  s.setAttribute("aria-label",`구글 검색 관심도 주간 곡선 ${n}주. 최근 값 ${주.at(-1).값}, 최고 100.`);
+
+  /* 눈금 */
+  [0,25,50,75,100].forEach(v=>{
+    s.append(요소("line",{x1:L,x2:W-R,y1:py(v),y2:py(v),stroke:"var(--line)","stroke-width":1}));
+    const lb=요소("text",{x:L-8,y:py(v)+4,fill:"var(--ink-3)","font-size":11,"text-anchor":"end"});
+    lb.textContent=v; s.append(lb);
+  });
+
+  /* 역주행 밴드 */
+  const 시작 = 주.findIndex(w=>w.주시작 === 집.역주행구간.split(" ~ ")[0]);
+  if(시작>0){
+    s.append(요소("rect",{x:px(시작),y:T,width:(W-R)-px(시작),height:H-T-B,fill:"#fc6fcf",opacity:.07}));
+    const lb=요소("text",{x:px(시작)+8,y:T+14,fill:"var(--pink)","font-size":11.5,"font-weight":600});
+    lb.textContent=`최근 ${집.역주행주수}주`; s.append(lb);
+  }
+
+  /* 곡선 */
+  const d = 주.map((w,i)=>(i?"L":"M")+px(i).toFixed(1)+" "+py(w.값).toFixed(1)).join(" ");
+  s.append(요소("path",{d, fill:"none", stroke:"var(--pink)","stroke-width":2.4,
+    "stroke-linejoin":"round","stroke-linecap":"round"}));
+
+  /* 앨범 발매 — 마름모 */
+  t.발매.forEach(r=>{
+    const x=px(r.주인덱스), y=H-B+9;
+    s.append(요소("rect",{x:x-4,y:y-4,width:8,height:8,fill:"var(--ink-3)",
+      transform:`rotate(45 ${x} ${y})`,rx:1}));
+  });
+
+  /* 안원잘부 업로드 — 위쪽 레인에 세로 눈금. 점으로 찍으면 몰린 구간이 한 덩어리가 되어
+     몇 편인지 못 읽는다. 눈금은 겹쳐도 개수와 밀도가 보인다. 높이는 조회수 비례. */
+  const 시작일 = new Date(주[0].주시작+"T00:00:00Z");
+  const 최대조회 = Math.max(...t.영상.map(v=>v.조회));
+  const 바닥 = 레인 + 8;
+  t.영상.forEach(v=>{
+    const 주차 = Math.floor((new Date(v.업로드+"T00:00:00Z") - 시작일)/(7*864e5));
+    if(주차<0||주차>=n) return;
+    const h = 6 + Math.sqrt(v.조회/최대조회)*16;
+    s.append(요소("line",{x1:px(주차),x2:px(주차),y1:바닥-h,y2:바닥,
+      stroke:"var(--pink-dim)","stroke-width":2.5,"stroke-linecap":"round",opacity:.9}));
+  });
+  const 레인표 = 요소("text",{x:L,y:14,fill:"var(--ink-3)","font-size":11});
+  레인표.textContent = `안원잘부 업로드 ${t.영상.length}편`;
+  s.append(레인표);
+
+  /* x 라벨 */
+  [[0,"2024.03"],[Math.round((n-1)/2),"2025.06"],[n-1,"2026.08"]].forEach(([i,txt])=>{
+    const lb=요소("text",{x:px(i),y:H-4,fill:"var(--ink-3)","font-size":11,
+      "text-anchor": i===0?"start": i===n-1?"end":"middle"});
+    lb.textContent=txt; s.append(lb);
+  });
+
+  /* 호버 */
+  const hit=요소("rect",{x:L,y:0,width:W-L-R,height:H,fill:"transparent"});
+  const 세로=요소("line",{y1:T,y2:H-B,stroke:"var(--track)","stroke-width":1,opacity:0});
+  const 점=요소("circle",{r:4.5,fill:"var(--pink)",stroke:"var(--bg)","stroke-width":2,opacity:0});
+  s.append(hit,세로,점);
+  wrap.append(s);
+  const tip = 툴팁($("#s2-chart").parentElement);
+  hit.addEventListener("pointermove", e=>{
+    const box = s.getBoundingClientRect();
+    const 비율 = (e.clientX-box.left)/box.width*W;
+    let i = Math.round((비율-L)/(W-L-R)*(n-1));
+    i = Math.max(0, Math.min(n-1, i));
+    세로.setAttribute("x1",px(i)); 세로.setAttribute("x2",px(i)); 세로.setAttribute("opacity",1);
+    점.setAttribute("cx",px(i)); 점.setAttribute("cy",py(주[i].값)); 점.setAttribute("opacity",1);
+    const 발 = t.발매.find(r=>r.주인덱스===i);
+    tip.보이기(box.left - s.parentElement.getBoundingClientRect().left + px(i)/W*box.width,
+      box.top - s.parentElement.getBoundingClientRect().top + py(주[i].값)/H*box.height,
+      `${주[i].주시작} 주<br><b>${주[i].값}</b>${발?` · ${발.제목} 발매`:""}`);
+  });
+  hit.addEventListener("pointerleave", ()=>{
+    tip.숨기기(); 세로.setAttribute("opacity",0); 점.setAttribute("opacity",0);
+  });
+
+  $("#s2-foot").innerHTML =
+    `유일한 예외는 ${집.유일한예외.주시작} 한 주(${집.유일한예외.값})인데 앨범이 아니라 다른 일 때문이었고 다음 주 4로 돌아왔다. `+
+    `<b>${집.무발매구간.구간}</b> 90일 동안 발매가 하나도 없었지만 값은 ${집.무발매구간.구간시작값}에서 ${집.무발매구간.구간끝값}으로 올랐다. `+
+    `다만 ${t.주의}`;
+
+  const dt = el("details");
+  dt.append(el("summary",null,"숫자로 보기 — 주간 값 표"));
+  const tb=el("table"); const bd=el("tbody");
+  주.forEach(w=>{ const r=el("tr"); r.append(el("td",null,w.주시작), el("td","num",String(w.값))); bd.append(r); });
+  tb.append(bd); dt.append(tb); $("#s2-chart").after(dt);
+}
+
+/* ─────────────────────────────────────────── 03 순위 계단 */
+function 그리기_rank(r){
+  const 집=r.집계;
+  $("#s3-sub").textContent =
+    `${집.구간.replace(" ~ "," ~ ")} 사이 한국 구독자 순위가 ${콤마(집.첫한국순위)}위에서 ${콤마(집.끝한국순위)}위로 올랐다. 내려간 주는 ${집.내려간주}이다.`;
+
+  const W=1000,H=300,L=52,R=10,T=20,B=30;
+  const 주=r.주간, n=주.length;
+  const 날짜 = 주.map(w=>new Date(w.날짜+"T00:00:00Z").getTime());
+  const t0=날짜[0], t1=날짜.at(-1);
+  const px = t => L + (t-t0)/(t1-t0)*(W-L-R);
+  const 최악 = Math.max(...주.map(w=>w.한국)), 최고 = Math.min(...주.map(w=>w.한국));
+  const ly = v => Math.log10(v);
+  const py = v => T + (ly(v)-ly(최고))/(ly(최악)-ly(최고))*(H-T-B);
+
+  const wrap=$("#s3-chart"); wrap.innerHTML="";
+  const s=svg(W,H);
+  s.setAttribute("aria-label",`안원잘부 한국 구독자 순위 계단. ${콤마(집.첫한국순위)}위에서 ${콤마(집.끝한국순위)}위로.`);
+
+  [100000,10000,1000,100].forEach(v=>{
+    if(v>최악||v<최고) return;
+    s.append(요소("line",{x1:L,x2:W-R,y1:py(v),y2:py(v),stroke:"var(--line)","stroke-width":1}));
+    const lb=요소("text",{x:L-8,y:py(v)+4,fill:"var(--ink-3)","font-size":11,"text-anchor":"end"});
+    lb.textContent=콤마(v)+"위"; s.append(lb);
+  });
+
+  /* 계단 — 값이 유지되다 뛰므로 step-after 로 그린다 */
+  let d="";
+  주.forEach((w,i)=>{
+    const x=px(날짜[i]), y=py(w.한국);
+    d += i===0 ? `M${x.toFixed(1)} ${y.toFixed(1)}` : `L${x.toFixed(1)} ${py(주[i-1].한국).toFixed(1)}L${x.toFixed(1)} ${y.toFixed(1)}`;
+  });
+  s.append(요소("path",{d,fill:"none",stroke:"var(--pink)","stroke-width":2.4,
+    "stroke-linejoin":"round","stroke-linecap":"round"}));
+
+  /* 깃발 */
+  [[집.백만돌파,"구독 100만"],[집.천위진입,"1,000위 진입"]].forEach(([m,txt])=>{
+    if(!m) return;
+    const x=px(new Date(m.날짜+"T00:00:00Z").getTime()), y=py(m.순위);
+    s.append(요소("circle",{cx:x,cy:y,r:4.5,fill:"var(--pink)",stroke:"var(--bg)","stroke-width":2}));
+    const lb=요소("text",{x:x-8,y:y-11,fill:"var(--ink-2)","font-size":11.5,"text-anchor":"end"});
+    lb.textContent=txt; s.append(lb);
+  });
+
+  [[0,주[0].날짜.slice(0,7).replace("-",".")],[n-1,주.at(-1).날짜.slice(0,7).replace("-",".")]].forEach(([i,txt])=>{
+    const lb=요소("text",{x:px(날짜[i]),y:H-4,fill:"var(--ink-3)","font-size":11,
+      "text-anchor":i===0?"start":"end"});
+    lb.textContent=txt; s.append(lb);
+  });
+
+  const hit=요소("rect",{x:L,y:0,width:W-L-R,height:H,fill:"transparent"});
+  const 점=요소("circle",{r:4.5,fill:"var(--pink)",stroke:"var(--bg)","stroke-width":2,opacity:0});
+  s.append(hit,점); wrap.append(s);
+  const tip=툴팁(wrap.parentElement);
+  hit.addEventListener("pointermove", e=>{
+    const box=s.getBoundingClientRect();
+    const vx=(e.clientX-box.left)/box.width*W;
+    let best=0, bd=1e9;
+    날짜.forEach((t,i)=>{ const dd=Math.abs(px(t)-vx); if(dd<bd){bd=dd;best=i;} });
+    const w=주[best];
+    점.setAttribute("cx",px(날짜[best])); 점.setAttribute("cy",py(w.한국)); 점.setAttribute("opacity",1);
+    const pbox=wrap.parentElement.getBoundingClientRect();
+    tip.보이기(box.left-pbox.left+px(날짜[best])/W*box.width,
+      box.top-pbox.top+py(w.한국)/H*box.height,
+      `${w.날짜}<br>한국 <b>${콤마(w.한국)}위</b> · 구독 ${만(w.구독)}`);
+  });
+  hit.addEventListener("pointerleave", ()=>{ tip.숨기기(); 점.setAttribute("opacity",0); });
+
+  $("#s3-foot").innerHTML =
+    `가장 크게 오른 주는 ${집.구간.split(" ~ ")[0]} 이후 ${콤마(집.오른계단)}계단을 오르는 동안의 한 주였다. `+
+    `일별 평균 증가는 ${콤마(집.일별평균증가)}명이다. 출처는 ${r.출처}이고 공개 API 가 없어 페이지를 읽는 방식이라 <b>수집이 가장 잘 깨지는 항목</b>이다.`;
+}
+
+/* ─────────────────────────────────────────── 04 MV */
+function 그리기_mv(live){
+  const M=live.MV, 최대=Math.max(...M.목록.map(m=>m.조회수));
+  $("#s4-sub").textContent =
+    `본편 ${M.목록.length}편 누적 ${만(M.합계)}. 최근 1년에 올라온 ${M.최근1년편수}편이 ${M.최근1년비중}%를 가져갔다.`;
+  const c=$("#s4-rows"); c.innerHTML="";
+  M.목록.forEach(m=>{
+    const a=el("a","row mv"+(m.최근1년?" on":""));
+    a.href=`https://www.youtube.com/watch?v=${m.id}`;
+    a.target="_blank"; a.rel="noopener";
+    a.setAttribute("aria-label",`${m.곡} ${만(m.조회수)}회, ${m.공개일} 공개`);
+    a.append(el("span","rk",String(m.순위)));
+    const img=el("img","thumb");
+    img.src=`https://i.ytimg.com/vi/${m.id}/mqdefault.jpg`;
+    img.alt=""; img.loading="lazy"; img.width=52; img.height=30;
+    a.append(img);
+    const mid=el("div","mid");
+    mid.append(el("div","nm", `${m.곡}  ·  ${m.공개일.slice(2).replace(/-/g,".")}`));
+    const bar=el("div","bar"); const i=el("i");
+    i.style.width=(m.조회수/최대*100).toFixed(1)+"%"; bar.append(i); mid.append(bar);
+    a.append(mid, el("span","val num", 만(m.조회수)));
+    c.append(a);
+  });
+  $("#s4-foot").innerHTML =
+    `티저 · Performance ver. · 일본어판 · Special Video 를 뺀 <b>본편 ${M.목록.length}편</b>이다. `+
+    `줄을 누르면 유튜브로 간다. 썸네일은 유튜브에서 그대로 불러온다.`;
+}
+
+/* ─────────────────────────────────────────── 05 브랜드평판 */
+function 그리기_rep(r){
+  const 최대=Math.max(...r.TOP10.map(t=>t.지수));
+  $("#s5-sub").textContent =
+    `${r.기준} ${r.지표}. 리센느는 5인조이니 TOP 10 안의 리센느 ${r.리센느수}명이 곧 멤버 전원이다.`;
+  const c=$("#s5-rows"); c.innerHTML="";
+  r.TOP10.forEach(t=>{
+    const 리 = t.그룹==="리센느";
+    const row=el("div","row"+(리?" on":""));
+    row.append(el("span","rk",String(t.순위)));
+    const mid=el("div","mid");
+    mid.append(el("div","nm", `${t.이름}  ·  ${t.그룹}`));
+    const bar=el("div","bar"); const i=el("i");
+    i.style.width=(t.지수/최대*100).toFixed(1)+"%"; bar.append(i); mid.append(bar);
+    row.append(mid, el("span","val num", 만(t.지수)));
+    c.append(row);
+  });
+  $("#s5-foot").innerHTML =
+    `<b>${r.단서}</b> 지수 ${콤마(r.TOP10[0].지수)}를 「언급 ${만(r.TOP10[0].지수)} 건」으로 읽으면 안 된다. `+
+    `${r.기관} 발표이고 원표는 brikorea 에 있다. 매월 초 발표라 자동으로 갱신되지 않는다.`;
+}
+
+/* ─────────────────────────────────────────── 06 100만 클럽 */
+function 그리기_club(c, live, milestone){
+  const 돌파 = !!milestone.백만돌파;
+  const 리 = live.채널.리센느.구독자;
+  $("#s6-h").textContent = 돌파 ? `${c.총팀수+1}팀, 리센느가 들어갔다` : `${c.총팀수}팀, 리센느는 ${c.리센느자리}번째`;
+  $("#s6-sub").textContent =
+    `걸그룹 유튜브 공식 채널 중 구독자 100만 이상. ${c.축}`;
+
+  const box=$("#s6-club"); box.innerHTML="";
+  const 줄 = (순위, 그룹, 구독, 나) => {
+    const r=el("div","cr"+(나?" me":""));
+    r.append(el("span","r", 순위==null?"—":String(순위)),
+             el("span","g", 그룹),
+             el("span","s num", 만(구독)));
+    return r;
+  };
+  c.전체.slice(0,3).forEach(x=>box.append(줄(x.순위,x.그룹,x.구독자)));
+  box.append(el("div","gap","· · ·"));
+  const 끝 = 돌파 ? c.전체.slice(-3) : c.전체.slice(-4);
+  끝.forEach(x=>box.append(줄(x.순위,x.그룹,x.구독자)));
+  if(돌파){
+    box.append(줄(null,"리센느", 리, true));
+    box.append(el("div","threshold","100만"));
+  }else{
+    box.append(el("div","threshold","100만"));
+    box.append(줄(c.리센느자리,"리센느", 리, true));
+  }
+
+  $("#s6-foot").innerHTML =
+    `1위 ${c.전체[0].그룹} ${만(c.전체[0].구독자)}과 ${c.총팀수}위 ${c.전체.at(-1).그룹} ${만(c.전체.at(-1).구독자)}은 100배 차이라 같은 축의 막대로 그리지 않았다. `+
+    `참고로 <b>안원잘부 ${만(c.안원잘부.구독자)}</b>을 이 표에 넣으면 ${c.안원잘부.위}와 ${c.안원잘부.아래} 사이 ${c.안원잘부.끼는자리}번째다 — 다만 그룹 공식 채널이 아니라 제작사 채널이라 표에는 넣지 않았다. `+
+    `${c.제외}`;
+}
+
+/* ─────────────────────────────────────────── 07 검색어 */
+function 그리기_search(s){
+  $("#s7-sub").textContent = s.값의의미;
+  const two=$("#s7-two"); two.innerHTML="";
+
+  const 왼=el("div","pane");
+  왼.append(el("h3",null,"데뷔 후 2년"), el("p","when", s.비교기간));
+  const c1=el("div","chips");
+  s.데뷔후2년.forEach(x=> c1.append(el("span","chip", x.검색어)));
+  왼.append(c1);
+  const t1=el("div","tally");
+  t1.innerHTML = `팬이 되어야 나오는 검색 <b>${s.데뷔후2년팬검색}개</b>`;
+  왼.append(t1);
+
+  const 오=el("div","pane");
+  오.append(el("h3",null,"최근 16주 급상승"), el("p","when", s.기간));
+  const c2=el("div","chips");
+  s.급상승.forEach(x=>{
+    const ch=el("span","chip"+(x.분류==="팬"?" on":""), x.검색어);
+    ch.title = x.분류; c2.append(ch);
+  });
+  오.append(c2);
+  const t2=el("div","tally");
+  t2.innerHTML = `팬이 되어야 나오는 검색 <b>${s.집계.팬}개</b> — 버블 · 포카 · 콘서트 · 팬클럽 · 배경화면 · 일정`;
+  오.append(t2);
+
+  two.append(왼,오);
+  $("#s7-foot").innerHTML =
+    `${s.제외.표기} 이름 오타 ${s.집계.오타}개도 목록에 그대로 두었다 — 새로 알게 된 사람이 늘었다는 증거다. `+
+    `왼쪽은 값이 큰 순서, 오른쪽은 <b>늘어난 크기 순서</b>라 두 목록의 눈금이 다르다.`;
+}
+
+/* ─────────────────────────────────────────── 08 카드 */
+function 그리기_archive(a){
+  $("#s8-sub").textContent = a.설명;
+  const c=$("#s8-cards"); c.innerHTML="";
+  a.카드.forEach(k=>{
+    const node = k.링크 ? el("a","card") : el("div","card soon");
+    if(k.링크){ node.href=k.링크; node.target="_blank"; node.rel="noopener"; }
+    if(k.썸네일){
+      const img=el("img"); img.src=k.썸네일; img.alt=""; img.loading="lazy";
+      node.append(img);
+    }else{
+      node.append(el("div","ph","아직 안 올린 편"));  // 자리를 비우면 옆 카드와 어긋난다
+    }
+    const b=el("div","body");
+    b.append(el("div","n", k.공개예정 ? "공개 예정" : 날(k.날짜)));
+    b.append(el("div","t", k.제목));
+    b.append(el("div","c", k.주장));
+    b.append(el("div","m", k.수치));
+    node.append(b); c.append(node);
+  });
+}
+
+/* ─────────────────────────────────────────── 09 출처 */
+function 그리기_status(st){
+  const b=$("#s9-rows"); b.innerHTML="";
+  st.항목.forEach(x=>{
+    const r=el("tr");
+    r.append(el("td",null,x.이름), el("td",null,x.출처), el("td","num",x.기준), el("td",null,x.주기));
+    const 결=el("td", x.결과==="OK"?"ok":"bad", x.결과==="OK"?"정상":"실패");
+    r.append(결); b.append(r);
+  });
+  $("#ft-when").innerHTML =
+    `마지막 갱신 <b>${st.갱신}</b>. ${st.메모}`;
+}
+
+/* 항목마다 잰 날이 다르면 그 사실을 숨기지 않는다 */
+function 그리기_기준일차이(live){
+  const 리 = live.채널.리센느.기준, 안 = live.채널.안원잘부.기준;
+  $("#ft-gap").innerHTML = 리 === 안
+    ? `두 채널 구독자는 <b>${리}</b> 같은 시각에 쟀다.`
+    : `리센느 공식은 <b>${리}</b>, 안원잘부는 <b>${안}</b> 기준이라 이틀 차이가 난다 — ${live.배수}배라는 값도 그만큼 어림이다. 자동 갱신이 붙으면 같은 시각으로 맞춰진다.`;
+}
+
+/* ─────────────────────────────────────────── 시작 */
+(async ()=>{
+  try{
+    const 결과 = await Promise.all(파일.map(async f=>{
+      const r = await fetch(`data/${f}.json`, {cache:"no-cache"});
+      if(!r.ok) throw new Error(`data/${f}.json — HTTP ${r.status}`);
+      return r.json();
+    }));
+    const d = Object.fromEntries(파일.map((f,i)=>[f, 결과[i]]));
+    그리기_hero(d.live, d.milestone);
+    그리기_tiles(d.live);
+    그리기_trends(d.trends);
+    그리기_rank(d.rank);
+    그리기_mv(d.live);
+    그리기_rep(d.reputation);
+    그리기_club(d.club, d.live, d.milestone);
+    그리기_search(d.searches);
+    그리기_archive(d.archive);
+    그리기_status(d.status);
+    그리기_기준일차이(d.live);
+    $("#main").hidden = false;
+  }catch(e){
+    $("#err-msg").textContent = e.message;
+    $("#err").hidden = false;
+    console.error(e);
+  }
+})();
+</script>
+</body>
+</html>
