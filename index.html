@@ -93,8 +93,8 @@ h2{
 /* 주인공만 색을 준다 — 나머지는 무채색으로 두어야 대비가 주장이 된다 */
 .hero.sub .big{color:var(--ink)}
 .hero.sub .gauge i{background:var(--ink-3)}
+/* 돌파 카드도 글자 크기·구성을 그대로 쓴다. 크기를 줄이면 옆 카드와 줄이 어긋난다. */
 .done{border-color:var(--pink)}
-.done .big{font-size:clamp(30px,7.5vw,44px)}
 
 /* ── 01 타일 ── */
 .tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -407,22 +407,20 @@ function 게이지카드({이름, 부제, 구독자, 목표, 기준, 주인공, 
   if(부제) cap.append(" · " + 부제);
   h.append(cap);
 
-  if(돌파){
-    h.append(el("div","big","100만 돌파"),
-             el("div","of", `${돌파} · 걸그룹 100만 클럽 안으로`));
-  }else{
-    h.append(el("div","big", 만(구독자)),
-             el("div","of", `${만(목표)}까지 남은 ${콤마(목표 - 구독자)}명`));
-  }
+  // 두 카드가 같은 줄에 놓이도록 큰 숫자 → 한 줄 설명 → 게이지 → 밑줄 순서를 똑같이 쓴다.
+  h.append(el("div","big", 만(구독자)),
+           el("div","of", 돌파
+             ? `${돌파} ${만(목표)} 돌파 · 걸그룹 클럽 안으로`
+             : `${만(목표)}까지 남은 ${콤마(목표 - 구독자)}명`));
   h.append(el("div","grow"));
 
-  const 진행 = 돌파 ? 100 : 구독자 / 목표 * 100;
+  const 진행 = 구독자 / 목표 * 100;
   const g = el("div","gauge"), i = el("i");
   i.style.width = Math.min(100, 진행).toFixed(1) + "%";
   g.append(i); h.append(g);
 
   const l = el("div","left");
-  l.append(el("span", null, 돌파 ? `지금 ${만(구독자)}` : `${진행.toFixed(1)}% 왔다`));
+  l.append(el("span", null, 돌파 ? `${만(목표)} 넘었다` : `${진행.toFixed(1)}% 왔다`));
   const b = el("span"); b.append("기준 ", el("b", null, 날(기준)));
   l.append(b); h.append(l);
   return h;
