@@ -95,6 +95,8 @@ h2{
 .hero.sub .gauge i{background:var(--ink-3)}
 /* 돌파 카드도 글자 크기·구성을 그대로 쓴다. 크기를 줄이면 옆 카드와 줄이 어긋난다. */
 .done{border-color:var(--pink)}
+/* 고르지 않은 채널이면 돌파 테두리를 죽인다 — 분홍이 두 곳이면 어느 쪽을 보고 있는지 흐려진다 */
+.hero.sub.done{border-color:var(--line)}
 /* 고르지 않은 채널 카드는 눌러서 넘어갈 수 있다 */
 .hero.pick{cursor:pointer}
 .hero.pick:hover{border-color:var(--track)}
@@ -327,11 +329,13 @@ footer p{max-width:60ch}
 
 
   <nav class="chtabs" id="chtabs" role="group" aria-label="채널 고르기">
-    <button type="button" class="chtab" data-ch="리센느" aria-pressed="true">
-      <b>RESCENE</b><small>리센느 공식 채널 · THE MUZE</small>
-    </button>
+    <!-- 순서는 아래 게이지 카드와 같아야 한다. 어긋나면 왼쪽 탭을 눌렀는데
+         오른쪽 카드가 켜지는 것처럼 읽힌다. -->
     <button type="button" class="chtab" data-ch="안원잘부" aria-pressed="false">
       <b>안원잘부</b><small>원이 웹예능 · 솔파스튜디오</small>
+    </button>
+    <button type="button" class="chtab" data-ch="리센느" aria-pressed="true">
+      <b>RESCENE</b><small>리센느 공식 채널 · THE MUZE</small>
     </button>
   </nav>
 
