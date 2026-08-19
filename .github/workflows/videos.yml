@@ -1,0 +1,73 @@
+name: 영상 랭킹 수집
+
+# 채널 두 개의 전편 조회수·좋아요. 리센느 공식만 1,700편쯤이라 가장 무거운 수집이다.
+#
+# API 키가 없으면 아예 돌지 않는다. yt-dlp 로 한 편씩 여는 방식인데
+# Actions IP 는 「Sign in to confirm you're not a bot」 을 자주 받아
+# 수천 번 두드리면 채널·저장소 모두에 좋을 것이 없다.
+# 키가 없는 동안은 로컬에서 돌린다:
+#     python -X utf8 scripts/수집.py videos
+on:
+  schedule:
+    - cron: "40 0 * * 0"      # 일요일 00:40 UTC = 월요일 09:40 KST (weekly 뒤)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-write
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # 목록(어느 탭에 있는 영상인가)은 API 로 알 수 없어 키가 있어도 yt-dlp 를 쓴다
+      - name: yt-dlp 설치
+        run: pip install --quiet yt-dlp
+
+      - name: 키가 있는지 본다
+        id: key
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: |
+          if [ -n "$YOUTUBE_API_KEY" ]; then
+            echo "있다=yes" >> "$GITHUB_OUTPUT"
+          else
+            echo "있다=no" >> "$GITHUB_OUTPUT"
+            echo "YOUTUBE_API_KEY 가 없다 — 이번 실행은 아무것도 하지 않는다"
+          fi
+
+      - name: 수집
+        id: collect
+        if: steps.key.outputs.있다 == 'yes'
+        continue-on-error: true
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: python -X utf8 scripts/수집.py videos
+
+      - name: 커밋
+        if: steps.key.outputs.있다 == 'yes'
+        run: |
+          git config user.name  "rescene-now bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet data/; then
+            echo "바뀐 값 없음 — 커밋 건너뜀"
+            exit 0
+          fi
+          git add data/
+          git commit -m "data: 영상 랭킹 주간 갱신 ($(date -u +%m-%d))"
+          git push
+
+      - name: 실패했으면 워크플로도 실패로 표시
+        if: steps.collect.outcome == 'failure'
+        run: |
+          echo "영상 수집 실패 — status.json 에 남았고 화면 09 에 실패로 보인다"
+          exit 1

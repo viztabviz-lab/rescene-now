@@ -4,6 +4,7 @@ data/*.json 을 다시 채운다. GitHub Actions 가 이 스크립트만 돌린�
 
   python -X utf8 scripts/수집.py daily     구독자 2채널 · MV 11편 조회수
   python -X utf8 scripts/수집.py weekly    구글 트렌드 126주 · playboard 순위
+  python -X utf8 scripts/수집.py videos    채널 두 개의 전체 영상 조회수·좋아요
   python -X utf8 scripts/수집.py --확인    아무것도 쓰지 않고 조회만 해 본다
 
 원칙 셋 — 셋 다 이 파일 안에서 강제된다.
@@ -19,18 +20,23 @@ data/*.json 을 다시 채운다. GitHub Actions 가 이 스크립트만 돌린�
   두 경로 모두 유효숫자 3자리로 반올림된 같은 값을 준다.
 """
 
+import html
 import io
 import json
 import os
 import re
 import sys
+import threading
 import time
 import urllib.parse
 import urllib.request
 import http.cookiejar
 from datetime import date, datetime, timedelta, timezone
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+# line_buffering — 오래 걸리는 videos 수집에서 진행률이 실시간으로 보여야 한다.
+# 이걸 빼면 200편마다 찍는 줄이 버퍼에 갇혀 끝날 때 한꺼번에 나온다.
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace",
+                              line_buffering=True)
 
 KST = timezone(timedelta(hours=9))
 DATA = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
@@ -61,8 +67,9 @@ def 쓰기(이름, 값):
         json.dump(값, f, ensure_ascii=False, indent=1)
 
 
-def 상태기록(키, 결과, 기준=None, 메시지=""):
-    """수집 결과를 status.json 에 남긴다. 실패도 반드시 남는다 — 조용히 넘어가지 않는다."""
+def 상태기록(키, 결과, 기준=None, 메시지="", 출처=None):
+    """수집 결과를 status.json 에 남긴다. 실패도 반드시 남는다 — 조용히 넘어가지 않는다.
+    출처는 수단이 바뀌는 항목(videos 는 키 유무로 API/파싱이 갈린다)만 같이 갱신한다."""
     if 확인만:
         return
     st = 읽기("status.json")
@@ -72,6 +79,8 @@ def 상태기록(키, 결과, 기준=None, 메시지=""):
             항목["수집"] = 오늘
             if 기준:
                 항목["기준"] = str(기준)
+            if 출처:
+                항목["출처"] = 출처
             항목["메시지"] = 메시지
             break
     st["갱신"] = 오늘
@@ -374,10 +383,211 @@ def weekly_순위():
     return f"한국 {주간[-1]['한국']:,}위"
 
 
+# ────────────────────────────────────────────────────────── 영상 랭킹
+채널정보 = {
+    "리센느": {"이름": "RESCENE", "부제": "리센느 공식 · THE MUZE", "ID": 리센느ID},
+    "안원잘부": {"이름": "안녕하세요원이입니다잘부탁드립니다", "부제": "원이 웹예능 · 솔파스튜디오",
+               "ID": 안원잘부ID},
+}
+탭형식 = {"videos": "영상", "shorts": "쇼츠", "streams": "라이브"}
+보관 = 150        # 채널마다 조회수·좋아요 상위 몇 편을 JSON 에 남기나
+형식보관 = 80     # 형식(영상·쇼츠·라이브)마다 상위 몇 편을 남기나
+일꾼 = 3          # 동시 조회 수. yt-dlp 로 6개를 굴렸더니 152편 만에 봇 차단을 받았다.
+                 # watch 페이지만 한 번씩 받는 지금 방식으로도 3 이상은 올리지 않는다.
+
+
+def 채널영상들(채널ID):
+    """{영상ID: 형식}. 형식은 유튜브 탭 그대로다 — 길이로 추측하지 않는다.
+    목록만 뽑는 flat 조회는 API 키가 있어도 yt-dlp 로 한다. 업로드 재생목록에는
+    쇼츠·라이브 구분이 없어 API 로는 형식을 알 수 없기 때문이다."""
+    import yt_dlp
+    옵션 = {"quiet": True, "no_warnings": True, "extract_flat": True, "skip_download": True}
+    본 = {}
+    with yt_dlp.YoutubeDL(옵션) as y:
+        for 탭, 형식 in 탭형식.items():
+            try:
+                info = y.extract_info(f"https://www.youtube.com/channel/{채널ID}/{탭}", download=False)
+            except Exception as e:
+                if "does not have a" in str(e):     # 라이브를 한 적 없는 채널
+                    continue
+                raise
+            for e in info.get("entries") or []:
+                본.setdefault(e["id"], 형식)        # 먼저 만난 탭의 형식을 쓴다
+    if not 본:
+        raise RuntimeError(f"영상 목록이 비었다 — 채널 {채널ID}")
+    return 본
+
+
+def _ISO길이(s):
+    """PT1H2M3S → 3723. 못 읽으면 0."""
+    m = re.match(r"^P(?:(\d+)D)?T?(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$", s or "")
+    if not m:
+        return 0
+    d, h, mi, se = (int(x) if x else 0 for x in m.groups())
+    return ((d * 24 + h) * 60 + mi) * 60 + se
+
+
+_지역 = threading.local()
+
+
+def _브라우저():
+    """스레드마다 opener 를 하나씩 둔다. 쿠키를 안 쓰므로 공유해도 되지만
+    urllib 의 opener 는 스레드 안전이 보장되지 않는다."""
+    op = getattr(_지역, "op", None)
+    if op is None:
+        op = urllib.request.build_opener()
+        op.addheaders = [("User-Agent", UA),
+                         ("Accept-Language", "en-US,en;q=0.9"),
+                         ("Accept", "text/html,application/xhtml+xml")]
+        _지역.op = op
+    return op
+
+
+def _숫자(s):
+    return int(re.sub(r"[^\d]", "", s)) if s else None
+
+
+def _한편(vid):
+    """watch 페이지 HTML 한 번으로 조회수·좋아요·공개일·길이·제목을 읽는다.
+
+    yt-dlp 는 한 편에 player API 까지 서너 번을 두드려 「Sign in to confirm you're not a bot」
+    을 부른다 — 실제로 1,689편 중 152편에서 막혔다. 여기서는 페이지를 한 번만 받는다.
+    영어(hl=en)로 받는 이유는 좋아요 수가 「11.7만」 같이 줄어 오지 않게 하기 위해서다.
+    """
+    u = f"https://www.youtube.com/watch?v={vid}&hl=en&gl=US"
+    for 시도 in range(3):
+        try:
+            with _브라우저().open(u, timeout=30) as r:
+                h = r.read().decode("utf-8", errors="replace")
+            조회 = re.search(r'"viewCount":"(\d+)"', h)
+            if not 조회:
+                raise RuntimeError("viewCount 가 없다")   # 동의 화면·봇 차단 페이지
+            좋아요 = (re.search(r'"expandedLikeCount":"([\d,\.]+)"', h)
+                   or re.search(r'"likeCount":"(\d+)"', h))
+            날 = (re.search(r'"uploadDate":"(\d{4}-\d{2}-\d{2})', h)
+                 or re.search(r'"publishDate":"(\d{4}-\d{2}-\d{2})', h))
+            길이 = re.search(r'"lengthSeconds":"(\d+)"', h)
+            제목 = re.search(r'<meta name="title" content="([^"]*)"', h)
+            return vid, {"제목": html.unescape(제목.group(1)) if 제목 else "",
+                         "조회수": int(조회.group(1)),
+                         "좋아요": _숫자(좋아요.group(1)) if 좋아요 else None,
+                         "공개일": 날.group(1) if 날 else "",
+                         "길이": int(길이.group(1)) if 길이 else 0}
+        except Exception as e:
+            코드 = getattr(e, "code", None)
+            time.sleep((20 if 코드 == 429 else 3) * (시도 + 1))
+    return vid, None
+
+
+def 영상통계(영상ID들):
+    """{id: {제목·조회수·좋아요·공개일·길이}}. 못 받은 영상은 빠진다.
+    좋아요를 숨긴 영상은 좋아요=None 이다 — 0 으로 적으면 순위가 거짓이 된다."""
+    결과 = {}
+    if os.environ.get("YOUTUBE_API_KEY"):
+        for i in range(0, len(영상ID들), 50):
+            d = _api("videos", {"part": "snippet,statistics,contentDetails",
+                                "id": ",".join(영상ID들[i:i + 50])})
+            for v in d.get("items", []):
+                st, sn = v.get("statistics", {}), v.get("snippet", {})
+                결과[v["id"]] = {
+                    "제목": sn.get("title") or "",
+                    "조회수": int(st.get("viewCount") or 0),
+                    "좋아요": int(st["likeCount"]) if "likeCount" in st else None,
+                    "공개일": (sn.get("publishedAt") or "")[:10],
+                    "길이": _ISO길이(v.get("contentDetails", {}).get("duration")),
+                }
+    else:
+        from concurrent.futures import ThreadPoolExecutor
+        with ThreadPoolExecutor(max_workers=일꾼) as ex:
+            for n, (vid, 값) in enumerate(ex.map(_한편, 영상ID들), 1):
+                if 값:
+                    결과[vid] = 값
+                if n % 200 == 0:
+                    print(f"      {n}/{len(영상ID들)}편")
+
+    # 2차 — 못 받은 편만 한 개씩 천천히 다시 시도한다.
+    # 실패는 조회수와 무관하게 흩어지므로 그대로 두면 랭킹에 구멍이 난다.
+    # 실제로 1차에서 132편이 빠졌고 그 안에 조회수 10위권(Pinball 959만)이 있었다.
+    빠진 = [v for v in 영상ID들 if v not in 결과]
+    if 빠진:
+        print(f"      2차 — 못 받은 {len(빠진)}편을 하나씩 다시")
+        for i, vid in enumerate(빠진, 1):
+            _, 값 = _한편(vid)
+            if 값:
+                결과[vid] = 값
+            time.sleep(0.7)          # 1차에서 막힌 뒤라 더 천천히 두드린다
+            if i % 50 == 0:
+                print(f"      2차 {i}/{len(빠진)}편")
+    return 결과
+
+
+def 남길것(목록):
+    """조회수 상위 · 좋아요 상위 · 형식별 상위를 합집합으로 남긴다.
+    전부 담으면 매주 300KB 씩 저장소가 불어나고, 화면은 상위 50편까지만 쓴다."""
+    남 = set()
+
+    def 상위(후보, 키, 개수):
+        있는것 = [v for v in 후보 if v[키] is not None]
+        있는것.sort(key=lambda v: -v[키])
+        남.update(v["id"] for v in 있는것[:개수])
+
+    상위(목록, "조회수", 보관)
+    상위(목록, "좋아요", 보관)
+    for 형식 in 탭형식.values():
+        같은형식 = [v for v in 목록 if v["형식"] == 형식]
+        상위(같은형식, "조회수", 형식보관)
+        상위(같은형식, "좋아요", 형식보관)
+    return [v for v in 목록 if v["id"] in 남]
+
+
+def videos():
+    """채널마다 전체 영상의 조회수·좋아요를 다시 재고 상위만 남긴다.
+    가장 오래 걸리는 수집이다 — 키가 없으면 편당 한 번씩 페이지를 받아 1,700편에 20분쯤 걸린다."""
+    나온것 = {"기준": 오늘, "잰시각": 지금,
+            "수단": "YouTube Data API v3" if os.environ.get("YOUTUBE_API_KEY") else "watch 페이지 직접 파싱",
+            "보관": {"채널상위": 보관, "형식상위": 형식보관},
+            "채널": {}}
+    말 = []
+    for 키, 정보 in 채널정보.items():
+        형식맵 = 채널영상들(정보["ID"])
+        아이디들 = list(형식맵)
+        print(f"    {키} 목록 {len(아이디들)}편 — 통계 조회 시작")
+        통계 = 영상통계(아이디들)
+        빠진수 = len(아이디들) - len(통계)
+        if 빠진수 > len(아이디들) * 0.1:
+            raise RuntimeError(f"{키}: {len(아이디들)}편 중 {빠진수}편을 못 받았다 (10% 초과)")
+
+        목록 = [dict(통계[v], id=v, 형식=형식맵[v]) for v in 아이디들 if v in 통계]
+        목록.sort(key=lambda v: -v["조회수"])
+        좋아요있는것 = [v for v in 목록 if v["좋아요"] is not None]
+        나온것["채널"][키] = {
+            "이름": 정보["이름"], "부제": 정보["부제"], "채널ID": 정보["ID"],
+            "편수": dict({"전체": len(목록)},
+                       **{f: sum(1 for v in 목록 if v["형식"] == f) for f in 탭형식.values()}),
+            "합계": {"조회수": sum(v["조회수"] for v in 목록),
+                   "좋아요": sum(v["좋아요"] for v in 좋아요있는것)},
+            "좋아요숨김": len(목록) - len(좋아요있는것),
+            "못받은편수": 빠진수,
+            "목록": 남길것(목록),
+        }
+        c = 나온것["채널"][키]
+        print(f"    {키} {c['편수']['전체']}편 · 조회수 {c['합계']['조회수']:,} "
+              f"· 좋아요 {c['합계']['좋아요']:,} · 남긴 {len(c['목록'])}편")
+        말.append(f"{키} {c['편수']['전체']}편")
+
+    쓰기("videos.json", 나온것)
+    상태기록("videos", "OK", 오늘,
+          " · ".join(f"{k} {v['편수']['전체']}편 조회수 {v['합계']['조회수']:,}"
+                     for k, v in 나온것["채널"].items()),
+          출처="유튜브 채널 탭 + " + 나온것["수단"])
+    return " · ".join(말)
+
+
 # ────────────────────────────────────────────────────────── 실행
 작업 = {
     "daily": [("live", daily)],
     "weekly": [("trends", weekly_트렌드), ("rank", weekly_순위)],
+    "videos": [("videos", videos)],
 }
 
 
@@ -387,7 +597,8 @@ def main():
         print(__doc__)
         sys.exit(2)
 
-    수단 = "YouTube Data API v3" if os.environ.get("YOUTUBE_API_KEY") else "yt-dlp"
+    수단 = ("YouTube Data API v3" if os.environ.get("YOUTUBE_API_KEY")
+          else "yt-dlp(목록) + watch 페이지 파싱(조회수·좋아요)")
     print(f"[{지금} KST] {무엇} · 유튜브 수집 수단 = {수단}"
           + (" · 확인만" if 확인만 else ""))
 

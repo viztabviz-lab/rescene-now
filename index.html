@@ -52,7 +52,7 @@ h1 em{font-style:normal;color:var(--pink)}
 .top p{color:var(--ink-2);max-width:38ch;margin:0;font-size:clamp(15px,3.6vw,17px)}
 
 /* ── 섹션 ── */
-section{padding-top:64px}
+section{padding-top:64px;scroll-margin-top:96px}
 /* 부제가 한 줄뿐이라 머리와 첫 카드 사이가 비어 보인다. 첫 섹션만 좁힌다. */
 #s0{padding-top:26px}
 .eyebrow{
@@ -95,6 +95,9 @@ h2{
 .hero.sub .gauge i{background:var(--ink-3)}
 /* 돌파 카드도 글자 크기·구성을 그대로 쓴다. 크기를 줄이면 옆 카드와 줄이 어긋난다. */
 .done{border-color:var(--pink)}
+/* 고르지 않은 채널 카드는 눌러서 넘어갈 수 있다 */
+.hero.pick{cursor:pointer}
+.hero.pick:hover{border-color:var(--track)}
 
 /* ── 01 타일 ── */
 .tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -240,6 +243,54 @@ summary:hover{color:var(--ink-2)}
 details table{min-width:0;font-size:12.5px;margin-top:6px}
 details td,details th{padding:5px 12px 5px 0;border-bottom:1px solid var(--line)}
 
+/* ── 채널 전환 ── */
+.chtabs{
+  position:sticky;top:0;z-index:20;display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  padding:12px 0 10px;margin-top:22px;background:var(--bg);
+  box-shadow:0 10px 18px -12px var(--bg);
+}
+.chtab{
+  font:inherit;text-align:left;cursor:pointer;color:var(--ink-3);
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:11px 14px;line-height:1.25;display:flex;flex-direction:column;gap:2px;
+  transition:border-color .12s,color .12s;
+}
+.chtab b{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.chtab small{font-size:11.5px;color:var(--ink-3);letter-spacing:.02em}
+.chtab:hover{border-color:var(--track);color:var(--ink-2)}
+/* 고른 채널만 색을 준다 — 그 대비가 「지금 무엇을 보고 있나」를 말한다 */
+.chtab[aria-pressed="true"]{border-color:var(--pink);background:#fc6fcf12;color:var(--pink)}
+.chtab[aria-pressed="true"] small{color:var(--pink)}
+
+/* ── 조작 줄 ── */
+.controls{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.seg{
+  display:flex;background:var(--surface);border:1px solid var(--line);
+  border-radius:999px;padding:3px;gap:2px;
+}
+.seg button{
+  font:inherit;font-size:13px;cursor:pointer;color:var(--ink-3);background:none;border:0;
+  border-radius:999px;padding:5px 13px;line-height:1.4;white-space:nowrap;
+}
+.seg button:hover{color:var(--ink-2)}
+.seg button.on{background:var(--pink);color:#1a1a19;font-weight:700}
+.seg button[hidden]{display:none}
+
+/* ── 공통 구역 가름줄 ── */
+.split{
+  display:flex;align-items:center;gap:12px;margin:82px 0 0;
+  font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);
+}
+.split::before,.split::after{content:"";flex:1;border-top:1px solid var(--line)}
+.split + section{padding-top:34px}
+
+/* ── 영상 랭킹 줄 ── */
+.row.vid{grid-template-columns:auto auto 1fr auto}
+/* 좁은 화면에서는 잘라내지 말고 접는다 — 잘리면 좋아요 값이 통째로 사라진다 */
+.row .meta{font-size:11.5px;color:var(--ink-3);margin-top:5px;line-height:1.5}
+.row .meta b{color:var(--ink-2);font-weight:600}
+.empty{color:var(--ink-3);font-size:13.5px;padding:18px 4px}
+
 footer{
   margin-top:72px;padding-top:22px;border-top:1px solid var(--line);
   font-size:12.5px;color:var(--ink-3);line-height:1.7;
@@ -265,19 +316,82 @@ footer p{max-width:60ch}
 
 <main id="main" hidden>
 
+
+
+
+
+
+
+
+
+
+
+  <nav class="chtabs" id="chtabs" role="group" aria-label="채널 고르기">
+    <button type="button" class="chtab" data-ch="리센느" aria-pressed="true">
+      <b>RESCENE</b><small>리센느 공식 채널 · THE MUZE</small>
+    </button>
+    <button type="button" class="chtab" data-ch="안원잘부" aria-pressed="false">
+      <b>안원잘부</b><small>원이 웹예능 · 솔파스튜디오</small>
+    </button>
+  </nav>
+
   <section id="s0">
     <div class="heroes" id="hero"></div>
   </section>
 
   <section id="s1">
-    <p class="eyebrow"><b>01</b> 지금 이 순간</p>
-    <h2>네 개의 숫자</h2>
+    <p class="eyebrow"><b>01</b> <span id="s1-eye">지금 이 순간</span></p>
+    <h2 id="s1-h">네 개의 숫자</h2>
     <div class="tiles" id="tiles"></div>
     <p class="foot" id="tiles-foot"></p>
   </section>
 
+  <section id="s3" data-ch="안원잘부">
+    <p class="eyebrow"><b>02</b> 안원잘부 구독자 순위</p>
+    <h2>27주 동안 한 번도 내려가지 않았다</h2>
+    <p class="sub" id="s3-sub"></p>
+    <div class="chart">
+      <p class="scalenote">세로축은 한국 구독자 순위다. 위로 갈수록 높은 순위이고, 눈금은 로그다 — 아래쪽 한 칸이 위쪽 한 칸보다 훨씬 많은 순위를 담는다.</p>
+      <div id="s3-chart"></div>
+    </div>
+    <p class="foot" id="s3-foot"></p>
+  </section>
+
+  <section id="s4" data-ch="리센느">
+    <p class="eyebrow"><b>02</b> 뮤직비디오</p>
+    <h2>11편 중 절반이 최근 1년에 나왔다</h2>
+    <p class="sub" id="s4-sub"></p>
+    <div class="legend">
+      <span><i style="background:var(--pink)"></i>최근 1년</span>
+      <span><i style="background:var(--ink-3)"></i>그 이전</span>
+    </div>
+    <div class="rows" id="s4-rows"></div>
+    <p class="foot" id="s4-foot"></p>
+  </section>
+
+  <section id="sv">
+    <p class="eyebrow"><b>03</b> 영상 랭킹</p>
+    <h2 id="sv-h">조회수 상위 20편</h2>
+    <p class="sub" id="sv-sub"></p>
+    <div class="controls">
+      <div class="seg" id="sv-metric" role="group" aria-label="무엇으로 줄 세울까">
+        <button type="button" data-v="조회수" class="on">조회수</button><button type="button" data-v="좋아요">좋아요</button>
+      </div>
+      <div class="seg" id="sv-kind" role="group" aria-label="형식">
+        <button type="button" data-v="전체" class="on">전체</button><button type="button" data-v="영상">영상</button><button type="button" data-v="쇼츠">쇼츠</button><button type="button" data-v="라이브">라이브</button>
+      </div>
+      <div class="seg" id="sv-n" role="group" aria-label="몇 편까지">
+        <button type="button" data-v="10">10</button><button type="button" data-v="20" class="on">20</button><button type="button" data-v="30">30</button><button type="button" data-v="50">50</button>
+      </div>
+    </div>
+    <div class="rows" id="sv-rows"></div>
+    <p class="foot" id="sv-foot"></p>
+  </section>
+
+  <div class="split">두 채널 공통 · 리센느라는 그룹</div>
+
   <section id="s2">
-    <p class="eyebrow"><b>02</b> 구글 검색 관심도</p>
+    <p class="eyebrow"><b>04</b> 구글 검색 관심도</p>
     <h2>110주 동안 곡선은 바닥에 있었다</h2>
     <p class="sub" id="s2-sub"></p>
     <div class="chart">
@@ -290,29 +404,6 @@ footer p{max-width:60ch}
       <div id="s2-chart"></div>
     </div>
     <p class="foot" id="s2-foot"></p>
-  </section>
-
-  <section id="s3">
-    <p class="eyebrow"><b>03</b> 안원잘부 구독자 순위</p>
-    <h2>27주 동안 한 번도 내려가지 않았다</h2>
-    <p class="sub" id="s3-sub"></p>
-    <div class="chart">
-      <p class="scalenote">세로축은 한국 구독자 순위다. 위로 갈수록 높은 순위이고, 눈금은 로그다 — 아래쪽 한 칸이 위쪽 한 칸보다 훨씬 많은 순위를 담는다.</p>
-      <div id="s3-chart"></div>
-    </div>
-    <p class="foot" id="s3-foot"></p>
-  </section>
-
-  <section id="s4">
-    <p class="eyebrow"><b>04</b> 뮤직비디오</p>
-    <h2>11편 중 절반이 최근 1년에 나왔다</h2>
-    <p class="sub" id="s4-sub"></p>
-    <div class="legend">
-      <span><i style="background:var(--pink)"></i>최근 1년</span>
-      <span><i style="background:var(--ink-3)"></i>그 이전</span>
-    </div>
-    <div class="rows" id="s4-rows"></div>
-    <p class="foot" id="s4-foot"></p>
   </section>
 
   <section id="s5">
@@ -383,7 +474,10 @@ footer p{max-width:60ch}
 </div>
 
 <script>
-const 파일 = ["live","trends","rank","club","reputation","searches","archive","milestone","status"];
+const 파일 = ["live","videos","trends","rank","club","reputation","searches","archive","milestone","status"];
+/* 화면은 채널 하나씩 보여준다. 무엇을 보고 있나가 이 한 곳에 모인다. */
+const 상태 = {채널:"리센느", 기준:"조회수", 형식:"전체", N:20};
+let D = null;   // 읽어 온 JSON 전부
 const $ = s => document.querySelector(s);
 const el = (t,c,x) => { const n=document.createElement(t); if(c)n.className=c; if(x!==undefined)n.textContent=x; return n; };
 
@@ -431,12 +525,25 @@ function 그리기_hero(live, milestone){
   const 안 = live.채널.안원잘부, 리 = live.채널.리센느;
   // 안원잘부는 정해진 목표가 없다. 지금 값 바로 위의 백만 자리를 다음 눈금으로 삼는다.
   const 안목표 = Math.ceil(안.구독자 / 1e6) * 1e6;
-  h.append(
-    게이지카드({이름:"안원잘부", 부제:"원이 웹예능", 구독자:안.구독자,
-              목표:안목표, 기준:안.기준, 주인공:false}),
-    게이지카드({이름:"리센느 공식 채널", 부제:"THE MUZE", 구독자:리.구독자,
-              목표:live.목표, 기준:리.기준, 주인공:true, 돌파:milestone.백만돌파})
-  );
+  // 카드 순서는 고정이다 — 채널을 바꿀 때마다 자리가 바뀌면 어느 쪽을 보고 있었는지 놓친다.
+  const 카드 = [
+    ["안원잘부", 게이지카드({이름:"안원잘부", 부제:"원이 웹예능", 구독자:안.구독자,
+                        목표:안목표, 기준:안.기준, 주인공:상태.채널==="안원잘부"})],
+    ["리센느", 게이지카드({이름:"리센느 공식 채널", 부제:"THE MUZE", 구독자:리.구독자,
+                      목표:live.목표, 기준:리.기준, 주인공:상태.채널==="리센느",
+                      돌파:milestone.백만돌파})],
+  ];
+  카드.forEach(([키, n])=>{
+    if(키 !== 상태.채널){
+      n.classList.add("pick"); n.tabIndex = 0; n.setAttribute("role","button");
+      n.setAttribute("aria-label", `${키} 채널로 넘어가기`);
+      n.addEventListener("click", ()=>전환(키));
+      n.addEventListener("keydown", e=>{
+        if(e.key==="Enter" || e.key===" "){ e.preventDefault(); 전환(키); }
+      });
+    }
+    h.append(n);
+  });
 }
 
 /* ─────────────────────────────────────────── 01 타일 */
@@ -463,25 +570,28 @@ function 타일(k,v,d,강조,값들){
   const s = 스파크(값들); if(s) t.append(s);
   return t;
 }
-function 그리기_tiles(live, milestone){
+function 그리기_tiles(live, vids, milestone){
+  const 키 = 상태.채널, ch = live.채널[키], v = vids.채널[키];
+  $("#s1-eye").textContent = (키==="리센느" ? "RESCENE" : "안원잘부") + " 채널, 지금";
   const c=$("#tiles"); c.innerHTML="";
-  const 안 = live.채널.안원잘부, 리 = live.채널.리센느;
-  const 최근 = ch => (ch.일별||[]).slice(-30).map(d=>d.구독);
-  const 리곡선 = 최근(리);
-  // 넘고 나면 「100만까지 0」이 되어 버린다. 그때는 돌파일을 적는다.
-  const 리부제 = milestone.백만돌파
-    ? `${milestone.백만돌파} 100만 돌파`
-    : `100만까지 ${콤마(live.남은수)}`;
+  const 곡선 = (ch.일별||[]).slice(-30).map(d=>d.구독);
+  const 구독부제 = 키==="리센느"
+    ? (milestone.백만돌파 ? `${milestone.백만돌파} 100만 돌파` : `100만까지 ${콤마(live.남은수)}`)
+    : `리센느 공식의 ${live.배수}배`;
+  const 편 = v.편수;
+  const 구성 = ["영상","쇼츠","라이브"].filter(f=>편[f]>0).map(f=>`${f} ${콤마(편[f])}`).join(" · ");
   c.append(
-    타일("리센느 공식", 만(리.구독자), 리부제, true, 리곡선),
-    타일("안원잘부", 만(안.구독자), `공식의 ${live.배수}배`, false, 최근(안)),
-    타일("구글 관심도", String(live.트렌드.현재), `최고 ${live.트렌드.최고} 대비`, false, null),
-    타일("MV 누적", 만(live.MV.합계), `본편 ${live.MV.목록.length}편`, false, null)
+    타일("구독자", 만(ch.구독자), 구독부제, true, 곡선),
+    타일("누적 조회수", 만(v.합계.조회수), `올린 ${콤마(편.전체)}편 전부`, false, null),
+    타일("누적 좋아요", 만(v.합계.좋아요),
+        v.좋아요숨김 ? `좋아요 숨긴 ${콤마(v.좋아요숨김)}편은 빠졌다` : "숨긴 편 없다", false, null),
+    타일("올린 편수", 콤마(편.전체), 구성, false, null)
   );
   $("#tiles-foot").innerHTML =
-    `곡선은 최근 30일이다. <b>계단으로 보이는 건 사실 그대로다</b> — 유튜브 공개 구독자는 3자리 반올림이라 1만 단위로 뛴다. `+
-    (리곡선.length >= 7 ? "" :
-      `리센느 공식은 측정점이 ${리곡선.length}개뿐이라 아직 곡선을 그리지 않았다 — 매일 하나씩 쌓인다.`);
+    `곡선은 최근 30일 구독자다. <b>계단으로 보이는 건 사실 그대로다</b> — 유튜브 공개 구독자는 3자리 반올림이라 1만 단위로 뛴다. `+
+    `조회수·좋아요는 <b>${vids.기준}</b> 에 이 채널의 영상 ${콤마(편.전체)}편을 하나씩 다시 재서 더한 값이다. `+
+    (곡선.length >= 7 ? "" :
+      `구독자는 측정점이 ${곡선.length}개뿐이라 아직 곡선을 그리지 않았다 — 매일 하나씩 쌓인다.`);
 }
 
 /* ─────────────────────────────────────────── 도구 */
@@ -707,6 +817,118 @@ function 그리기_mv(live){
     `줄을 누르면 유튜브로 간다. 썸네일은 유튜브에서 그대로 불러온다.`;
 }
 
+/* ─────────────────────────────────────────── 03 영상 랭킹 */
+/* 저장소에는 채널마다 조회수·좋아요 상위 150편(형식마다 80편)만 있다.
+   화면이 고를 수 있는 가장 큰 N 이 50 인 이유다. 합계는 전편을 재서 낸 값이라 따로 온다. */
+function 칠하기(그룹, 값){
+  [...그룹.children].forEach(b=>b.classList.toggle("on", b.dataset.v === String(값)));
+}
+function 초시각(초){
+  if(!초) return "";
+  const m = Math.floor(초/60), s2 = 초%60;
+  return m >= 60 ? `${Math.floor(m/60)}시간 ${m%60}분` : (m ? `${m}분 ${s2}초` : `${s2}초`);
+}
+function 그리기_videos(vids){
+  const v = vids.채널[상태.채널];
+  const 기준 = 상태.기준;
+
+  // 그 채널에 없는 형식(안원잘부는 라이브가 없다)은 단추 자체를 숨긴다
+  [...$("#sv-kind").children].forEach(b=>{
+    b.hidden = b.dataset.v !== "전체" && !(v.편수[b.dataset.v] > 0);
+  });
+  if(상태.형식 !== "전체" && !(v.편수[상태.형식] > 0)) 상태.형식 = "전체";
+  칠하기($("#sv-metric"), 상태.기준);
+  칠하기($("#sv-kind"), 상태.형식);
+  칠하기($("#sv-n"), 상태.N);
+
+  const 뽑 = v.목록
+    .filter(x => 상태.형식 === "전체" || x.형식 === 상태.형식)
+    .filter(x => x[기준] !== null && x[기준] !== undefined)
+    .sort((a,b) => b[기준] - a[기준])
+    .slice(0, 상태.N);
+
+  const 이름 = 상태.채널 === "리센느" ? "RESCENE 공식" : "안원잘부";
+  const 몇편 = 상태.형식 === "전체" ? v.편수.전체 : v.편수[상태.형식];
+  $("#sv-h").textContent = `${기준} 상위 ${뽑.length}편`;
+  $("#sv-sub").textContent =
+    `${이름} 채널의 ${상태.형식 === "전체" ? "" : 상태.형식 + " "}${콤마(몇편)}편을 ${기준}로 줄 세운 것이다. ` +
+    (기준 === "좋아요" && v.좋아요숨김
+      ? `좋아요를 숨긴 ${콤마(v.좋아요숨김)}편은 여기에 못 들어온다.`
+      : `1위 한 편이 ${만(뽑.length ? 뽑[0][기준] : 0)}${기준 === "조회수" ? "회" : "개"}다.`);
+
+  const c = $("#sv-rows"); c.innerHTML = "";
+  if(!뽑.length){
+    c.append(el("p","empty","이 형식에는 남긴 영상이 없다."));
+  }
+  const 최대 = 뽑.length ? 뽑[0][기준] : 1;
+  뽑.forEach((x,i)=>{
+    const a = el("a","row vid" + (i === 0 ? " on" : ""));
+    a.href = (x.형식 === "쇼츠" ? "https://www.youtube.com/shorts/" : "https://www.youtube.com/watch?v=") + x.id;
+    a.target = "_blank"; a.rel = "noopener";
+    a.setAttribute("aria-label", `${i+1}위 ${x.제목}, ${기준} ${만(x[기준])}`);
+    a.append(el("span","rk",String(i+1)));
+    const img = el("img","thumb");
+    img.src = `https://i.ytimg.com/vi/${x.id}/mqdefault.jpg`;
+    img.alt = ""; img.loading = "lazy"; img.width = 52; img.height = 30;
+    a.append(img);
+    const mid = el("div","mid");
+    mid.append(el("div","nm", x.제목));
+    const bar = el("div","bar"), i2 = el("i");
+    i2.style.width = (x[기준] / 최대 * 100).toFixed(1) + "%";
+    bar.append(i2); mid.append(bar);
+    const 메타 = el("div","meta");
+    메타.append(날(x.공개일) + "  ·  ");
+    메타.append(el("b", null, 상태.형식 === "전체" ? x.형식 : 초시각(x.길이)));
+    // 오른쪽 큰 값이 이미 기준 값이다. 여기에는 반대쪽 값만 적어 같은 수를 두 번 적지 않는다.
+    메타.append(기준 === "조회수"
+      ? "  ·  좋아요 " + (x.좋아요 === null ? "숨김" : 만(x.좋아요))
+      : "  ·  조회 " + 만(x.조회수));
+    mid.append(메타);
+    a.append(mid, el("span","val num", 만(x[기준])));
+    c.append(a);
+  });
+
+  $("#sv-foot").innerHTML =
+    `줄을 누르면 유튜브로 간다. 썸네일은 유튜브에서 그대로 불러온다. ` +
+    `<b>${vids.기준}</b> 에 ${vids.수단} 으로 이 채널 전편(${콤마(v.편수.전체)}편)을 재고, ` +
+    `저장소에는 조회수·좋아요 상위 ${콤마(vids.보관.채널상위)}편(형식마다 ${vids.보관.형식상위}편)만 남긴다 — ` +
+    `위 타일의 누적값은 남긴 편이 아니라 <b>전편</b>을 더한 값이다.` +
+    (v.못받은편수 ? ` 이번 수집에서 ${콤마(v.못받은편수)}편은 조회에 실패해 빠졌다.` : "");
+}
+
+/* ─────────────────────────────────────────── 채널 전환 */
+function 전환(키){
+  상태.채널 = 키;
+  history.replaceState(null, "", 키 === "리센느" ? "#rescene" : "#anwonjalbu");
+  [...$("#chtabs").children].forEach(b=>
+    b.setAttribute("aria-pressed", String(b.dataset.ch === 키)));
+  document.querySelectorAll("section[data-ch]").forEach(n=>{
+    n.hidden = n.dataset.ch !== 키;
+  });
+  그리기_hero(D.live, D.milestone);
+  그리기_tiles(D.live, D.videos, D.milestone);
+  그리기_videos(D.videos);
+}
+
+function 조작붙이기(){
+  $("#chtabs").addEventListener("click", e=>{
+    const b = e.target.closest(".chtab"); if(b) 전환(b.dataset.ch);
+  });
+  const 세그 = (선택, 키, 숫자)=> $(선택).addEventListener("click", e=>{
+    const b = e.target.closest("button"); if(!b) return;
+    상태[키] = 숫자 ? +b.dataset.v : b.dataset.v;
+    그리기_videos(D.videos);
+  });
+  // 주소창에서 해시를 바꾸거나 뒤로 가기로 돌아왔을 때도 화면이 따라가야 한다
+  addEventListener("hashchange", ()=>{
+    const 키 = location.hash === "#anwonjalbu" ? "안원잘부" : "리센느";
+    if(키 !== 상태.채널) 전환(키);
+  });
+  세그("#sv-metric", "기준");
+  세그("#sv-kind", "형식");
+  세그("#sv-n", "N", true);
+}
+
 /* ─────────────────────────────────────────── 05 브랜드평판 */
 function 그리기_rep(r){
   const 최대=Math.max(...r.TOP10.map(t=>t.지수));
@@ -847,9 +1069,10 @@ function 그리기_기준일차이(live){
       if(!r.ok) throw new Error(`data/${f}.json — HTTP ${r.status}`);
       return r.json();
     }));
-    const d = Object.fromEntries(파일.map((f,i)=>[f, 결과[i]]));
-    그리기_hero(d.live, d.milestone);
-    그리기_tiles(d.live, d.milestone);
+    D = Object.fromEntries(파일.map((f,i)=>[f, 결과[i]]));
+    const d = D;
+    상태.채널 = location.hash === "#anwonjalbu" ? "안원잘부" : "리센느";
+    조작붙이기();
     그리기_trends(d.trends);
     그리기_rank(d.rank);
     그리기_mv(d.live);
@@ -859,6 +1082,7 @@ function 그리기_기준일차이(live){
     그리기_archive(d.archive);
     그리기_status(d.status);
     그리기_기준일차이(d.live);
+    전환(상태.채널);          // 채널에 딸린 세 화면은 여기서 한꺼번에 그린다
     $("#main").hidden = false;
   }catch(e){
     $("#err-msg").textContent = e.message;
