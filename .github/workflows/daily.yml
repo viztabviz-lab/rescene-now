@@ -48,9 +48,10 @@ jobs:
             echo "쓸 것이 없다 — 수집이 아무것도 못 바꿨다"
             exit 0
           fi
-          리센느=$(python -c "import json;print(json.load(open('data/live.json',encoding='utf-8'))['채널']['리센느']['구독자'])")
+          # 변수 이름은 영문으로 — bash 변수명은 영숫자와 _ 만 된다.
+          subs=$(python -c "import json;print(json.load(open('data/live.json',encoding='utf-8'))['채널']['리센느']['구독자'])")
           git add data/
-          git commit -m "data: 리센느 ${리센느} ($(date -u +%m-%d))"
+          git commit -m "data: 리센느 ${subs} ($(date -u +%m-%d))"
           git push
 
       - name: 실패했으면 워크플로도 실패로 표시
