@@ -463,13 +463,17 @@ function 타일(k,v,d,강조,값들){
   const s = 스파크(값들); if(s) t.append(s);
   return t;
 }
-function 그리기_tiles(live){
+function 그리기_tiles(live, milestone){
   const c=$("#tiles"); c.innerHTML="";
   const 안 = live.채널.안원잘부, 리 = live.채널.리센느;
   const 최근 = ch => (ch.일별||[]).slice(-30).map(d=>d.구독);
   const 리곡선 = 최근(리);
+  // 넘고 나면 「100만까지 0」이 되어 버린다. 그때는 돌파일을 적는다.
+  const 리부제 = milestone.백만돌파
+    ? `${milestone.백만돌파} 100만 돌파`
+    : `100만까지 ${콤마(live.남은수)}`;
   c.append(
-    타일("리센느 공식", 만(리.구독자), `100만까지 ${콤마(live.남은수)}`, true, 리곡선),
+    타일("리센느 공식", 만(리.구독자), 리부제, true, 리곡선),
     타일("안원잘부", 만(안.구독자), `공식의 ${live.배수}배`, false, 최근(안)),
     타일("구글 관심도", String(live.트렌드.현재), `최고 ${live.트렌드.최고} 대비`, false, null),
     타일("MV 누적", 만(live.MV.합계), `본편 ${live.MV.목록.length}편`, false, null)
@@ -746,7 +750,8 @@ function 그리기_club(c, live, milestone){
   const 끝 = 돌파 ? c.전체.slice(-3) : c.전체.slice(-4);
   끝.forEach(x=>box.append(줄(x.순위,x.그룹,x.구독자)));
   if(돌파){
-    box.append(줄(null,"리센느", 리, true));
+    // 넘었으니 문턱 위에 선다. 순위는 「—」로 두지 말고 실제 자리를 적는다.
+    box.append(줄(c.리센느자리,"리센느", 리, true));
     box.append(el("div","threshold","100만"));
   }else{
     box.append(el("div","threshold","100만"));
@@ -844,7 +849,7 @@ function 그리기_기준일차이(live){
     }));
     const d = Object.fromEntries(파일.map((f,i)=>[f, 결과[i]]));
     그리기_hero(d.live, d.milestone);
-    그리기_tiles(d.live);
+    그리기_tiles(d.live, d.milestone);
     그리기_trends(d.trends);
     그리기_rank(d.rank);
     그리기_mv(d.live);
