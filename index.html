@@ -40,7 +40,7 @@ a{color:inherit}
 @media (max-width:420px){.wrap{padding:0 16px 80px}}
 
 /* ── 머리 ── */
-.top{padding:56px 0 8px}
+.top{padding:56px 0 0}
 .brandline{display:flex;align-items:center;gap:9px;margin-bottom:18px}
 .brandline i{width:10px;height:10px;border-radius:3px;background:var(--pink);flex:none}
 .brandline span{font-size:12.5px;letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase}
@@ -53,6 +53,8 @@ h1 em{font-style:normal;color:var(--pink)}
 
 /* ── 섹션 ── */
 section{padding-top:64px}
+/* 부제가 한 줄뿐이라 머리와 첫 카드 사이가 비어 보인다. 첫 섹션만 좁힌다. */
+#s0{padding-top:26px}
 .eyebrow{
   font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
   color:var(--ink-3);margin:0 0 8px;display:flex;gap:8px;align-items:center;
