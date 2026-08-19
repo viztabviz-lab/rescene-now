@@ -27,6 +27,11 @@ jobs:
         run: pip install --quiet yt-dlp
 
       - name: 수집
+        id: collect
+        # 실패해도 다음 단계로 간다. 수집이 실패하면 수집.py 가 JSON 을 덮어쓰지 않고
+        # status.json 에만 실패를 남기는데, 그 기록이 커밋돼야 화면 09 에 보인다.
+        # 여기서 멈추면 화면은 아무 일 없었던 것처럼 옛 값을 계속 보여준다.
+        continue-on-error: true
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: python -X utf8 scripts/수집.py daily
@@ -47,3 +52,9 @@ jobs:
           git add data/
           git commit -m "data: 리센느 ${리센느} ($(date -u +%m-%d))"
           git push
+
+      - name: 실패했으면 워크플로도 실패로 표시
+        if: steps.collect.outcome == 'failure'
+        run: |
+          echo "수집 실패 — status.json 에 남겨 커밋했고 화면 09 에 실패로 보인다"
+          exit 1

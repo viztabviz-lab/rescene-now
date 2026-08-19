@@ -26,7 +26,7 @@ jobs:
           python-version: "3.12"
 
       - name: 수집
-        id: 수집
+        id: collect
         continue-on-error: true      # 한쪽이 실패해도 다른 쪽 결과는 커밋한다
         run: python -X utf8 scripts/수집.py weekly
 
@@ -43,7 +43,7 @@ jobs:
           git push
 
       - name: 실패했으면 워크플로도 실패로 표시
-        if: steps.수집.outcome == 'failure'
+        if: steps.collect.outcome == 'failure'
         run: |
           echo "수집 일부 실패 — status.json 에 남았고 화면에는 직전 값이 보인다"
           exit 1
