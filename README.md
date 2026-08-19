@@ -2,6 +2,8 @@
 
 쇼츠로 세어 본 리센느의 숫자를 한 장에 모은 페이지. 단일 HTML 이 `data/*.json` 을 읽어 그린다.
 
+**<https://viztabviz-lab.github.io/rescene-now/>**
+
 ## 열어 보기
 
 `index.html` 을 파일로 직접 열면 브라우저가 `data/*.json` 읽기를 막는다. 서버로 띄운다.
@@ -60,15 +62,14 @@ data/ 를 채우는 일은 이제 `scripts/수집.py` 가 한다.
 
 ## 아직 안 한 것
 
-- **원격 저장소와 Pages.** 아래 순서로 켠다.
+- **`YOUTUBE_API_KEY` 가 없다.** 이게 유일하게 남은 막힘이다.
+  Actions IP 는 yt-dlp 를 봇으로 보고 막는다(`Sign in to confirm you're not a bot`).
+  daily 가 매일 실패하고 화면 09 에 실패로 뜬다 — 값은 직전 것이 그대로 보인다.
 
-  ```
-  gh repo create rescene-now --public --source=. --push
-  ```
-
-  그 다음 저장소 Settings → Pages → Source 를 `main` 브랜치 루트로 두고,
-  Settings → Secrets → Actions 에 `YOUTUBE_API_KEY` 를 넣는다.
-  Settings → Actions → Workflow permissions 는 **Read and write** 여야 봇이 커밋할 수 있다.
+  1. console.cloud.google.com 에서 프로젝트를 만들고 **YouTube Data API v3** 를 켠다
+  2. 사용자 인증 정보 → API 키 생성 (일 쿼터 10,000 중 하루 12회만 쓴다)
+  3. `gh secret set YOUTUBE_API_KEY` 또는 Settings → Secrets → Actions 에 넣는다
+  4. `gh workflow run daily.yml` 로 확인
 
 - **걸그룹 100만 클럽 44팀 값은 수동이다.** `club.json` 에 그룹 이름만 있고 채널 ID 가 없어
   자동으로 다시 조회할 수 없다. 리센느·안원잘부 자리는 daily 가 매일 다시 계산하므로
@@ -80,5 +81,7 @@ data/ 를 채우는 일은 이제 `scripts/수집.py` 가 한다.
   `data/reputation.json` 을 고친 뒤 커밋한다.
 
 ---
+
+공개 주소 · <https://viztabviz-lab.github.io/rescene-now/>
 
 리센느와 소속사·제작사와 아무 관계가 없는 팬 제작 페이지다. 만든 곳 · [유튜브 @data-viz](https://www.youtube.com/@data-viz)
