@@ -33,28 +33,30 @@ jobs:
       - name: yt-dlp 설치
         run: pip install --quiet yt-dlp
 
+      # 출력 이름은 영문만 쓴다 — Actions 의 표현식 파서가 한글 식별자를 못 읽는다
+      # (steps.key.outputs.있다 → "Unexpected symbol" 로 워크플로 자체가 안 뜬다)
       - name: 키가 있는지 본다
         id: key
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: |
           if [ -n "$YOUTUBE_API_KEY" ]; then
-            echo "있다=yes" >> "$GITHUB_OUTPUT"
+            echo "has_key=yes" >> "$GITHUB_OUTPUT"
           else
-            echo "있다=no" >> "$GITHUB_OUTPUT"
+            echo "has_key=no" >> "$GITHUB_OUTPUT"
             echo "YOUTUBE_API_KEY 가 없다 — 이번 실행은 아무것도 하지 않는다"
           fi
 
       - name: 수집
         id: collect
-        if: steps.key.outputs.있다 == 'yes'
+        if: steps.key.outputs.has_key == 'yes'
         continue-on-error: true
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: python -X utf8 scripts/수집.py videos
 
       - name: 커밋
-        if: steps.key.outputs.있다 == 'yes'
+        if: steps.key.outputs.has_key == 'yes'
         run: |
           git config user.name  "rescene-now bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
