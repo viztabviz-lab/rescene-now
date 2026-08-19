@@ -8,9 +8,9 @@
    "출처": "YouTube Data API v3",
    "주기": "매일",
    "기준": "2026-08-19",
-   "결과": "OK",
+   "결과": "실패",
    "수집": "2026-08-19",
-   "메시지": "리센느 997,000 · 안원잘부 1,820,000"
+   "메시지": "DownloadError: ERROR: [youtube] MC6-82GRK5I: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-"
   },
   {
    "키": "trends",
