@@ -67,16 +67,20 @@ h2{
 .foot b{color:var(--ink-2);font-weight:600}
 
 /* ── 00 게이지 ── */
+.heroes{display:grid;gap:10px;align-items:stretch}
+@media (min-width:760px){.heroes{grid-template-columns:1fr 1fr}}
 .hero{
   background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
-  padding:26px 22px;
+  padding:24px 20px;display:flex;flex-direction:column;height:100%;
 }
 .hero .cap{font-size:13px;color:var(--ink-3);letter-spacing:.02em}
+.hero .cap b{color:var(--ink-2);font-weight:600}
 .hero .big{
-  font-size:clamp(56px,17vw,104px);font-weight:800;letter-spacing:-.045em;
+  font-size:clamp(48px,13vw,76px);font-weight:800;letter-spacing:-.045em;
   line-height:1;margin:8px 0 4px;color:var(--pink);
 }
-.hero .of{font-size:14px;color:var(--ink-3);margin-bottom:20px}
+.hero .of{font-size:14px;color:var(--ink-3);margin-bottom:18px}
+.hero .grow{flex:1}
 .gauge{height:14px;background:var(--track);border-radius:7px;overflow:hidden}
 .gauge i{display:block;height:100%;background:var(--pink);border-radius:7px}
 .hero .left{
@@ -84,8 +88,11 @@ h2{
   font-size:13.5px;color:var(--ink-2);
 }
 .hero .left b{color:var(--ink);font-weight:700}
+/* 주인공만 색을 준다 — 나머지는 무채색으로 두어야 대비가 주장이 된다 */
+.hero.sub .big{color:var(--ink)}
+.hero.sub .gauge i{background:var(--ink-3)}
 .done{border-color:var(--pink)}
-.done .big{font-size:clamp(34px,9vw,56px)}
+.done .big{font-size:clamp(30px,7.5vw,44px)}
 
 /* ── 01 타일 ── */
 .tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -257,7 +264,7 @@ footer p{max-width:60ch}
 <main id="main" hidden>
 
   <section id="s0">
-    <div class="hero" id="hero"></div>
+    <div class="heroes" id="hero"></div>
   </section>
 
   <section id="s1">
@@ -390,34 +397,46 @@ const 콤마 = n => n.toLocaleString("ko");
 const 날 = s => s ? s.slice(2).replace(/-/g,".") : "";
 
 /* ─────────────────────────────────────────── 00 게이지 */
-function 그리기_hero(live, milestone){
-  const h = $("#hero"), 돌파 = milestone.백만돌파;
-  h.innerHTML = "";
+/* 채널 하나 = 카드 하나. 다음 백만까지 얼마나 왔는지를 같은 형태로 보여준다. */
+function 게이지카드({이름, 부제, 구독자, 목표, 기준, 주인공, 돌파}){
+  const h = el("div", "hero" + (주인공 ? "" : " sub") + (돌파 ? " done" : ""));
+  const cap = el("div","cap");
+  cap.append(el("b",null,이름));
+  if(부제) cap.append(" · " + 부제);
+  h.append(cap);
+
   if(돌파){
-    h.classList.add("done");
-    h.append(
-      el("div","cap","리센느 공식 채널"),
-      el("div","big","100만 돌파"),
-      el("div","of", `${돌파} · 걸그룹 100만 클럽 44팀 안으로`)
-    );
-    const g = el("div","gauge"); const i=el("i"); i.style.width="100%"; g.append(i); h.append(g);
-    const l = el("div","left");
-    l.append(el("span",null,"지금"), el("b",null, 만(live.채널.리센느.구독자)));
-    h.append(l);
-    return;
+    h.append(el("div","big","100만 돌파"),
+             el("div","of", `${돌파} · 걸그룹 100만 클럽 안으로`));
+  }else{
+    h.append(el("div","big", 만(구독자)),
+             el("div","of", `${만(목표)}까지 남은 ${콤마(목표 - 구독자)}명`));
   }
-  const 진행 = live.채널.리센느.구독자 / live.목표 * 100;
-  h.append(
-    el("div","cap","리센느 공식 채널"),
-    el("div","big", 만(live.채널.리센느.구독자)),
-    el("div","of", `100만까지 남은 ${콤마(live.남은수)}명`)
-  );
-  const g = el("div","gauge"); const i = el("i");
-  i.style.width = 진행.toFixed(1)+"%"; g.append(i); h.append(g);
+  h.append(el("div","grow"));
+
+  const 진행 = 돌파 ? 100 : 구독자 / 목표 * 100;
+  const g = el("div","gauge"), i = el("i");
+  i.style.width = Math.min(100, 진행).toFixed(1) + "%";
+  g.append(i); h.append(g);
+
   const l = el("div","left");
-  const a = el("span",null,`${진행.toFixed(1)}% 왔다`);
-  const b = el("span"); b.append("기준 ", el("b",null,날(live.채널.리센느.기준)));
-  l.append(a,b); h.append(l);
+  l.append(el("span", null, 돌파 ? `지금 ${만(구독자)}` : `${진행.toFixed(1)}% 왔다`));
+  const b = el("span"); b.append("기준 ", el("b", null, 날(기준)));
+  l.append(b); h.append(l);
+  return h;
+}
+
+function 그리기_hero(live, milestone){
+  const h = $("#hero"); h.innerHTML = "";
+  const 안 = live.채널.안원잘부, 리 = live.채널.리센느;
+  // 안원잘부는 정해진 목표가 없다. 지금 값 바로 위의 백만 자리를 다음 눈금으로 삼는다.
+  const 안목표 = Math.ceil(안.구독자 / 1e6) * 1e6;
+  h.append(
+    게이지카드({이름:"안원잘부", 부제:"원이 웹예능", 구독자:안.구독자,
+              목표:안목표, 기준:안.기준, 주인공:false}),
+    게이지카드({이름:"리센느 공식 채널", 부제:"THE MUZE", 구독자:리.구독자,
+              목표:live.목표, 기준:리.기준, 주인공:true, 돌파:milestone.백만돌파})
+  );
 }
 
 /* ─────────────────────────────────────────── 01 타일 */
