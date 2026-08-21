@@ -1044,7 +1044,8 @@ function 그리기_archive(a){
     b.append(el("div","n", k.공개예정 ? "공개 예정" : 날(k.날짜)));
     b.append(el("div","t", k.제목));
     b.append(el("div","c", k.주장));
-    b.append(el("div","m", k.수치));
+    // 수치는 사람이 붙이는 한마디다. 자동으로 실린 카드는 비어 있으니 그 줄을 아예 만들지 않는다
+    if(k.수치) b.append(el("div","m", k.수치));
     node.append(b); c.append(node);
   });
 }

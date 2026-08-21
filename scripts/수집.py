@@ -5,6 +5,7 @@ data/*.json 을 다시 채운다. GitHub Actions 가 이 스크립트만 돌린�
   python -X utf8 scripts/수집.py daily     구독자 2채널 · MV 11편 조회수
   python -X utf8 scripts/수집.py weekly    구글 트렌드 126주 · playboard 순위
   python -X utf8 scripts/수집.py videos    채널 두 개의 전체 영상 조회수·좋아요
+  python -X utf8 scripts/수집.py archive   @data-viz 에 새로 올린 쇼츠를 카드로
   python -X utf8 scripts/수집.py --확인    아무것도 쓰지 않고 조회만 해 본다
 
 원칙 셋 — 셋 다 이 파일 안에서 강제된다.
@@ -583,11 +584,147 @@ def videos():
     return " · ".join(말)
 
 
+# ────────────────────────────────────────────────────────── 08 아카이브
+아카이브채널 = "UCXhPSo-zn2vM_sMzDwM9_tw"     # 내 쇼츠 채널 @data-viz
+아카이브시작 = "2026-08-09"                    # 리센느 소재로 돌린 날. 그 전 편은 이 페이지와 무관하다
+아카이브최대 = 40                              # 한 번에 훑는 최근 편수
+
+# 제목이나 설명에 이 중 하나가 있어야 카드로 넣는다. 이 채널에는 야구·선거·연휴 쇼츠도
+# 올라오는데 그런 편이 「우리가 세어 본 것들」에 끼면 페이지가 무슨 페이지인지 흐려진다.
+# 「메이」는 넣지 않는다 — 「메이저리그」에 걸린다. 그 편들은 설명에 안원잘부가 들어 있어 걸린다.
+아카이브관련어 = ("리센느", "rescene", "안원잘부", "anwonjalbu", "리마인", "re:min",
+              "원이", "제나", "미나미", "민채", "리브", "까엉", "리트", "메트")
+
+_설명패턴 = re.compile(r'"shortDescription":"((?:[^"' + chr(92) * 2 + r']|' + chr(92) * 2 + r'.)*)"')
+
+
+def 채널최근영상(채널ID, 개수=아카이브최대):
+    """[{id, 제목, 설명, 공개일, 길이}] 최신순.
+    API 가 있으면 업로드 재생목록 한 번으로 설명까지 다 온다. 없으면 목록만 yt-dlp 로 뽑고
+    편마다 watch 페이지를 받아 채운다(느리지만 로컬에서 확인할 때 쓴다)."""
+    if os.environ.get("YOUTUBE_API_KEY"):
+        d = _api("playlistItems", {"part": "snippet", "maxResults": min(개수, 50),
+                                   "playlistId": "UU" + 채널ID[2:]})
+        나옴 = []
+        for it in d.get("items", []):
+            sn = it["snippet"]
+            나옴.append({"id": sn["resourceId"]["videoId"],
+                       "제목": sn.get("title") or "",
+                       "설명": sn.get("description") or "",
+                       # publishedAt 은 UTC 다. 한국 날짜로 바꿔야 카드 날짜가 하루 어긋나지 않는다
+                       "공개일": (datetime.strptime(sn["publishedAt"], "%Y-%m-%dT%H:%M:%SZ")
+                               .replace(tzinfo=timezone.utc).astimezone(KST).strftime("%Y-%m-%d")),
+                       "길이": 0})
+        return 나옴
+
+    import yt_dlp
+    옵션 = {"quiet": True, "no_warnings": True, "extract_flat": True,
+            "skip_download": True, "playlistend": 개수}
+    본 = []
+    with yt_dlp.YoutubeDL(옵션) as y:
+        for 탭 in ("shorts", "videos"):
+            try:
+                info = y.extract_info(f"https://www.youtube.com/channel/{채널ID}/{탭}", download=False)
+            except Exception as e:
+                if "does not have a" in str(e):
+                    continue
+                raise
+            본 += [e["id"] for e in (info.get("entries") or [])]
+    나옴 = []
+    for vid in 본[:개수]:
+        _, 값 = _한편(vid)
+        if not 값:
+            continue
+        나옴.append({"id": vid, "제목": 값["제목"], "설명": _설명받기(vid),
+                    "공개일": 값["공개일"], "길이": 값["길이"]})
+    return 나옴
+
+
+def _설명받기(vid):
+    """watch 페이지에서 설명만 따로 뽑는다. API 경로에서는 쓰지 않는다."""
+    try:
+        with _브라우저().open(f"https://www.youtube.com/watch?v={vid}&hl=ko&gl=KR", timeout=30) as r:
+            h = r.read().decode("utf-8", errors="replace")
+        m = _설명패턴.search(h)
+        return json.loads('"' + m.group(1) + '"') if m else ""
+    except Exception:
+        return ""
+
+
+def 첫문장(설명):
+    """설명 첫 문장을 카드의 「주장」으로 쓴다. 사람이 손으로 적어 둔 주장은 건드리지 않는다.
+
+    첫 「줄」을 그대로 쓰면 안 된다 — 유튜브 설명은 한 문장이 두세 줄로 접혀 있어서
+    「…2026년 2월 23일부터 8월 19일까지」처럼 중간에서 끊긴다. 빈 줄 전까지를 한 문단으로
+    이어 붙인 뒤 마침표까지를 잘라낸다.
+    """
+    문단 = []
+    for 줄 in (설명 or "").split("\n"):
+        if not 줄.strip():
+            if 문단:
+                break
+            continue
+        문단.append(줄.strip())
+    글 = " ".join(문단)
+    m = re.match(r"(.+?[.。!?])(\s|$)", 글)
+    문장 = (m.group(1) if m else 글).strip()
+    if len(문장) > 90:                       # 카드 한 장에 들어갈 만큼만
+        문장 = 문장[:88].rstrip() + "…"
+    return 문장
+
+
+def 아카이브():
+    """@data-viz 채널에 새로 올라온 리센느 쇼츠를 카드로 더한다.
+
+    이미 있는 카드는 손대지 않는다 — 「주장」과 「수치」는 사람이 쓴 문장이고
+    유튜브에서 되받을 수 있는 값이 아니다. 새 카드의 주장은 영상 설명 첫 줄로 채우고
+    수치는 비워 둔다(화면은 수치가 비면 그 줄을 그리지 않는다).
+    """
+    a = 읽기("archive.json")
+    있는것 = {c["id"] for c in a["카드"] if c.get("id")}
+    최근 = 채널최근영상(아카이브채널)
+    if not 최근:
+        raise RuntimeError("채널에서 아무 편도 못 받았다")
+
+    새것, 거른것 = [], []
+    for v in 최근:
+        if v["id"] in 있는것 or v["공개일"] < 아카이브시작:
+            continue
+        본문 = (v["제목"] + " " + v["설명"]).lower()
+        if not any(w in 본문 for w in 아카이브관련어):
+            거른것.append(v["제목"][:28])
+            continue
+        새것.append({
+            "id": v["id"], "날짜": v["공개일"], "제목": html.unescape(v["제목"]),
+            "주장": 첫문장(v["설명"]), "수치": "",
+            "링크": f"https://www.youtube.com/shorts/{v['id']}",
+            "썸네일": f"https://i.ytimg.com/vi/{v['id']}/mqdefault.jpg",
+            "공개예정": False,
+        })
+
+    if 거른것:
+        print(f"    리센느와 무관해 뺀 편: {', '.join(거른것)}")
+    if 새것:
+        올린것 = [c for c in a["카드"] if not c.get("공개예정")]
+        예정 = [c for c in a["카드"] if c.get("공개예정")]
+        올린것 = sorted(새것 + 올린것, key=lambda c: c["날짜"], reverse=True)
+        a["카드"] = 올린것 + 예정        # 아직 안 올린 카드는 늘 맨 뒤에 둔다
+    a["기준"] = 오늘
+    쓰기("archive.json", a)
+
+    말 = f"카드 {len(a['카드'])}장" + (f" (새로 {len(새것)}장)" if 새것 else " (새 편 없음)")
+    for c in 새것:
+        print(f"    + {c['날짜']} {c['제목'][:34]}")
+    상태기록("archive", "OK", 오늘, 말)
+    return 말
+
+
 # ────────────────────────────────────────────────────────── 실행
 작업 = {
-    "daily": [("live", daily)],
+    "daily": [("live", daily), ("archive", 아카이브)],
     "weekly": [("trends", weekly_트렌드), ("rank", weekly_순위)],
     "videos": [("videos", videos)],
+    "archive": [("archive", 아카이브)],
 }
 
 
