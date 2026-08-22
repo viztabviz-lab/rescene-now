@@ -351,10 +351,10 @@ footer p{max-width:60ch}
   <nav class="chtabs" id="chtabs" role="group" aria-label="채널 고르기">
     <!-- 순서는 아래 게이지 카드와 같아야 한다. 어긋나면 왼쪽 탭을 눌렀는데
          오른쪽 카드가 켜지는 것처럼 읽힌다. -->
-    <button type="button" class="chtab" data-ch="안원잘부" aria-pressed="false">
+    <button type="button" class="chtab" data-ch="안원잘부" aria-pressed="true">
       <b>안원잘부</b><small>원이 웹예능 · 솔파스튜디오</small>
     </button>
-    <button type="button" class="chtab" data-ch="리센느" aria-pressed="true">
+    <button type="button" class="chtab" data-ch="리센느" aria-pressed="false">
       <b>RESCENE</b><small>리센느 공식 채널 · THE MUZE</small>
     </button>
   </nav>
@@ -1288,7 +1288,7 @@ function 조작붙이기(){
   });
   // 주소창에서 해시를 바꾸거나 뒤로 가기로 돌아왔을 때도 화면이 따라가야 한다
   addEventListener("hashchange", ()=>{
-    const 키 = location.hash === "#anwonjalbu" ? "안원잘부" : "리센느";
+    const 키 = location.hash === "#rescene" ? "리센느" : "안원잘부";
     if(키 !== 상태.채널) 전환(키);
   });
   세그("#sv-metric", "기준");
@@ -1439,7 +1439,8 @@ function 그리기_기준일차이(live){
     }));
     D = Object.fromEntries(파일.map((f,i)=>[f, 결과[i]]));
     const d = D;
-    상태.채널 = location.hash === "#anwonjalbu" ? "안원잘부" : "리센느";
+    // 기본은 안원잘부다. #rescene 로 들어온 사람만 공식 채널 화면으로 연다.
+    상태.채널 = location.hash === "#rescene" ? "리센느" : "안원잘부";
     조작붙이기();
     그리기_trends(d.trends);
     그리기_rank(d.rank);
