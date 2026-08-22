@@ -468,6 +468,37 @@ footer p{max-width:60ch}
     <p class="foot" id="s10-foot"></p>
   </section>
 
+  <section id="s11" data-ch="안원잘부">
+    <p class="eyebrow"><b>04</b> 카카오 이모티콘</p>
+    <h2 id="s11-h">여섯 탭이 전부 같은 1위</h2>
+    <p class="sub" id="s11-sub"></p>
+    <div class="tiles" id="s11-tiles"></div>
+
+    <h3 class="subhead">연령 탭마다 1위와 2위</h3>
+    <p class="sub" id="s11-rank-sub"></p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>탭</th><th class="num">리센느 X 안원잘부</th><th>그 탭 2위</th></tr></thead>
+        <tbody id="s11-rank"></tbody>
+      </table>
+    </div>
+    <p class="foot" id="s11-rank-foot"></p>
+
+    <h3 class="subhead">24종은 어느 편에서 나왔나</h3>
+    <p class="sub" id="s11-src-sub"></p>
+    <div class="rows" id="s11-src"></div>
+    <details>
+      <summary>24종 전부 보기 — 문구 · 편 · 그 장면으로 바로 가기</summary>
+      <div class="tablewrap" style="margin-top:8px">
+        <table>
+          <thead><tr><th class="num">#</th><th>문구</th><th>편</th><th class="num">장면</th></tr></thead>
+          <tbody id="s11-list"></tbody>
+        </table>
+      </div>
+    </details>
+    <p class="foot" id="s11-foot"></p>
+  </section>
+
   <div class="split">두 채널 공통 · 리센느라는 그룹</div>
 
   <section id="s2">
@@ -554,7 +585,7 @@ footer p{max-width:60ch}
 </div>
 
 <script>
-const 파일 = ["live","videos","streams","trends","rank","club","reputation","searches","archive","milestone","status"];
+const 파일 = ["live","videos","streams","emoticon","trends","rank","club","reputation","searches","archive","milestone","status"];
 /* 화면은 채널 하나씩 보여준다. 무엇을 보고 있나가 이 한 곳에 모인다. */
 const 상태 = {채널:"리센느", 기준:"조회수", 형식:"전체", N:20};
 let D = null;   // 읽어 온 JSON 전부
@@ -1134,6 +1165,96 @@ function 그리기_streams(st){
     `한 편씩의 조회수·좋아요 순위는 위 <b>03 영상 랭킹</b>에서 형식을 「라이브」로 고르면 나온다 — 그쪽이 매주 갱신되는 값이다.`;
 }
 
+/* ─────────────────────────────────────────── 04 카카오 이모티콘 (안원잘부) */
+/* 순위는 실시간으로 바뀐다. 「전 탭 1위」를 화면에 적어 두지 않고 받아 온 값으로
+   문장을 만든다 — 2위로 내려가면 화면도 2위라고 말해야 한다. */
+function 그리기_emoticon(e){
+  const 탭 = e.순위.탭, 상 = e.상품, 가 = e.가격;
+  const 든것 = 탭.filter(t => t.리센느순위);
+  const 일위 = 탭.filter(t => t.리센느순위 === 1).length;
+  const 최고 = 든것.length ? Math.min(...든것.map(t => t.리센느순위)) : null;
+  const 이위종류 = new Set(탭.map(t => t["2위"])).size;
+
+  // 제목에 쓰는 작은 수는 한글로 적는다 — 「6개 탭」보다 「여섯 탭」이 읽힌다
+  const 한글수 = n => ["","한","두","세","네","다섯","여섯","일곱","여덟","아홉","열"][n] || String(n);
+  $("#s11-h").textContent =
+    일위 === 탭.length ? `${한글수(탭.length)} 탭이 전부 같은 1위`
+    : 일위 ? `${한글수(탭.length)} 탭 중 ${한글수(일위)} 곳에서 1위`
+    : 최고 ? `연령 탭 최고 ${최고}위` : "인기 50위 밖";
+
+  $("#s11-sub").textContent =
+    `카카오 이모티콘 「${상.이름}」은 안원잘부 장면 ${상.종수}종으로 만들어졌다. ` +
+    `인기 순위는 나이대별로 탭이 갈리는데, ` +
+    (일위 === 탭.length
+      ? `${한글수(탭.length)} 탭 전부에서 1위다. 2위는 ${한글수(이위종류)} 종류로 갈리는데 1위만 하나로 모였다.`
+      : `지금은 ${든것.map(t => t.탭 + " " + t.리센느순위 + "위").join(" · ")}다.`);
+
+  const c = $("#s11-tiles"); c.innerHTML = "";
+  c.append(
+    타일("이모티콘", 상.종수 + "종", `${상.출시} 출시`, false, null),
+    타일(일위 === 탭.length ? "모든 탭에서" : "가장 높은 자리",
+        (최고 || "—") + "위", `${한글수(탭.length)} 연령 탭 기준`, true, null),
+    타일("2위는", 이위종류 + "종류", "탭마다 다른 이모티콘", false, null),
+    타일("가격", 콤마(가.판매가) + "원",
+        가.할인율 ? `정가 ${콤마(가.정가)}원 · ${가.문구}` : "정가", false, null)
+  );
+
+  $("#s11-rank-sub").textContent =
+    `${e.순위.수집시각} 기준. 순위는 실시간으로 바뀌므로 이 화면은 잰 시각을 같이 적는다.`;
+  const tb = $("#s11-rank"); tb.innerHTML = "";
+  탭.forEach(t=>{
+    const tr = el("tr");
+    tr.append(el("td", null, t.탭));
+    const 자리 = el("td", "num");
+    const b = el("b", null, t.리센느순위 ? t.리센느순위 + "위" : "50위 밖");
+    if(t.리센느순위 === 1) b.style.color = "var(--pink)";
+    자리.append(b);
+    tr.append(자리, el("td", null, t["2위"]));
+    tb.append(tr);
+  });
+  $("#s11-rank-foot").innerHTML =
+    `출처 <b>${e.순위.출처}</b>. 인기 순위는 카카오가 매기는 값이고 판매량 그 자체가 아니다. ` +
+    `가격·할인은 <b>${가.기준일}</b> 기준이며 할인은 한시적일 수 있다.`;
+
+  // 편별 분포
+  const 편 = e.원본.편별, 최대 = Math.max(...편.map(x=>x.종수));
+  $("#s11-src-sub").textContent =
+    `${상.종수}종이 안원잘부 ${편.length}편에서 나왔다. 상위 네 편이 ${편.slice(0,4).reduce((a,b)=>a+b.종수,0)}종을 차지한다.`;
+  const sc = $("#s11-src"); sc.innerHTML = "";
+  편.forEach((x,i)=>{
+    const row = el("div", "row" + (i === 0 ? " on" : ""));
+    row.append(el("span","rk", String(i+1)));
+    const mid = el("div","mid");
+    mid.append(el("div","nm", x.편));
+    const bar = el("div","bar"), b = el("i");
+    b.style.width = (x.종수/최대*100).toFixed(1) + "%";
+    bar.append(b); mid.append(bar);
+    row.append(mid, el("span","val num", x.종수 + "종"));
+    sc.append(row);
+  });
+
+  // 24종 목록
+  const lb = $("#s11-list"); lb.innerHTML = "";
+  e.원본.목록.forEach(x=>{
+    const tr = el("tr");
+    tr.append(el("td","num", String(x.번호)), el("td", null, x.문구), el("td", null, x.편전체));
+    const td = el("td","num");
+    const a = el("a", null, x.시각);
+    a.href = `https://www.youtube.com/watch?v=${x.id}&t=${x.초}s`;
+    a.target = "_blank"; a.rel = "noopener";
+    a.style.color = "var(--pink)";
+    td.append(a); tr.append(td);
+    lb.append(tr);
+  });
+
+  $("#s11-foot").innerHTML =
+    `장면은 ${e.원본.찾은법} <b>카카오가 자막을 다시 쓴 것이 있다</b> — ` +
+    `거제 1편의 「마떼루용~」은 원본 화면자막이 「기다린다구~」이고, 첫TVCF 의 「와 이리 자주 봅니까?」는 ` +
+    `원본이 「와 이래 많이 봅니까? 우리」다. 그래서 대사 검색으로는 못 찾고 프레임이 최종 근거다. ` +
+    `시각을 누르면 그 장면부터 재생된다. ` +
+    `<a href="${상.링크}" target="_blank" rel="noopener" style="color:var(--pink)">이모티콘 보러 가기</a>`;
+}
+
 /* ─────────────────────────────────────────── 채널 전환 */
 function 전환(키){
   상태.채널 = 키;
@@ -1328,6 +1449,7 @@ function 그리기_기준일차이(live){
     그리기_search(d.searches);
     그리기_archive(d.archive);
     그리기_streams(d.streams);
+    그리기_emoticon(d.emoticon);
     그리기_status(d.status);
     그리기_기준일차이(d.live);
     전환(상태.채널);          // 채널에 딸린 세 화면은 여기서 한꺼번에 그린다

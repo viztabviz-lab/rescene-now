@@ -6,6 +6,7 @@ data/*.json 을 다시 채운다. GitHub Actions 가 이 스크립트만 돌린�
   python -X utf8 scripts/수집.py weekly    구글 트렌드 126주 · playboard 순위
   python -X utf8 scripts/수집.py videos    채널 두 개의 전체 영상 조회수·좋아요
   python -X utf8 scripts/수집.py archive   @data-viz 에 새로 올린 쇼츠를 카드로
+  python -X utf8 scripts/수집.py emoticon  카카오 이모티콘 인기 순위 여섯 탭
   python -X utf8 scripts/수집.py --확인    아무것도 쓰지 않고 조회만 해 본다
 
 원칙 셋 — 셋 다 이 파일 안에서 강제된다.
@@ -719,12 +720,77 @@ def 아카이브():
     return 말
 
 
+# ────────────────────────────────────────────────────────── 카카오 이모티콘
+# 인기 순위는 로그인 없이 열린다. 페이지 HTML 은 4KB 짜리 SPA 껍데기라 아무것도 없고,
+# 번들 assets/popular-*.js 안에 이 주소가 있다. 번들 이름은 배포마다 바뀐다.
+카카오탭 = [("전체", None), ("10대", "TEENS"), ("20대", "TWENTIES"),
+          ("30대", "THIRTIES"), ("40대", "FORTIES"), ("50대 이상", "FIFTIES_PLUS")]
+
+
+def _카카오(경로, 파라미터=None):
+    u = "https://e.kakao.com/api/" + 경로
+    if 파라미터:
+        u += "?" + urllib.parse.urlencode(파라미터)
+    req = urllib.request.Request(u, headers={
+        "User-Agent": UA, "Referer": "https://e.kakao.com/", "Accept": "application/json"})
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return json.loads(r.read().decode("utf-8"))
+
+
+def 이모티콘():
+    """여섯 탭의 인기 순위에서 이 상품이 몇 위인지, 그 위아래가 무엇인지 다시 받는다.
+
+    **순위는 실시간으로 바뀐다.** 그래서 화면이 「전 탭 1위」라고 적어 두지 않고
+    받아 온 값으로 문장을 만든다 — 2위로 내려가면 화면도 2위라고 말해야 한다.
+    24종이 어느 편에서 나왔는지는 사람이 프레임으로 확정한 값이라 건드리지 않는다.
+    """
+    e = 읽기("emoticon.json")
+    slug = e["상품"]["slug"]
+
+    탭들 = []
+    for 이름, 코드 in 카카오탭:
+        q = {"miniOnly": "false", "page": "0", "size": "50"}
+        if 코드:
+            q["ageBand"] = 코드
+        items = _카카오("items/hot", q).get("items") or []
+        if len(items) < 3:
+            raise RuntimeError(f"{이름} 탭이 {len(items)}개뿐이다 — 응답 모양이 바뀌었을 수 있다")
+        자리 = next((i + 1 for i, x in enumerate(items) if x.get("slug") == slug), None)
+        탭들.append({"탭": 이름, "코드": 코드 or "전체", "리센느순위": 자리,
+                   "1위": items[0]["title"], "2위": items[1]["title"], "3위": items[2]["title"]})
+        time.sleep(0.4)
+
+    가 = (_카카오("items/" + slug).get("hero") or {}).get("price") or {}
+    if 가.get("value"):
+        할인 = 가.get("discount") or {}
+        e["가격"] = {"정가": int(할인.get("originalValue") or 가["value"]),
+                   "판매가": int(가["value"]),
+                   "할인율": (100 - int(할인["rate"])) if 할인.get("rate") else 0,
+                   "문구": 할인.get("description") or "",
+                   "기준일": 오늘}
+
+    e["순위"]["탭"] = 탭들
+    e["순위"]["수집시각"] = 지금        # 실시간 값이라 분 단위로 남긴다
+    e["기준"] = 오늘
+    쓰기("emoticon.json", e)
+
+    안든탭 = [t["탭"] for t in 탭들 if not t["리센느순위"]]
+    최고 = min((t["리센느순위"] for t in 탭들 if t["리센느순위"]), default=None)
+    말 = (f"여섯 탭 중 {sum(1 for t in 탭들 if t['리센느순위'] == 1)}곳 1위"
+          + (f" · 최고 {최고}위" if 최고 else "")
+          + (f" · 50위 밖: {', '.join(안든탭)}" if 안든탭 else ""))
+    print(f"    {말}")
+    상태기록("emoticon", "OK", 오늘, 말)
+    return 말
+
+
 # ────────────────────────────────────────────────────────── 실행
 작업 = {
-    "daily": [("live", daily), ("archive", 아카이브)],
+    "daily": [("live", daily), ("archive", 아카이브), ("emoticon", 이모티콘)],
     "weekly": [("trends", weekly_트렌드), ("rank", weekly_순위)],
     "videos": [("videos", videos)],
     "archive": [("archive", 아카이브)],
+    "emoticon": [("emoticon", 이모티콘)],
 }
 
 
