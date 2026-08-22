@@ -7,6 +7,7 @@ data/*.json 을 다시 채운다. GitHub Actions 가 이 스크립트만 돌린�
   python -X utf8 scripts/수집.py videos    채널 두 개의 전체 영상 조회수·좋아요
   python -X utf8 scripts/수집.py archive   @data-viz 에 새로 올린 쇼츠를 카드로
   python -X utf8 scripts/수집.py emoticon  카카오 이모티콘 인기 순위 여섯 탭
+  python -X utf8 scripts/수집.py club      걸그룹 100만 클럽 44팀 구독자
   python -X utf8 scripts/수집.py --확인    아무것도 쓰지 않고 조회만 해 본다
 
 원칙 셋 — 셋 다 이 파일 안에서 강제된다.
@@ -335,8 +336,9 @@ def daily():
     club["안원잘부"]["구독자"] = 안원잘부
     club["안원잘부"]["끼는자리"] = next(
         (c["순위"] for c in club["전체"] if c["구독자"] < 안원잘부), club["총팀수"] + 1)
-    club["리센느자리"] = next(
-        (c["순위"] for c in club["전체"] if c["구독자"] < 리센느), club["총팀수"] + 1)
+    # 리센느를 넣고 정렬했을 때 몇 번째인가. 「자기보다 작은 첫 팀의 순위」로 세면
+    # 그 팀과 번호가 겹친다 — 화면에 44 가 두 번 나왔다.
+    club["리센느자리"] = sum(1 for c in club["전체"] if c["구독자"] > 리센느) + 1
     쓰기("club.json", club)
 
     # 백만 돌파는 한 번만 기록한다
@@ -347,7 +349,7 @@ def daily():
         print(f"    ★ 100만 돌파 기록: {오늘}")
 
     상태기록("live", "OK", 오늘, f"리센느 {리센느:,} · 안원잘부 {안원잘부:,}")
-    상태기록("club", "OK", club["기준"], "리센느 자리만 갱신 (44팀 값은 수동)")
+    상태기록("club", "OK", club["기준"], "리센느·안원잘부 자리만 갱신 (44팀 값은 weekly 가 받는다)")
     return f"리센느 {리센느:,} · 안원잘부 {안원잘부:,} · MV {live['MV']['합계']:,}"
 
 
@@ -784,13 +786,50 @@ def 이모티콘():
     return 말
 
 
+# ────────────────────────────────────────────────────────── 걸그룹 100만 클럽
+def 클럽():
+    """44팀의 구독자를 다시 받아 순위를 새로 매긴다.
+
+    **새로 100만을 넘긴 팀은 여기서 못 찾는다.** 이 목록에 있는 채널만 다시 재기 때문이다.
+    새 팀을 넣으려면 걸그룹 전수 조사를 다시 해야 하고 그것은 수동이다.
+    채널 ID 가 틀리면 이후 모든 갱신이 조용히 거짓이 되므로, 넣을 때 구독자로 대조해 확정했다.
+    """
+    club = 읽기("club.json")
+    없는것 = [t["그룹"] for t in club["전체"] if not t.get("채널ID")]
+    if 없는것:
+        raise RuntimeError(f"채널ID 가 없는 팀: {', '.join(없는것)}")
+
+    구독 = 채널구독자([t["채널ID"] for t in club["전체"]])
+    for t in club["전체"]:
+        값 = 구독.get(t["채널ID"])
+        if 값:
+            t["구독자"] = 값
+
+    # 100만 아래로 내려간 팀도 지우지 않는다 — 지우면 그 사실이 화면에서 조용히 사라진다
+    떨어진팀 = [t["그룹"] for t in club["전체"] if t["구독자"] < club["기준선"]]
+    club["전체"].sort(key=lambda t: -t["구독자"])
+    for i, t in enumerate(club["전체"], 1):
+        t["순위"] = i
+    club["총팀수"] = len(club["전체"])
+    club["기준"] = 오늘
+    쓰기("club.json", club)
+
+    말 = f"{len(club['전체'])}팀 · 1위 {club['전체'][0]['그룹']} {club['전체'][0]['구독자']:,}"
+    if 떨어진팀:
+        말 += f" · 100만 아래: {', '.join(떨어진팀)}"
+    print(f"    {말}")
+    상태기록("club", "OK", 오늘, 말)
+    return 말
+
+
 # ────────────────────────────────────────────────────────── 실행
 작업 = {
     "daily": [("live", daily), ("archive", 아카이브), ("emoticon", 이모티콘)],
-    "weekly": [("trends", weekly_트렌드), ("rank", weekly_순위)],
+    "weekly": [("trends", weekly_트렌드), ("rank", weekly_순위), ("club", 클럽)],
     "videos": [("videos", videos)],
     "archive": [("archive", 아카이브)],
     "emoticon": [("emoticon", 이모티콘)],
+    "club": [("club", 클럽)],
 }
 
 

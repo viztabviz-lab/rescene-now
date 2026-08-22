@@ -1,6 +1,6 @@
 name: weekly
 
-# 월요일 09:20 KST = 일요일 00:20 UTC. 구글 트렌드와 playboard 순위.
+# 월요일 09:20 KST = 일요일 00:20 UTC. 구글 트렌드 · playboard 순위 · 걸그룹 100만 클럽.
 # 둘 다 공개 API 가 없어 실패할 수 있다. 실패하면 JSON 을 그대로 두고
 # status.json 에 실패로 남긴다 — 화면 09 에 그대로 보인다.
 on:
@@ -28,6 +28,10 @@ jobs:
       - name: 수집
         id: collect
         continue-on-error: true      # 한쪽이 실패해도 다른 쪽 결과는 커밋한다
+        # 클럽 44팀 구독자는 채널 44개를 조회한다. 키가 있으면 API 로 한 번에 받고,
+        # 없으면 yt-dlp 로 하나씩 열어 Actions IP 가 봇 차단을 받는다.
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: python -X utf8 scripts/수집.py weekly
 
       - name: 커밋

@@ -1302,33 +1302,51 @@ function 그리기_rep(r){
 function 그리기_club(c, live, milestone){
   const 돌파 = !!milestone.백만돌파;
   const 리 = live.채널.리센느.구독자;
-  $("#s6-h").textContent = 돌파 ? `${c.총팀수+1}팀, 리센느가 들어갔다` : `${c.총팀수}팀, 리센느는 ${c.리센느자리}번째`;
+
+  // 리센느를 목록에 넣고 다시 정렬한다. 따로 맨 밑에 붙이면 103만이 101만보다
+  // 아래에 놓이고 순위도 겹친다 — 실제로 그렇게 보였다.
+  const 목록 = (돌파 ? [...c.전체, {그룹:"리센느", 구독자:리, 나:true}] : [...c.전체])
+    .sort((a,b)=> b.구독자 - a.구독자)
+    .map((x,i)=> ({...x, 순위:i+1}));
+  const 나자리 = 목록.findIndex(x=>x.나);
+  const 꼴찌 = 목록.at(-1);
+
+  $("#s6-h").textContent = 돌파
+    ? `${목록.length}팀, 리센느가 ${나자리+1}번째`
+    : `${c.총팀수}팀, 리센느는 ${c.리센느자리}번째`;
   $("#s6-sub").textContent =
-    `걸그룹 유튜브 공식 채널 중 구독자 100만 이상. ${c.축}`;
+    `걸그룹 유튜브 공식 채널 중 구독자 100만 이상. ` +
+    `1위 ${만(목록[0].구독자)}과 ${꼴찌.순위}위 ${만(꼴찌.구독자)}은 ${Math.round(목록[0].구독자/꼴찌.구독자)}배 차이라 같은 축의 막대로 그리지 않는다.`;
 
   const box=$("#s6-club"); box.innerHTML="";
-  const 줄 = (순위, 그룹, 구독, 나) => {
-    const r=el("div","cr"+(나?" me":""));
-    r.append(el("span","r", 순위==null?"—":String(순위)),
-             el("span","g", 그룹),
-             el("span","s num", 만(구독)));
+  const 줄 = x => {
+    const r=el("div","cr"+(x.나?" me":""));
+    r.append(el("span","r", String(x.순위)),
+             el("span","g", x.그룹),
+             el("span","s num", 만(x.구독자)));
     return r;
   };
-  c.전체.slice(0,3).forEach(x=>box.append(줄(x.순위,x.그룹,x.구독자)));
-  box.append(el("div","gap","· · ·"));
-  const 끝 = 돌파 ? c.전체.slice(-3) : c.전체.slice(-4);
-  끝.forEach(x=>box.append(줄(x.순위,x.그룹,x.구독자)));
-  if(돌파){
-    // 넘었으니 문턱 위에 선다. 순위는 「—」로 두지 말고 실제 자리를 적는다.
-    box.append(줄(c.리센느자리,"리센느", 리, true));
+
+  const 앞 = 목록.slice(0, 3);
+  // 뒤 구간은 리센느가 가운데 오도록 잡는다. 리센느가 위로 올라가도 늘 보인다.
+  const 시작 = 돌파 ? Math.max(3, 나자리 - 2) : Math.max(3, 목록.length - 4);
+  const 뒤 = 목록.slice(시작, 돌파 ? Math.min(목록.length, 나자리 + 2) : 목록.length);
+
+  앞.forEach(x=>box.append(줄(x)));
+  if(시작 > 3) box.append(el("div","gap","· · ·"));
+  뒤.forEach(x=>box.append(줄(x)));
+  if(!돌파){
     box.append(el("div","threshold","100만"));
-  }else{
-    box.append(el("div","threshold","100만"));
-    box.append(줄(c.리센느자리,"리센느", 리, true));
+    box.append(줄({순위:c.리센느자리, 그룹:"리센느", 구독자:리, 나:true}));
+  }else if(뒤.at(-1) !== 꼴찌){
+    // 아래가 잘렸으면 잘렸다고 말한다 — 문턱 줄이 곧 목록 끝인 것처럼 보이면 안 된다
+    box.append(el("div","gap","· · ·"));
+    box.append(줄(꼴찌));
   }
+  box.append(el("div","threshold","100만"));
 
   $("#s6-foot").innerHTML =
-    `1위 ${c.전체[0].그룹} ${만(c.전체[0].구독자)}과 ${c.총팀수}위 ${c.전체.at(-1).그룹} ${만(c.전체.at(-1).구독자)}은 100배 차이라 같은 축의 막대로 그리지 않았다. `+
+    `<b>${c.기준}</b> 기준 구독자다. 유튜브 공개 구독자는 유효숫자 3자리 반올림이라 끝자리를 단정할 수 없다. `+
     `참고로 <b>안원잘부 ${만(c.안원잘부.구독자)}</b>을 이 표에 넣으면 ${c.안원잘부.위}와 ${c.안원잘부.아래} 사이 ${c.안원잘부.끼는자리}번째다 — 다만 그룹 공식 채널이 아니라 제작사 채널이라 표에는 넣지 않았다. `+
     `${c.제외}`;
 }
