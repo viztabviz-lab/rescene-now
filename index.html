@@ -117,7 +117,6 @@ h2{
 .tile .v{font-size:clamp(25px,7vw,32px);font-weight:800;letter-spacing:-.03em;line-height:1.15}
 .tile.on .v{color:var(--pink)}
 .tile .d{font-size:12px;color:var(--ink-3);margin-top:1px}
-.tile svg{margin-top:9px;display:block;width:100%;height:30px;overflow:visible}
 
 /* ── 차트 공통 ── */
 .chart{
@@ -616,7 +615,8 @@ function 게이지카드({이름, 부제, 구독자, 목표, 기준, 주인공, 
   h.append(el("div","big", 만(구독자)),
            el("div","of", 돌파
              ? `${돌파} ${만(목표)} 돌파 · 걸그룹 클럽 안으로`
-             : `${만(목표)}까지 남은 ${콤마(목표 - 구독자)}명`));
+             // 큰 숫자는 만 단위로 줄여 적는다. 「140,000명」은 자릿수를 세어야 읽힌다
+             : `${만(목표)}까지 남은 ${만(목표 - 구독자)} 명`));
   h.append(el("div","grow"));
 
   const 진행 = 구독자 / 목표 * 100;
@@ -658,51 +658,31 @@ function 그리기_hero(live, milestone){
 }
 
 /* ─────────────────────────────────────────── 01 타일 */
-function 스파크(값들){
-  if(!값들 || 값들.length < 7) return null;
-  const W=100,H=30,min=Math.min(...값들),max=Math.max(...값들),범위=(max-min)||1;
-  const pt = 값들.map((v,i)=>[i/(값들.length-1)*W, H-(v-min)/범위*H]);
-  const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
-  svg.setAttribute("viewBox",`0 0 ${W} ${H}`); svg.setAttribute("preserveAspectRatio","none");
-  svg.setAttribute("aria-hidden","true");
-  const p=document.createElementNS(svg.namespaceURI,"path");
-  p.setAttribute("d", pt.map((q,i)=>(i?"L":"M")+q[0].toFixed(2)+" "+q[1].toFixed(2)).join(" "));
-  p.setAttribute("fill","none"); p.setAttribute("stroke","var(--pink)");
-  p.setAttribute("stroke-width","2"); p.setAttribute("vector-effect","non-scaling-stroke");
-  p.setAttribute("stroke-linejoin","round"); p.setAttribute("stroke-linecap","round");
-  const d=document.createElementNS(svg.namespaceURI,"circle");
-  d.setAttribute("cx",pt.at(-1)[0]); d.setAttribute("cy",pt.at(-1)[1]); d.setAttribute("r","2.6");
-  d.setAttribute("fill","var(--pink)"); d.setAttribute("vector-effect","non-scaling-stroke");
-  svg.append(p,d); return svg;
-}
-function 타일(k,v,d,강조,값들){
+/* 네 칸이 같은 모양이어야 한 줄로 읽힌다 — 한 칸에만 곡선을 넣으면 높이가 어긋난다 */
+function 타일(k,v,d,강조){
   const t = el("div","tile"+(강조?" on":""));
   t.append(el("div","k",k), el("div","v num",v), el("div","d",d));
-  const s = 스파크(값들); if(s) t.append(s);
   return t;
 }
 function 그리기_tiles(live, vids, milestone){
   const 키 = 상태.채널, ch = live.채널[키], v = vids.채널[키];
   $("#s1-eye").textContent = (키==="리센느" ? "RESCENE" : "안원잘부") + " 채널, 지금";
   const c=$("#tiles"); c.innerHTML="";
-  const 곡선 = (ch.일별||[]).slice(-30).map(d=>d.구독);
   const 구독부제 = 키==="리센느"
     ? (milestone.백만돌파 ? `${milestone.백만돌파} 100만 돌파` : `100만까지 ${콤마(live.남은수)}`)
     : `리센느 공식의 ${live.배수}배`;
   const 편 = v.편수;
   const 구성 = ["영상","쇼츠","라이브"].filter(f=>편[f]>0).map(f=>`${f} ${콤마(편[f])}`).join(" · ");
   c.append(
-    타일("구독자", 만(ch.구독자), 구독부제, true, 곡선),
-    타일("누적 조회수", 만(v.합계.조회수), `올린 ${콤마(편.전체)}편 전부`, false, null),
+    타일("구독자", 만(ch.구독자), 구독부제, true),
+    타일("누적 조회수", 만(v.합계.조회수), `올린 ${콤마(편.전체)}편 전부`, false),
     타일("누적 좋아요", 만(v.합계.좋아요),
-        v.좋아요숨김 ? `좋아요 숨긴 ${콤마(v.좋아요숨김)}편은 빠졌다` : "숨긴 편 없다", false, null),
-    타일("올린 편수", 콤마(편.전체), 구성, false, null)
+        v.좋아요숨김 ? `좋아요 숨긴 ${콤마(v.좋아요숨김)}편은 빠졌다` : "숨긴 편 없다", false),
+    타일("올린 편수", 콤마(편.전체), 구성, false)
   );
   $("#tiles-foot").innerHTML =
-    `곡선은 최근 30일 구독자다. <b>계단으로 보이는 건 사실 그대로다</b> — 유튜브 공개 구독자는 3자리 반올림이라 1만 단위로 뛴다. `+
-    `조회수·좋아요는 <b>${vids.기준}</b> 에 이 채널의 영상 ${콤마(편.전체)}편을 하나씩 다시 재서 더한 값이다. `+
-    (곡선.length >= 7 ? "" :
-      `구독자는 측정점이 ${곡선.length}개뿐이라 아직 곡선을 그리지 않았다 — 매일 하나씩 쌓인다.`);
+    `구독자가 <b>1만 단위로 뛰는 건 사실 그대로다</b> — 유튜브가 공개하는 구독자 수는 유효숫자 3자리 반올림이다. `+
+    `조회수·좋아요는 <b>${vids.기준}</b> 에 이 채널의 영상 ${콤마(편.전체)}편을 하나씩 다시 재서 더한 값이다.`;
 }
 
 /* ─────────────────────────────────────────── 도구 */
@@ -1064,10 +1044,10 @@ function 그리기_streams(st){
 
   const c = $("#s10-tiles"); c.innerHTML = "";
   c.append(
-    타일("라이브 편수", 콤마(요.전체편수), `${st.구간.slice(0,10)} 첫 방송부터`, true, null),
-    타일("방송 간격", 요.중앙간격일 + "일", `중앙값 · 평균 ${요.평균간격일}일`, false, null),
-    타일("평균 길이", Math.round(요.평균길이분) + "분", `한 시간 넘는 편이 ${요["1시간이상비율%"]}%`, false, null),
-    타일("누적 방송시간", Math.round(요.총방송시간h) + "시간", `다 보려면 12일 넘게 걸린다`, false, null)
+    타일("라이브 편수", 콤마(요.전체편수), `${st.구간.slice(0,10)} 첫 방송부터`, true),
+    타일("방송 간격", 요.중앙간격일 + "일", `중앙값 · 평균 ${요.평균간격일}일`, false),
+    타일("평균 길이", Math.round(요.평균길이분) + "분", `한 시간 넘는 편이 ${요["1시간이상비율%"]}%`, false),
+    타일("누적 방송시간", Math.round(요.총방송시간h) + "시간", `다 보려면 12일 넘게 걸린다`, false)
   );
 
   // 월별 편수
@@ -1191,12 +1171,12 @@ function 그리기_emoticon(e){
 
   const c = $("#s11-tiles"); c.innerHTML = "";
   c.append(
-    타일("이모티콘", 상.종수 + "종", `${상.출시} 출시`, false, null),
+    타일("이모티콘", 상.종수 + "종", `${상.출시} 출시`, false),
     타일(일위 === 탭.length ? "모든 탭에서" : "가장 높은 자리",
-        (최고 || "—") + "위", `${한글수(탭.length)} 연령 탭 기준`, true, null),
-    타일("2위는", 이위종류 + "종류", "탭마다 다른 이모티콘", false, null),
+        (최고 || "—") + "위", `${한글수(탭.length)} 연령 탭 기준`, true),
+    타일("2위는", 이위종류 + "종류", "탭마다 다른 이모티콘", false),
     타일("가격", 콤마(가.판매가) + "원",
-        가.할인율 ? `정가 ${콤마(가.정가)}원 · ${가.문구}` : "정가", false, null)
+        가.할인율 ? `정가 ${콤마(가.정가)}원 · ${가.문구}` : "정가", false)
   );
 
   $("#s11-rank-sub").textContent =
