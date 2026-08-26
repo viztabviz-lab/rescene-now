@@ -23,7 +23,9 @@ const 이름표 = {
   "메이": {en:"May", ja:"メイ"},
   // 그룹
   "리센느": {en:"RESCENE", ja:"RESCENE"},
-  "안원잘부": {en:"Anwonjalbu", ja:"アンウォンジャルブ"},
+  // 채널의 정식 이름은 「안녕하세요원이입니다잘부탁드립니다」다. 줄임말 「안원잘부」로 오는 값도 여기서 편다.
+  "안원잘부": {ko:"안녕하세요원이입니다잘부탁드립니다", en:"Annyeonghaseyo Wony-imnida Jalbutakdeurimnida", ja:"アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ"},
+  "안녕하세요원이입니다잘부탁드립니다": {en:"Annyeonghaseyo Wony-imnida Jalbutakdeurimnida", ja:"アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ"},
   "아이브": {en:"IVE", ja:"IVE"},
   "블랙핑크": {en:"BLACKPINK", ja:"BLACKPINK"},
   "에스파": {en:"aespa", ja:"aespa"},
@@ -109,7 +111,7 @@ const STR = {
 "hdr.langlabel":{ko:"언어 고르기", en:"Choose language", ja:"言語を選ぶ"},
 
 "tab.group":   {ko:"채널 고르기", en:"Choose a channel", ja:"チャンネルを選ぶ"},
-"tab.anw":     {ko:"안원잘부", en:"Anwonjalbu", ja:"アンウォンジャルブ"},
+"tab.anw":     {ko:"안녕하세요원이입니다잘부탁드립니다", en:"Annyeonghaseyo Wony-imnida Jalbutakdeurimnida", ja:"アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ"},
 "tab.anw.sub": {ko:"원이 웹예능 · 솔파스튜디오", en:"Wony's web show · Solfa Studio", ja:"ウォニのウェブ番組・Solfa Studio"},
 "tab.res":     {ko:"RESCENE", en:"RESCENE", ja:"RESCENE"},
 "tab.res.sub": {ko:"리센느 공식 채널 · THE MUZE", en:"Official channel · THE MUZE", ja:"公式チャンネル・THE MUZE"},
@@ -120,7 +122,7 @@ const STR = {
                 ja:"両チャンネル共通・グループとしてのRESCENE"},
 
 /* 00 게이지 카드 */
-"s0.anw":      {ko:"안원잘부", en:"Anwonjalbu", ja:"アンウォンジャルブ"},
+"s0.anw":      {ko:"안녕하세요원이입니다잘부탁드립니다", en:"Annyeonghaseyo Wony-imnida Jalbutakdeurimnida", ja:"アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ"},
 "s0.anw.sub":  {ko:"원이 웹예능", en:"Wony's web show", ja:"ウォニのウェブ番組"},
 "s0.res":      {ko:"리센느 공식 채널", en:"RESCENE official", ja:"RESCENE 公式"},
 "s0.res.sub":  {ko:"THE MUZE", en:"THE MUZE", ja:"THE MUZE"},
@@ -162,13 +164,13 @@ const STR = {
 "s2.scale":    {ko:"가장 높은 주가 100이다.", en:"The highest week is 100.", ja:"最も高い週を100としています。"},
 "s2.lg.line":  {ko:"검색 관심도", en:"Search interest", ja:"検索の関心度"},
 "s2.lg.rel":   {ko:"앨범 발매", en:"Album release", ja:"アルバム発売"},
-"s2.lg.up":    {ko:"안원잘부 업로드", en:"Anwonjalbu upload", ja:"アンウォンジャルブ投稿"},
+"s2.lg.up":    {ko:"안녕하세요원이입니다잘부탁드립니다 업로드", en:"Annyeonghaseyo Wony-imnida Jalbutakdeurimnida upload", ja:"アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ 投稿"},
 "s2.lg.up2":   {ko:"(높을수록 많이 본 편)", en:"(taller = more views)", ja:"（高いほど再生数が多い）"},
 "s2.aria":     {ko:(n,v)=>`구글 검색 관심도 주간 곡선 ${n}주. 최근 값 ${v}, 최고 100.`,
                 en:(n,v)=>`Weekly Google search interest, ${n} weeks. Latest ${v}, peak 100.`,
                 ja:(n,v)=>`Google検索関心度の週次曲線 ${n}週。直近 ${v}、最高100。`},
 "s2.recent":   {ko:n=>`최근 ${n}주`, en:n=>`last ${n} weeks`, ja:n=>`直近 ${n}週`},
-"s2.lane":     {ko:n=>`안원잘부 업로드 ${n}편`, en:n=>`${n} Anwonjalbu uploads`, ja:n=>`アンウォンジャルブ投稿 ${n}本`},
+"s2.lane":     {ko:n=>`안녕하세요원이입니다잘부탁드립니다 업로드 ${n}편`, en:n=>`${n} uploads`, ja:n=>`投稿 ${n}本`},
 "s2.tip":      {ko:(d,v,r)=>`${d} 주<br><b>${v}</b>${r?` · ${r} 발매`:""}`,
                 en:(d,v,r)=>`week of ${d}<br><b>${v}</b>${r?` · ${r} released`:""}`,
                 ja:(d,v,r)=>`${d} の週<br><b>${v}</b>${r?` · ${r} 発売`:""}`},
@@ -184,7 +186,7 @@ const STR = {
                 ja:"トレンドの上昇と動画投稿は同じ時期に起きた二つの事実です — 因果は断定しません。"},
 
 /* 03 안원잘부 구독자 순위 */
-"s3.eye":      {ko:"안원잘부 구독자 순위", en:"Anwonjalbu subscriber rank", ja:"アンウォンジャルブ 登録者順位"},
+"s3.eye":      {ko:"안녕하세요원이입니다잘부탁드립니다 구독자 순위", en:"Annyeonghaseyo Wony-imnida Jalbutakdeurimnida — subscriber rank", ja:"アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ の登録者順位"},
 "s3.h":        {ko:"27주 동안 한 번도 내려가지 않았다",
                 en:"27 weeks without a single step back",
                 ja:"27週のあいだ、一度も下がらなかった"},
@@ -194,9 +196,9 @@ const STR = {
 "s3.sub":      {ko:(seg,a,b,c)=>`${seg} 사이 한국 구독자 순위가 ${a}위에서 ${b}위로 올랐다. 내려간 주는 ${c}이다.`,
                 en:(seg,a,b,c)=>`Between ${seg}, the Korean subscriber rank climbed from #${a} to #${b}. Weeks it went down: ${c}.`,
                 ja:(seg,a,b,c)=>`${seg} のあいだに韓国の登録者順位が ${a}位から ${b}位へ上がりました。下がった週は ${c}です。`},
-"s3.aria":     {ko:(a,b)=>`안원잘부 한국 구독자 순위 계단. ${a}위에서 ${b}위로.`,
-                en:(a,b)=>`Anwonjalbu Korean subscriber rank, step chart. From #${a} to #${b}.`,
-                ja:(a,b)=>`アンウォンジャルブの韓国登録者順位。${a}位から ${b}位へ。`},
+"s3.aria":     {ko:(a,b)=>`안녕하세요원이입니다잘부탁드립니다 한국 구독자 순위 계단. ${a}위에서 ${b}위로.`,
+                en:(a,b)=>`Annyeonghaseyo Wony-imnida Jalbutakdeurimnida — Korean subscriber rank, step chart. From #${a} to #${b}.`,
+                ja:(a,b)=>`アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ の韓国登録者順位。${a}位から ${b}位へ。`},
 "s3.rank":     {ko:v=>`${v}위`, en:v=>`#${v}`, ja:v=>`${v}位`},
 "s3.flag1":    {ko:"구독 100만", en:"1M subscribers", ja:"登録100万"},
 "s3.flag2":    {ko:"1,000위 진입", en:"into the top 1,000", ja:"1,000位に到達"},
@@ -240,7 +242,7 @@ const STR = {
 "sv.unit.view":{ko:"회", en:"views", ja:"回"},
 "sv.unit.like":{ko:"개", en:"likes", ja:"件"},
 "sv.ch.res":   {ko:"RESCENE 공식", en:"RESCENE official", ja:"RESCENE 公式"},
-"sv.ch.anw":   {ko:"안원잘부", en:"Anwonjalbu", ja:"アンウォンジャルブ"},
+"sv.ch.anw":   {ko:"안녕하세요원이입니다잘부탁드립니다", en:"Annyeonghaseyo Wony-imnida Jalbutakdeurimnida", ja:"アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ"},
 "sv.empty":    {ko:"이 형식에는 남긴 영상이 없다.", en:"No videos kept for this format.", ja:"この形式で残している動画はありません。"},
 "sv.aria":     {ko:(i,t,m,v)=>`${i}위 ${t}, ${m} ${v}`, en:(i,t,m,v)=>`#${i} ${t}, ${m} ${v}`, ja:(i,t,m,v)=>`${i}位 ${t}、${m} ${v}`},
 "sv.likehid":  {ko:"숨김", en:"hidden", ja:"非表示"},
@@ -343,9 +345,9 @@ const STR = {
 "s11.h.some":  {ko:(n,k)=>`${n} 탭 중 ${k} 곳에서 1위`, en:(n,k)=>`#1 in ${k} of ${n} tabs`, ja:(n,k)=>`${n}タブ中 ${k}か所で1位`},
 "s11.h.best":  {ko:r=>`연령 탭 최고 ${r}위`, en:r=>`Best age-tab rank: #${r}`, ja:r=>`年齢タブ最高 ${r}位`},
 "s11.h.out":   {ko:"인기 50위 밖", en:"Outside the top 50", ja:"人気50位圏外"},
-"s11.sub":     {ko:(name,kinds,tail)=>`카카오 이모티콘 「${name}」은 안원잘부 장면 ${kinds}종으로 만들어졌다. 인기 순위는 나이대별로 탭이 갈리는데, ${tail}`,
-                en:(name,kinds,tail)=>`The KakaoTalk emoticon set 「${name}」 is built from ${kinds} scenes out of Anwonjalbu. The popularity chart splits into tabs by age group, and ${tail}`,
-                ja:(name,kinds,tail)=>`カカオ絵文字「${name}」はアンウォンジャルブの場面 ${kinds}種で作られています。人気順位は年代別にタブが分かれていて、${tail}`},
+"s11.sub":     {ko:(name,kinds,tail)=>`카카오 이모티콘 「${name}」은 안녕하세요원이입니다잘부탁드립니다 장면 ${kinds}종으로 만들어졌다. 인기 순위는 나이대별로 탭이 갈리는데, ${tail}`,
+                en:(name,kinds,tail)=>`The KakaoTalk emoticon set 「${name}」 is built from ${kinds} scenes out of Annyeonghaseyo Wony-imnida Jalbutakdeurimnida. The popularity chart splits into tabs by age group, and ${tail}`,
+                ja:(name,kinds,tail)=>`カカオ絵文字「${name}」はアンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ の場面 ${kinds}種で作られています。人気順位は年代別にタブが分かれていて、${tail}`},
 "s11.sub.all": {ko:(n,k)=>`${n} 탭 전부에서 1위다. 2위는 ${k} 종류로 갈리는데 1위만 하나로 모였다.`,
                 en:(n,k)=>`it is #1 in all ${n} tabs. Second place splits into ${k} different sets — only the top spot agrees.`,
                 ja:(n,k)=>`${n}タブすべてで1位です。2位は ${k}種類に分かれていて、1位だけが一致しています。`},
@@ -375,9 +377,9 @@ const STR = {
                 en:(src,d)=>`Source: <b>${src}</b>. The popularity rank is Kakao's own metric, not sales volume. Price and discount are as of <b>${d}</b>; the discount may be temporary.`,
                 ja:(src,d)=>`出典 <b>${src}</b>。人気順位はカカオが付ける値であり、販売数そのものではありません。価格・割引は <b>${d}</b> 時点で、割引は期間限定の場合があります。`},
 "s11.src.h":   {ko:n=>`${n}종은 어느 편에서 나왔나`, en:n=>`Which episodes the ${n} came from`, ja:n=>`${n}種はどの回から出たか`},
-"s11.src.sub": {ko:(k,n,t)=>`${k}종이 안원잘부 ${n}편에서 나왔다. 상위 네 편이 ${t}종을 차지한다.`,
-                en:(k,n,t)=>`The ${k} come from ${n} Anwonjalbu episodes. The top four account for ${t} of them.`,
-                ja:(k,n,t)=>`${k}種がアンウォンジャルブの ${n}回から出ています。上位4回で ${t}種を占めます。`},
+"s11.src.sub": {ko:(k,n,t)=>`${k}종이 안녕하세요원이입니다잘부탁드립니다 ${n}편에서 나왔다. 상위 네 편이 ${t}종을 차지한다.`,
+                en:(k,n,t)=>`The ${k} come from ${n} episodes of the channel. The top four account for ${t} of them.`,
+                ja:(k,n,t)=>`${k}種がチャンネルの ${n}回から出ています。上位4回で ${t}種を占めます。`},
 "s11.src.val": {ko:n=>`${n}종`, en:n=>`${n}`, ja:n=>`${n}種`},
 "s11.list.sum":{ko:n=>`${n}종 전부 보기 — 문구 · 편 · 그 장면으로 바로 가기`,
                 en:n=>`See all ${n} — line, episode, jump to the scene`,
@@ -417,9 +419,9 @@ const STR = {
                 en:(t,l,r,x)=>`Girl-group official YouTube channels with a million or more subscribers. #1 at ${t} and #${r} at ${l} are ${x}× apart, so we do not draw them as bars on one axis.`,
                 ja:(t,l,r,x)=>`登録者100万人以上のガールグループ公式YouTubeチャンネルです。1位の ${t} と ${r}位の ${l} は ${x}倍差なので、同じ軸の棒では描いていません。`},
 "s6.threshold":{ko:"100만", en:"1M", ja:"100万"},
-"s6.foot":     {ko:(d,anw,up,down,pos,ex)=>`<b>${d}</b> 기준 구독자다. 유튜브 공개 구독자는 유효숫자 3자리 반올림이라 끝자리를 단정할 수 없다. 참고로 <b>안원잘부 ${anw}</b>을 이 표에 넣으면 ${up}와 ${down} 사이 ${pos}번째다 — 다만 그룹 공식 채널이 아니라 제작사 채널이라 표에는 넣지 않았다. ${ex}`,
-                en:(d,anw,up,down,pos,ex)=>`Subscriber counts as of <b>${d}</b>. YouTube publishes them rounded to three significant digits, so the last digits cannot be pinned down. For reference, dropping <b>Anwonjalbu at ${anw}</b> into this table would place it #${pos}, between ${up} and ${down} — but it is a production company's channel rather than a group's official one, so it is not included. ${ex}`,
-                ja:(d,anw,up,down,pos,ex)=>`<b>${d}</b> 時点の登録者数です。YouTubeの公開値は有効数字3桁に丸められているため、末尾は断定できません。参考までに <b>アンウォンジャルブ ${anw}</b> をこの表に入れると ${up} と ${down} の間の ${pos}番目になります — ただしグループ公式ではなく制作会社のチャンネルのため表には入れていません。${ex}`},
+"s6.foot":     {ko:(d,anw,up,down,pos,ex)=>`<b>${d}</b> 기준 구독자다. 유튜브 공개 구독자는 유효숫자 3자리 반올림이라 끝자리를 단정할 수 없다. 참고로 <b>안녕하세요원이입니다잘부탁드립니다 ${anw}</b>을 이 표에 넣으면 ${up}와 ${down} 사이 ${pos}번째다 — 다만 그룹 공식 채널이 아니라 제작사 채널이라 표에는 넣지 않았다. ${ex}`,
+                en:(d,anw,up,down,pos,ex)=>`Subscriber counts as of <b>${d}</b>. YouTube publishes them rounded to three significant digits, so the last digits cannot be pinned down. For reference, dropping <b>Annyeonghaseyo Wony-imnida Jalbutakdeurimnida at ${anw}</b> into this table would place it #${pos}, between ${up} and ${down} — but it is a production company's channel rather than a group's official one, so it is not included. ${ex}`,
+                ja:(d,anw,up,down,pos,ex)=>`<b>${d}</b> 時点の登録者数です。YouTubeの公開値は有効数字3桁に丸められているため、末尾は断定できません。参考までに <b>アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ ${anw}</b> をこの表に入れると ${up} と ${down} の間の ${pos}番目になります — ただしグループ公式ではなく制作会社のチャンネルのため表には入れていません。${ex}`},
 "s6.exclude":  {ko:null,
                 en:"Groups counted here follow the K-pop system even when the members are not Korean; a mixed-gender group is excluded.",
                 ja:"メンバーが韓国籍でなくてもK-popの体系で制作されたグループは含め、混成グループは除いています。"},
@@ -482,9 +484,9 @@ const STR = {
 "ft.same":     {ko:d=>`두 채널 구독자는 <b>${d}</b> 같은 시각에 쟀다.`,
                 en:d=>`Both channels' subscriber counts were read at the same time on <b>${d}</b>.`,
                 ja:d=>`両チャンネルの登録者数は <b>${d}</b> の同じ時刻に測りました。`},
-"ft.gap":      {ko:(a,b,m)=>`리센느 공식은 <b>${a}</b>, 안원잘부는 <b>${b}</b> 기준이라 이틀 차이가 난다 — ${m}배라는 값도 그만큼 어림이다. 자동 갱신이 붙으면 같은 시각으로 맞춰진다.`,
-                en:(a,b,m)=>`The official channel is as of <b>${a}</b> and Anwonjalbu as of <b>${b}</b> — two days apart, so the ${m}× figure is that approximate. Once automatic collection covers both they will line up.`,
-                ja:(a,b,m)=>`RESCENE公式は <b>${a}</b>、アンウォンジャルブは <b>${b}</b> 基準で2日ずれています — ${m}倍という値もその分だけ概算です。自動更新が付けば同じ時刻に揃います。`},
+"ft.gap":      {ko:(a,b,m)=>`리센느 공식은 <b>${a}</b>, 안녕하세요원이입니다잘부탁드립니다 는 <b>${b}</b> 기준이라 이틀 차이가 난다 — ${m}배라는 값도 그만큼 어림이다. 자동 갱신이 붙으면 같은 시각으로 맞춰진다.`,
+                en:(a,b,m)=>`The official channel is as of <b>${a}</b> and the other as of <b>${b}</b> — two days apart, so the ${m}× figure is that approximate. Once automatic collection covers both they will line up.`,
+                ja:(a,b,m)=>`RESCENE公式は <b>${a}</b>、もう一方は <b>${b}</b> 基準で2日ずれています — ${m}倍という値もその分だけ概算です。自動更新が付けば同じ時刻に揃います。`},
 "ft.made":     {ko:"만든 곳 · ", en:"Made by · ", ja:"制作 · "},
 "ft.madelink": {ko:"유튜브 @data-viz", en:"YouTube @data-viz", ja:"YouTube @data-viz"},
 "ft.disc":     {ko:" · 리센느와 소속사·제작사와 아무 관계가 없는 팬 제작 페이지다.",
@@ -516,9 +518,11 @@ function tj(k, 원문){
   if(LANG === "ko" || !e || e[LANG] == null) return 원문;
   return e[LANG];
 }
-/* 이름표 · 낱말 */
+/* 이름표 · 낱말.
+   한국어에도 적어 둔 값이 있으면 그것을 쓴다 — 데이터가 줄임말(「안원잘부」)로 와도
+   화면에는 정식 이름이 나가야 하기 때문이다. 적어 두지 않았으면 원문 그대로. */
 function 옮김(사전, s){
-  if(LANG === "ko" || s == null) return s;
+  if(s == null) return s;
   const e = 사전[s];
   return e && e[LANG] ? e[LANG] : s;
 }
