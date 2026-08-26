@@ -111,7 +111,9 @@ const STR = {
 /* 방문 수 — 머리에는 숫자만, 언제부터 센 값인지는 꼬리말에 적는다.
    「지금까지」라고 쓰지 않는다. 붙인 날부터 센 값이라 그 말은 거짓이 된다. */
 "hdr.visits":  {ko:n=>`방문자 ${n}`, en:n=>`${n} visitors`, ja:n=>`訪問者 ${n}`},
-"hdr.visits.title":{ko:d=>`${d} 부터 센 값이다`, en:d=>`Counted since ${d}`, ja:d=>`${d} からの集計です`},
+"hdr.visits.title":{ko:d=>`${d} 부터 센 값이다 · 몇 시간마다 갱신된다`,
+                en:d=>`Counted since ${d} · updates every few hours`,
+                ja:d=>`${d} からの集計 · 数時間ごとに更新されます`},
 "hdr.langlabel":{ko:"언어 고르기", en:"Choose language", ja:"言語を選ぶ"},
 
 "tab.group":   {ko:"채널 고르기", en:"Choose a channel", ja:"チャンネルを選ぶ"},
