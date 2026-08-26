@@ -1345,7 +1345,8 @@ function 그리기_club(c, live, milestone){
   const 앞 = 목록.slice(0, 3);
   // 뒤 구간은 리센느가 가운데 오도록 잡는다. 리센느가 위로 올라가도 늘 보인다.
   const 시작 = 돌파 ? Math.max(3, 나자리 - 2) : Math.max(3, 목록.length - 4);
-  const 뒤 = 목록.slice(시작, 돌파 ? Math.min(목록.length, 나자리 + 2) : 목록.length);
+  const 끝 = 돌파 ? Math.min(목록.length, 나자리 + 2) : 목록.length;   // 안 세는 자리
+  const 뒤 = 목록.slice(시작, 끝);
 
   앞.forEach(x=>box.append(줄(x)));
   if(시작 > 3) box.append(el("div","gap","· · ·"));
@@ -1353,9 +1354,12 @@ function 그리기_club(c, live, milestone){
   if(!돌파){
     box.append(el("div","threshold",t("s6.threshold")));
     box.append(줄({순위:c.리센느자리, 그룹:"리센느", 구독자:리, 나:true}));
-  }else if(뒤.at(-1) !== 꼴찌){
-    // 아래가 잘렸으면 잘렸다고 말한다 — 문턱 줄이 곧 목록 끝인 것처럼 보이면 안 된다
-    box.append(el("div","gap","· · ·"));
+  }else if(끝 < 목록.length){
+    // 아래가 잘렸으면 잘렸다고 말한다 — 문턱 줄이 곧 목록 끝인 것처럼 보이면 안 된다.
+    // **다만 한 줄도 안 가려졌으면 「· · ·」 를 넣지 않는다.** 리센느가 43위로 올라오자
+    // 44위와 45위 사이에 가려진 것이 없는데도 틈이 벌어져 둘이 멀어 보였다.
+    // 틈은 「여기 뭔가 생략됐다」는 말이다 — 생략된 게 없으면 거짓말이 된다.
+    if(끝 < 목록.length - 1) box.append(el("div","gap","· · ·"));
     box.append(줄(꼴찌));
   }
   box.append(el("div","threshold",t("s6.threshold")));
