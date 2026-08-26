@@ -2,6 +2,10 @@ name: 영상 랭킹 수집
 
 # 채널 두 개의 전편 조회수·좋아요. 리센느 공식만 1,700편쯤이라 가장 무거운 수집이다.
 #
+# **주 1회였는데 매일로 올렸다.** 조회수가 하루에도 눈에 띄게 오르는데 화면은 최대 이레 전
+# 값을 보여줬다 — 유튜브에서 본 숫자와 너무 벌어진다. 키가 있으면 videos.list 를 50편씩
+# 묶어 부르므로 1,800편이 36콜(약 36유닛)이다. 하루 10,000유닛 한도에 견주면 무시할 양이다.
+#
 # API 키가 없으면 아예 돌지 않는다. yt-dlp 로 한 편씩 여는 방식인데
 # Actions IP 는 「Sign in to confirm you're not a bot」 을 자주 받아
 # 수천 번 두드리면 채널·저장소 모두에 좋을 것이 없다.
@@ -9,7 +13,7 @@ name: 영상 랭킹 수집
 #     python -X utf8 scripts/수집.py videos
 on:
   schedule:
-    - cron: "40 0 * * 0"      # 일요일 00:40 UTC = 월요일 09:40 KST (weekly 뒤)
+    - cron: "40 0 * * *"      # 매일 00:40 UTC = 09:40 KST (일요일엔 weekly 뒤)
   workflow_dispatch:
 
 permissions:
@@ -65,7 +69,7 @@ jobs:
             exit 0
           fi
           git add data/
-          git commit -m "data: 영상 랭킹 주간 갱신 ($(date -u +%m-%d))"
+          git commit -m "data: 영상 랭킹 ($(date -u +%m-%d))"
           git push
 
       - name: 실패했으면 워크플로도 실패로 표시
