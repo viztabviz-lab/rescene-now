@@ -989,7 +989,8 @@ def main():
         print(f"  {키} …")
         try:
             결과 = 함수()
-            print(f"  {키} OK — {결과}")
+            # 아무것도 안 돌려주는 수집이 있다 — 「OK — None」 로 찍히면 실패처럼 읽힌다
+            print(f"  {키} OK" + (f" — {결과}" if 결과 is not None else ""))
         except Exception as e:
             메시지 = f"{type(e).__name__}: {e}"[:200]
             print(f"  {키} 실패 — {메시지}")
