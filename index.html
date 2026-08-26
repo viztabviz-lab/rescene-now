@@ -50,9 +50,14 @@ a{color:inherit}
 
 /* ── 머리 ── */
 .top{padding:56px 0 0}
-.brandline{display:flex;align-items:center;gap:9px;margin-bottom:18px}
+/* 방문 수가 붙어 좁은 화면에서 넘쳤다(360px 日本語 에서 9px). 자르지 말고 접는다 —
+   넘치면 언어 단추가 아랫줄로 내려가 오른쪽에 붙는다. */
+.brandline{display:flex;align-items:center;gap:9px;margin-bottom:18px;flex-wrap:wrap;row-gap:10px}
 .brandline i{width:10px;height:10px;border-radius:3px;background:var(--pink);flex:none}
 .brandline span{font-size:12.5px;letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase}
+/* 방문 수 — 브랜드 줄 오른쪽. 셀 수 없으면 아예 안 그린다(hidden). 0 을 보여주지 않는다. */
+.brandline .visits{letter-spacing:0;text-transform:none;color:var(--ink-3)}
+.brandline .visits::before{content:"·";margin:0 7px 0 3px;color:var(--line)}
 /* 언어 단추 — 채널 탭(.seg)과 같은 모양이라 「고르는 것」으로 읽힌다 */
 .langs{
   margin-left:auto;display:flex;background:var(--surface);border:1px solid var(--line);
@@ -366,7 +371,7 @@ footer p{max-width:60ch}
 <div class="wrap">
 
 <header class="top">
-  <div class="brandline"><i></i><span>Rescene · Data</span>
+  <div class="brandline"><i></i><span>Rescene · Data</span><span class="visits" id="visits" hidden></span>
     <div class="langs" id="langs" role="group" data-i18n-aria="hdr.langlabel" aria-label="언어 고르기">
       <button type="button" data-lang="ko">한국어</button><button type="button" data-lang="en">English</button><button type="button" data-lang="ja">日本語</button>
     </div>
@@ -613,6 +618,7 @@ footer p{max-width:60ch}
     <p id="ft-when"></p>
     <p data-i18n-html="ft.unit">구글 트렌드 값과 브랜드평판 지수는 단위 없는 상대 지표다.</p>
     <p id="ft-gap"></p>
+    <p id="ft-visits" hidden></p>
     <p><span data-i18n="ft.made">만든 곳 · </span><a href="https://www.youtube.com/@data-viz" data-i18n="ft.madelink">유튜브 @data-viz</a><span data-i18n="ft.disc"> · 리센느와 소속사·제작사와 아무 관계가 없는 팬 제작 페이지다.</span></p>
   </footer>
 </main>
@@ -630,6 +636,43 @@ const 파일 = ["live","videos","streams","emoticon","trends","rank","club","rep
 /* 화면은 채널 하나씩 보여준다. 무엇을 보고 있나가 이 한 곳에 모인다. */
 const 상태 = {채널:"리센느", 기준:"조회수", 형식:"전체", N:20};
 let D = null;   // 읽어 온 JSON 전부
+
+/* 방문 수 — GoatCounter (무료·오픈소스·쿠키 없음).
+   **과거 방문 기록은 없다.** GitHub Pages 는 접속 로그를 주지 않아 붙인 날부터만 셀 수 있다.
+   그래서 꼬리말에 「언제부터 센 값인가」를 같이 적는다 — 안 적으면 「지금까지의 방문 수」로 읽힌다.
+   코드가 비어 있으면 아무것도 부르지 않고 아무것도 안 보인다(남의 서버를 괜히 두드리지 않는다).
+   붙이는 법: goatcounter.com 에서 주소코드를 만들고 여기 그 코드만 적는다.
+   그리고 Settings → 「Allow adding visitor counts to your website」 를 켜야 총계가 열린다. */
+const GC코드 = "";              // 예: "rescene-now" → rescene-now.goatcounter.com
+const GC시작 = "2026-08-27";    // 세기 시작한 날
+let 방문 = null;
+
+function 방문세기(){
+  if(!GC코드) return;
+  const s = document.createElement("script");
+  s.async = true; s.src = "//gc.zgo.at/count.js";
+  s.dataset.goatcounter = `https://${GC코드}.goatcounter.com/count`;
+  document.head.append(s);
+  fetch(`https://${GC코드}.goatcounter.com/counter/TOTAL.json`)
+    .then(r => r.ok ? r.json() : Promise.reject(r.status))
+    .then(j => {
+      const n = Number(String(j.count).replace(/[^\d]/g, ""));
+      if(!n) return;              // 0 이면 안 보여준다 — 셈이 아직 안 열린 것과 구별이 안 된다
+      방문 = n; 그리기_방문();
+    })
+    .catch(()=>{});               // 못 받으면 조용히 없던 일로 한다
+}
+
+function 그리기_방문(){
+  if(방문 == null) return;
+  const v = $("#visits");
+  v.textContent = t("hdr.visits", 콤마(방문));
+  v.title = t("hdr.visits.title", GC시작);
+  v.hidden = false;
+  const f = $("#ft-visits");
+  f.textContent = t("ft.visits", GC시작);
+  f.hidden = false;
+}
 const $ = s => document.querySelector(s);
 const el = (t,c,x) => { const n=document.createElement(t); if(c)n.className=c; if(x!==undefined)n.textContent=x; return n; };
 
@@ -1471,6 +1514,7 @@ function 모두그리기(){
   그리기_emoticon(d.emoticon);
   그리기_status(d.status);
   그리기_기준일차이(d.live);
+  그리기_방문();
   전환(상태.채널);
 }
 
@@ -1506,6 +1550,7 @@ function 모두그리기(){
       if(b) 나라말바꾸기(b.dataset.lang, 모두그리기);
     });
     $("#main").hidden = false;
+    방문세기();          // 화면이 다 뜬 뒤에 — 이것 때문에 수치가 늦어질 이유가 없다
   }catch(e){
     $("#err-msg").textContent = e.message;
     $("#err").hidden = false;
