@@ -1156,7 +1156,8 @@ function 그리기_emoticon(e){
   const 든것 = 탭.filter(t => t.리센느순위);
   const 일위 = 탭.filter(t => t.리센느순위 === 1).length;
   const 최고 = 든것.length ? Math.min(...든것.map(t => t.리센느순위)) : null;
-  const 이위종류 = new Set(탭.map(t => t["2위"])).size;
+  // 「그 탭 1위」를 보여준다 — 리센느가 모든 탭 1위가 아닐 때는 2위보다 이쪽이 말이 된다
+  const 일위종류 = new Set(탭.map(t => t["1위"])).size;
 
   // 제목에 쓰는 작은 수는 한글로 적는다 — 「6개 탭」보다 「여섯 탭」이 읽힌다
   const 한글수 = n => (LANG === "ko"
@@ -1169,7 +1170,7 @@ function 그리기_emoticon(e){
 
   $("#s11-sub").textContent = t("s11.sub", 상.이름, 상.종수,
     (일위 === 탭.length
-      ? t("s11.sub.all", 한글수(탭.length), 한글수(이위종류))
+      ? t("s11.sub.all", 한글수(탭.length), 한글수(일위종류))
       : t("s11.sub.some", 든것.map(x => 낱(x.탭) + " " + t("s11.t2v", x.리센느순위)).join(" · "))));
 
   const c = $("#s11-tiles"); c.innerHTML = "";
@@ -1177,7 +1178,7 @@ function 그리기_emoticon(e){
     타일(t("s11.t1"), t("s11.t1v", 상.종수), t("s11.t1d", 상.출시), false),
     타일(일위 === 탭.length ? t("s11.t2.all") : t("s11.t2.best"),
         최고 ? t("s11.t2v", 최고) : "—", t("s11.t2d", 한글수(탭.length)), true),
-    타일(t("s11.t3"), t("s11.t3v", 이위종류), t("s11.t3d"), false),
+    타일(t("s11.t3"), t("s11.t3v", 일위종류), t("s11.t3d", 일위종류), false),
     타일(t("s11.t4"), t("s11.t4v", 콤마(가.판매가)),
         가.할인율 ? t("s11.t4d", 콤마(가.정가),
                      LANG === "ko" ? 가.문구 : t("s11.sale", 가.할인율)) : t("s11.t4d0"), false)
@@ -1195,7 +1196,10 @@ function 그리기_emoticon(e){
     const b = el("b", null, t.리센느순위 ? t2("s11.t2v", t.리센느순위) : t2("s11.rank.out"));
     if(t.리센느순위 === 1) b.style.color = "var(--pink)";
     자리.append(b);
-    tr.append(자리, el("td", null, t["2위"]));
+    // 그 탭 1위가 리센느 자신이면 색을 준다 — 어디서 이겼는지 한눈에 보인다
+    const 일 = el("td", null, t["1위"]);
+    if(t.리센느순위 === 1) 일.style.color = "var(--pink)";
+    tr.append(자리, 일);
     tb.append(tr);
   });
   $("#s11-rank-foot").innerHTML = t("s11.rank.foot", tj("s11.src", e.순위.출처), 가.기준일);
@@ -1369,11 +1373,13 @@ function 그리기_search(s){
   });
   오.append(c2);
   const 셈2=el("div","tally");
-  셈2.innerHTML = t("s7.tally2", s.집계.팬);
+  셈2.innerHTML = t("s7.tally2", s.집계.팬, (s.팬검색어 || []).join(" · "));
   오.append(셈2);
 
   two.append(왼,오);
-  $("#s7-foot").innerHTML = t("s7.foot", tj("s7.excl", s.제외.표기), s.집계.오타);
+  const 제 = s.제외 || {};
+  $("#s7-foot").innerHTML = t("s7.foot",
+    t("s7.excl", 제.원본수, 제.우측신체, 제.우측논란, 제.남은수, 제.좌측논란), s.집계.오타 || 0);
 }
 
 /* ─────────────────────────────────────────── 08 카드 */
