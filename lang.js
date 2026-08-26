@@ -549,12 +549,22 @@ function 만(n){
 const 콤마 = n => (n == null ? "—" : n.toLocaleString(로케일[LANG]));
 
 /* 나라말 정하기 — 저장한 값 > ?lang= > 브라우저 */
+/* 사람이 적는 코드는 제각각이다 — jp·kr 처럼 나라 코드로 쓰는 쪽이 오히려 흔하다.
+   주소로 들어오는 것은 다 받아 준다. 안쪽에서 쓰는 값은 표준 코드(ko·en·ja)로 고정한다 —
+   <html lang> 이 그 값을 그대로 받으므로 스크린리더·검색엔진이 읽는 것도 이 값이다. */
+function 코드정리(c){
+  if(!c) return null;
+  c = String(c).toLowerCase().replace("_", "-").split("-")[0];
+  if(c === "jp" || c === "ja") return "ja";
+  if(c === "kr" || c === "ko") return "ko";
+  if(c === "en") return "en";
+  return null;
+}
 function 첫나라말(){
-  const q = new URLSearchParams(location.search).get("lang");
-  const s = (()=>{ try{ return localStorage.getItem("lang"); }catch(e){ return null; } })();
-  const b = (navigator.language || "ko").toLowerCase();
-  const c = q || s || (b.startsWith("ja") ? "ja" : b.startsWith("ko") ? "ko" : "en");
-  return ["ko","en","ja"].includes(c) ? c : "ko";
+  const q = 코드정리(new URLSearchParams(location.search).get("lang"));
+  const s = 코드정리((()=>{ try{ return localStorage.getItem("lang"); }catch(e){ return null; } })());
+  const b = 코드정리(navigator.language) ;
+  return q || s || b || "en";
 }
 
 /* ── JSON 안에 든 설명글 — 한국어는 원문, 다른 말은 여기 적어 둔 번역 ─────── */
@@ -598,7 +608,8 @@ function 나라말칠하기(){
 }
 
 function 나라말바꾸기(코드, 다시그리기){
-  if(!["ko","en","ja"].includes(코드) || 코드 === LANG) return;
+  코드 = 코드정리(코드);
+  if(!코드 || 코드 === LANG) return;
   LANG = 코드;
   try{ localStorage.setItem("lang", 코드); }catch(e){}
   나라말칠하기();
