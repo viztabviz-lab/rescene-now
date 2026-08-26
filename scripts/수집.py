@@ -5,6 +5,7 @@ data/*.json 을 다시 채운다. GitHub Actions 가 이 스크립트만 돌린�
   python -X utf8 scripts/수집.py daily     구독자 2채널 · MV 11편 조회수
   python -X utf8 scripts/수집.py weekly    구글 트렌드 126주 · playboard 순위
   python -X utf8 scripts/수집.py videos    채널 두 개의 전체 영상 조회수·좋아요
+  python -X utf8 scripts/수집.py streams   라이브 아카이브 전수 (얼굴 판별은 빼고)
   python -X utf8 scripts/수집.py archive   @data-viz 에 새로 올린 쇼츠를 카드로
   python -X utf8 scripts/수집.py emoticon  카카오 이모티콘 인기 순위 여섯 탭
   python -X utf8 scripts/수집.py club      걸그룹 100만 클럽 44팀 구독자
@@ -70,9 +71,10 @@ def 쓰기(이름, 값):
         json.dump(값, f, ensure_ascii=False, indent=1)
 
 
-def 상태기록(키, 결과, 기준=None, 메시지="", 출처=None):
+def 상태기록(키, 결과, 기준=None, 메시지="", 출처=None, 주기=None):
     """수집 결과를 status.json 에 남긴다. 실패도 반드시 남는다 — 조용히 넘어가지 않는다.
-    출처는 수단이 바뀌는 항목(videos 는 키 유무로 API/파싱이 갈린다)만 같이 갱신한다."""
+    출처는 수단이 바뀌는 항목(videos 는 키 유무로 API/파싱이 갈린다)만 같이 갱신한다.
+    주기는 자동화를 붙여 바뀐 항목이 스스로 고치게 한다 — 손으로 안 고치면 화면이 옛말을 한다."""
     if 확인만:
         return
     st = 읽기("status.json")
@@ -84,6 +86,8 @@ def 상태기록(키, 결과, 기준=None, 메시지="", 출처=None):
                 항목["기준"] = str(기준)
             if 출처:
                 항목["출처"] = 출처
+            if 주기:
+                항목["주기"] = 주기
             항목["메시지"] = 메시지
             break
     st["갱신"] = 오늘
@@ -472,11 +476,21 @@ def _한편(vid):
                  or re.search(r'"publishDate":"(\d{4}-\d{2}-\d{2})', h))
             길이 = re.search(r'"lengthSeconds":"(\d+)"', h)
             제목 = re.search(r'<meta name="title" content="([^"]*)"', h)
+            # 라이브였던 편만 있다. 「몇 시에 켰나」는 업로드 날짜로는 알 수 없다 —
+            # liveBroadcastDetails 가 유일한 근거다.
+            # **watch 페이지는 startTimestamp, Data API 는 actualStartTime 이다.**
+            # API 이름으로만 찾다가 210편 전부에서 못 읽었다. 둘 다 받는다.
+            시작 = (re.search(r'"startTimestamp":"([^"]+)"', h)
+                  or re.search(r'"actualStartTime":"([^"]+)"', h))
+            끝 = (re.search(r'"endTimestamp":"([^"]+)"', h)
+                 or re.search(r'"actualEndTime":"([^"]+)"', h))
             return vid, {"제목": html.unescape(제목.group(1)) if 제목 else "",
                          "조회수": int(조회.group(1)),
                          "좋아요": _숫자(좋아요.group(1)) if 좋아요 else None,
                          "공개일": 날.group(1) if 날 else "",
-                         "길이": int(길이.group(1)) if 길이 else 0}
+                         "길이": int(길이.group(1)) if 길이 else 0,
+                         "방송시작": 시작.group(1) if 시작 else None,
+                         "방송끝": 끝.group(1) if 끝 else None}
         except Exception as e:
             코드 = getattr(e, "code", None)
             time.sleep((20 if 코드 == 429 else 3) * (시도 + 1))
@@ -489,16 +503,19 @@ def 영상통계(영상ID들):
     결과 = {}
     if os.environ.get("YOUTUBE_API_KEY"):
         for i in range(0, len(영상ID들), 50):
-            d = _api("videos", {"part": "snippet,statistics,contentDetails",
+            d = _api("videos", {"part": "snippet,statistics,contentDetails,liveStreamingDetails",
                                 "id": ",".join(영상ID들[i:i + 50])})
             for v in d.get("items", []):
                 st, sn = v.get("statistics", {}), v.get("snippet", {})
+                라 = v.get("liveStreamingDetails", {})
                 결과[v["id"]] = {
                     "제목": sn.get("title") or "",
                     "조회수": int(st.get("viewCount") or 0),
                     "좋아요": int(st["likeCount"]) if "likeCount" in st else None,
                     "공개일": (sn.get("publishedAt") or "")[:10],
                     "길이": _ISO길이(v.get("contentDetails", {}).get("duration")),
+                    "방송시작": 라.get("actualStartTime"),
+                    "방송끝": 라.get("actualEndTime"),
                 }
     else:
         from concurrent.futures import ThreadPoolExecutor
@@ -523,6 +540,126 @@ def 영상통계(영상ID들):
             if i % 50 == 0:
                 print(f"      2차 {i}/{len(빠진)}편")
     return 결과
+
+
+# ────────────────────────────────────────────────────────── 라이브 아카이브
+def _KST(iso):
+    """2026-08-19T06:31:00Z → KST datetime. 없으면 None."""
+    if not iso:
+        return None
+    t = iso.replace("Z", "+00:00")
+    try:
+        return datetime.fromisoformat(t).astimezone(KST)
+    except Exception:
+        return None
+
+
+def _중앙(xs):
+    xs = sorted(xs)
+    if not xs:
+        return 0
+    m = len(xs) // 2
+    return xs[m] if len(xs) % 2 else (xs[m - 1] + xs[m]) / 2
+
+
+def streams():
+    """공식 채널 라이브 탭을 전수로 다시 재서 streams.json 을 고쳐 쓴다.
+
+    **얼굴 판별(멤버·인원별·조합)은 여기서 만들지 않는다.** YuNet·SFace 모델과 사람 검수가
+    필요해 매일 돌릴 수 없다. 손으로 만든 마지막 값을 그대로 두고, 그 값이 몇 편 기준인지를
+    「멤버기준」에 적어 둔다 — 편수가 늘면 화면이 「207편 중 185편」처럼 그 차이를 말한다.
+    """
+    옛 = 읽기("streams.json")
+    print("  라이브 탭 목록…")
+    전부 = 채널영상들(리센느ID)
+    ids = [v for v, f in 전부.items() if f == "라이브"]
+    print(f"  {len(ids)}편 — 한 편씩 다시 잰다")
+    통계 = 영상통계(ids)
+    if len(통계) < len(ids) * 0.9:
+        raise RuntimeError(f"{len(ids)}편 중 {len(통계)}편만 받았다 — 덮어쓰지 않는다")
+
+    편 = []
+    for vid, v in 통계.items():
+        시작 = _KST(v.get("방송시작"))
+        편.append({"id": vid, "제목": v["제목"], "조회수": v["조회수"],
+                  "좋아요": v["좋아요"], "분": (v["길이"] or 0) / 60, "시작": 시작,
+                  "날짜": 시작.date() if 시작 else None})
+    # 시작 시각을 못 읽은 편은 「끊긴 방송」으로 센다 — 시각·요일·간격에서 뺀다
+    정상 = [x for x in 편 if x["시작"] and x["분"] > 0]
+    정상.sort(key=lambda x: x["시작"])
+    if not 정상:
+        raise RuntimeError("시작 시각을 읽은 편이 하나도 없다 — 덮어쓰지 않는다")
+
+    간격 = [(정상[i]["시작"] - 정상[i - 1]["시작"]).total_seconds() / 86400
+           for i in range(1, len(정상))]
+    분들 = [x["분"] for x in 정상]
+    조회 = [x["조회수"] for x in 정상]
+    좋 = [x["좋아요"] for x in 정상 if x["좋아요"] is not None]
+    처음, 마지막 = 정상[0]["시작"], 정상[-1]["시작"]
+    기간일 = (마지막 - 처음).days
+
+    월별 = {}
+    for x in 정상:
+        k = x["시작"].strftime("%Y-%m")
+        월별.setdefault(k, []).append(x)
+    연도별 = {}
+    for x in 정상:
+        연도별.setdefault(x["시작"].year, []).append(x)
+
+    def 묶음(xs):
+        조 = [y["조회수"] for y in xs]
+        율 = [y["좋아요"] / y["조회수"] * 100 for y in xs if y["좋아요"] and y["조회수"]]
+        return {"편수": len(xs), "총시간h": round(sum(y["분"] for y in xs) / 60, 1),
+                "평균분": round(sum(y["분"] for y in xs) / len(xs), 1),
+                "평균조회수": round(sum(조) / len(조), 1) if 조 else 0,
+                "평균좋아요율": round(sum(율) / len(율), 1) if 율 else 0}
+
+    요일이름 = ["월", "화", "수", "목", "금", "토", "일"]
+    칸 = [("~20", 0, 20), ("20~40", 20, 40), ("40~60", 40, 60), ("60~80", 60, 80),
+         ("80~100", 80, 100), ("100~120", 100, 120), ("120~150", 120, 150),
+         ("150~180", 150, 180), ("180분+", 180, 1e9)]
+
+    새 = dict(옛)          # 얼굴에서 나온 값(멤버·인원별·조합·판별·한계)은 그대로 둔다
+    새["기준"] = 오늘
+    새["구간"] = f"{처음:%Y-%m-%d} ~ {마지막:%Y-%m-%d}"
+    새["출처"] = f"youtube.com/@RESCENE_official/streams {len(편)}편 전수"
+    새["요약"] = dict(옛.get("요약", {}), **{
+        "전체편수": len(편), "끊긴방송": len(편) - len(정상), "정상편수": len(정상),
+        "첫방송": f"{처음:%Y-%m-%d %H:%M}", "마지막방송": f"{마지막:%Y-%m-%d %H:%M}",
+        "기간일": 기간일,
+        "월평균편수": round(len(정상) / max(1, 기간일 / 30.44), 1),
+        "평균간격일": round(sum(간격) / len(간격), 2) if 간격 else 0,
+        "중앙간격일": round(_중앙(간격), 1) if 간격 else 0,
+        "평균길이분": round(sum(분들) / len(분들), 1),
+        "중앙길이분": round(_중앙(분들), 1),
+        "최장분": round(max(분들), 1), "최단분": round(min(분들), 1),
+        "1시간이상비율%": round(sum(1 for m in 분들 if m >= 60) / len(분들) * 100, 1),
+        "2시간이상비율%": round(sum(1 for m in 분들 if m >= 120) / len(분들) * 100, 1),
+        "총방송시간h": round(sum(분들) / 60, 1),
+        "총조회수": sum(조회), "평균조회수": round(sum(조회) / len(조회)),
+        "중앙조회수": round(_중앙(조회)),
+        "총좋아요": sum(좋), "평균좋아요": round(sum(좋) / len(좋)) if 좋 else 0,
+        "좋아요율중앙%": round(_중앙([y["좋아요"] / y["조회수"] * 100
+                                for y in 정상 if y["좋아요"] and y["조회수"]]), 2),
+    })
+    새["월별"] = [dict({"연월": k}, **묶음(v)) for k, v in sorted(월별.items())]
+    새["연도별"] = [dict({"연": k}, **묶음(v)) for k, v in sorted(연도별.items())]
+    새["요일"] = {d: sum(1 for x in 정상 if 요일이름[x["시작"].weekday()] == d)
+                for d in 요일이름}
+    새["시각"] = {str(h): c for h in range(24)
+                if (c := sum(1 for x in 정상 if x["시작"].hour == h))}
+    새["히스"] = {이름: sum(1 for m in 분들 if 하 <= m < 상) for 이름, 하, 상 in 칸}
+    # 얼굴 판별이 몇 편 기준인지 — 편수가 늘어도 이 값은 그대로다. 화면이 그 차이를 말한다.
+    새.setdefault("멤버기준", 옛.get("기준", ""))
+    새.setdefault("멤버기준편수", 옛.get("요약", {}).get("전체편수", len(편)))
+
+    쓰기("streams.json", 새)
+    상태기록("streams", "OK", 새["기준"],
+          f"{len(편)}편 전수 · 얼굴 판별은 {새['멤버기준']} 기준 {새['멤버기준편수']}편",
+          출처="youtube.com/@RESCENE_official/streams · 조회수·좋아요·시작시각 매일 · 얼굴 판별은 수동",
+          주기="매일")
+    print(f"  라이브 {len(편)}편 (정상 {len(정상)}) · 총 {새['요약']['총방송시간h']}시간 "
+          f"· 조회 {새['요약']['총조회수']:,}")
 
 
 def 남길것(목록):
@@ -824,9 +961,12 @@ def 클럽():
 
 # ────────────────────────────────────────────────────────── 실행
 작업 = {
+    # daily 는 **매시** 돈다. 라이브 전수(210편)를 여기 붙이면 매시 210번을 두드리게 된다 —
+    # streams 는 하루 한 번짜리 워크플로(streams.yml)로 따로 뺐다.
     "daily": [("live", daily), ("archive", 아카이브), ("emoticon", 이모티콘)],
     "weekly": [("trends", weekly_트렌드), ("rank", weekly_순위), ("club", 클럽)],
     "videos": [("videos", videos)],
+    "streams": [("streams", streams)],
     "archive": [("archive", 아카이브)],
     "emoticon": [("emoticon", 이모티콘)],
     "club": [("club", 클럽)],

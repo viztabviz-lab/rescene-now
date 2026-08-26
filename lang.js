@@ -263,7 +263,10 @@ const STR = {
 
 /* 04 라이브 아카이브 */
 "s10.eye":     {ko:"라이브 아카이브", en:"Live archive", ja:"ライブアーカイブ"},
-"s10.h":       {ko:"2년 5개월, 207번의 라이브", en:"2 years 5 months, 207 live streams", ja:"2年5か月、207回のライブ"},
+/* 편수는 매일 는다 — 문구에 박아 두면 하루 만에 거짓이 된다. 그리기_streams 가 다시 쓴다. */
+"s10.h":       {ko:(y,m,n)=>`${y}년${m ? " " + m + "개월" : ""}, ${n}번의 라이브`,
+                en:(y,m,n)=>`${y} year${y===1?"":"s"}${m ? ` ${m} month${m===1?"":"s"}` : ""}, ${n} live streams`,
+                ja:(y,m,n)=>`${y}年${m ? m + "か月" : ""}、${n}回のライブ`},
 "s10.sub":     {ko:(n,m)=>`공식 채널 라이브 탭 ${n}편을 전부 받아 방송 간격·길이·썸네일 얼굴·조회수를 세었다. 사흘에 한 번꼴로 켰고, 한 번 켜면 평균 ${m}분이다.`,
                 en:(n,m)=>`We pulled all ${n} streams from the official channel's Live tab and measured the gaps, lengths, faces in thumbnails and views. Roughly one every three days, averaging ${m} minutes each.`,
                 ja:(n,m)=>`公式チャンネルのライブタブから全 ${n}本を取得し、間隔・長さ・サムネイルの顔・再生数を数えました。3日に1回ほどの頻度で、1回あたり平均 ${m}分です。`},
@@ -308,6 +311,9 @@ const STR = {
 "s10.mem.sub": {ko:(all,ided,top,topn,s1,s1n)=>`썸네일 얼굴을 다섯 명으로 가르고 제목의 별명(메라디오·원쨩·까엉 등)을 합쳐 출연을 추정했다. ${all}편 중 ${ided}편에서 최소 한 명을 특정했다. ${top}가 ${topn}편으로 가장 많이 얼굴을 비쳤고, 혼자 켠 방송은 ${s1}가 ${s1n}편으로 가장 많다.`,
                 en:(all,ided,top,topn,s1,s1n)=>`We sorted thumbnail faces into the five members and folded in nicknames from titles (Meradio, Wonjjang, Kkaeong…). In ${ided} of ${all} streams at least one member was identified. ${top} appears most often at ${topn}, and ${s1} has the most solo streams at ${s1n}.`,
                 ja:(all,ided,top,topn,s1,s1n)=>`サムネイルの顔を5人に分け、タイトルの愛称（メラジオ・ウォンちゃん・ッカオンなど）も合わせて出演を推定しました。全 ${all}本のうち ${ided}本で少なくとも1人を特定しています。最も多く顔を出したのは ${top} の ${topn}本、一人での配信は ${s1} の ${s1n}本が最多です。`},
+"s10.mem.stale":{ko:(d,n)=>`얼굴 판별은 ${d} 에 돌린 것이고, 그 뒤 늘어난 ${n}편은 위의 편수·시간에만 들어간다.`,
+                en:(d,n)=>`The face pass was run on ${d}; the ${n} streams added since count only toward the totals above.`,
+                ja:(d,n)=>`顔の判別は ${d} 時点のものです。その後に増えた ${n}本は上の本数・時間にのみ含まれます。`},
 "s10.mem.row": {ko:(a,b,h)=>`혼자 ${a}편  ·  함께 ${b}편  ·  얼굴이 잡힌 총 시간 ${h}시간`,
                 en:(a,b,h)=>`${a} solo  ·  ${b} with others  ·  ${h} h on camera`,
                 ja:(a,b,h)=>`一人 ${a}本  ·  一緒 ${b}本  ·  顔が映った合計 ${h}時間`},
@@ -636,8 +642,8 @@ const 기간표 = s => (LANG === "ko" || s == null ? s : String(s).replace(/\s*\
 /* ── 출처 칸 · 기관 이름 — 한국어가 그대로 새어 나가던 자리 ─────────────── */
 const 출처값 = {
   videos:     {en:"YouTube channel tab + Data API v3", ja:"YouTubeチャンネルタブ + Data API v3"},
-  streams:    {en:"@RESCENE_official/streams · face matching on thumbnails",
-               ja:"@RESCENE_official/streams・サムネイルの顔判別"},
+  streams:    {en:"@RESCENE_official/streams · counts & views daily, face matching by hand",
+               ja:"@RESCENE_official/streams・本数と再生数は毎日、顔の判別は手動"},
   trends:     {en:"trends/api, called directly", ja:"trends/api を直接呼び出し"},
   reputation: {en:"Korea Institute of Corporate Reputation · brikorea",
                ja:"韓国企業評判研究所・brikorea"},

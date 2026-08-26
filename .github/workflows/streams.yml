@@ -1,0 +1,57 @@
+name: 라이브 아카이브 수집
+
+# 하루 한 번, 18:00 UTC = 03:00 KST.
+#
+# 왜 daily(매시) 에 안 붙였나 — 라이브 탭 전수는 210편이다. API 키가 있으면 5번,
+# 없으면 watch 페이지를 210번 두드린다. 매시 돌 일이 아니고, 키가 없는 날에는
+# 봇 차단을 부른다. 값이 하루에 한 번 이상 의미 있게 바뀌지도 않는다.
+#
+# **얼굴 판별(멤버·인원별·조합)은 여기서 만들지 않는다.** YuNet·SFace 모델과 사람 검수가
+# 필요해 매일 돌릴 수 없다. 손으로 만든 마지막 값을 그대로 두고, 몇 편 기준인지를
+# streams.json 의 「멤버기준」에 적어 화면이 그 차이를 말하게 한다.
+on:
+  schedule:
+    - cron: "0 18 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-write        # daily · weekly 와 같은 파일을 건드리므로 겹쳐 돌지 않게 한다
+  cancel-in-progress: false
+
+jobs:
+  streams:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45     # 키가 없을 때 watch 페이지 210번이 오래 걸린다
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: yt-dlp 설치 (라이브 탭 목록은 키가 있어도 yt-dlp 로 받는다)
+        run: pip install --quiet yt-dlp
+
+      - name: 수집
+        # 실패해도 다음 단계로 간다 — status.json 의 실패 기록이 커밋돼야 화면 09 에 보인다.
+        continue-on-error: true
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: python -X utf8 scripts/수집.py streams
+
+      - name: 커밋
+        run: |
+          git config user.name  "rescene-now bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet data/; then
+            echo "쓸 것이 없다 — 수집이 아무것도 못 바꿨다"
+            exit 0
+          fi
+          n=$(python -c "import json;print(json.load(open('data/streams.json',encoding='utf-8'))['요약']['전체편수'])")
+          git add data/
+          git commit -m "data: 라이브 ${n}편 ($(date -u +%m-%d))"
+          git pull --rebase --autostash
+          git push

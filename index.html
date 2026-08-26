@@ -183,9 +183,15 @@ h2{
 .row .val{font-size:13.5px;color:var(--ink-2);white-space:nowrap;font-weight:600}
 .row.on .val{color:var(--ink)}
 .row .thumb{
-  width:52px;height:30px;border-radius:5px;object-fit:cover;flex:none;
-  background:var(--track);
+  /* 옆 글줄 높이에 맞춘다. 52x30 으로 박아 두었더니 세 줄짜리 영상 랭킹(글줄 61px) 옆에서
+     절반밖에 안 됐다. 높이를 주고 16:9 로 폭을 낸다.
+     align-self:stretch 는 쓰지 말 것 — 줄 높이가 정해져 있지 않아 그림이 제 원본 크기
+     (320x180)로 커지고, 그만큼 줄이 다시 커진다. 실제로 그렇게 터졌다. */
+  height:40px;width:auto;aspect-ratio:16/9;
+  border-radius:6px;object-fit:cover;flex:none;background:var(--track);
 }
+.row.vid .thumb{height:61px}      /* 이름 · 막대 · 메타 세 줄 */
+@media (max-width:520px){.row.vid .thumb{height:52px}}   /* 좁은 화면에서는 글자 자리를 남긴다 */
 .row.mv{grid-template-columns:auto auto 1fr auto}
 
 /* ── 06 문턱 ── */
@@ -439,7 +445,7 @@ footer p{max-width:60ch}
 
   <section id="s10" data-ch="리센느">
     <p class="eyebrow"><b>04</b> <span data-i18n="s10.eye">라이브 아카이브</span></p>
-    <h2 data-i18n="s10.h">2년 5개월, 207번의 라이브</h2>
+    <h2>2년 5개월, 207번의 라이브</h2>   <!-- 자리표시자 · 그리기_streams 가 다시 쓴다 -->
     <p class="sub" id="s10-sub"></p>
     <div class="tiles" id="s10-tiles"></div>
 
@@ -912,7 +918,7 @@ function 그리기_mv(live){
     a.append(el("span","rk",String(m.순위)));
     const img=el("img","thumb");
     img.src=`https://i.ytimg.com/vi/${m.id}/mqdefault.jpg`;
-    img.alt=""; img.loading="lazy"; img.width=52; img.height=30;
+    img.alt=""; img.loading="lazy"; img.width=96; img.height=54;
     a.append(img);
     const mid=el("div","mid");
     mid.append(el("div","nm", `${m.곡}  ·  ${m.공개일.slice(2).replace(/-/g,".")}`));
@@ -977,7 +983,7 @@ function 그리기_videos(vids){
     a.append(el("span","rk",String(i+1)));
     const img = el("img","thumb");
     img.src = `https://i.ytimg.com/vi/${x.id}/mqdefault.jpg`;
-    img.alt = ""; img.loading = "lazy"; img.width = 52; img.height = 30;
+    img.alt = ""; img.loading = "lazy"; img.width = 96; img.height = 54;
     a.append(img);
     const mid = el("div","mid");
     mid.append(el("div","nm", x.제목));
@@ -1052,6 +1058,9 @@ function 세로막대(자리, 값들, 라벨들, 옵션){
 
 function 그리기_streams(st){
   const 요 = st.요약;
+  // 머리글도 데이터에서 쓴다 — 「207번」을 박아 두면 다음 방송 하나에 거짓이 된다.
+  const 달 = Math.round(요.기간일 / 30.44);
+  $("#s10 h2").textContent = t("s10.h", Math.floor(달 / 12), 달 % 12, 요.전체편수);
   $("#s10-sub").textContent = t("s10.sub", 요.전체편수, Math.round(요.평균길이분));
 
   const c = $("#s10-tiles"); c.innerHTML = "";
@@ -1098,8 +1107,13 @@ function 그리기_streams(st){
   const 멤 = [...st.멤버].sort((a,b)=>b.출연편수-a.출연편수);
   const 최대출연 = 멤[0].출연편수;
   const 단독1위 = [...st.멤버].sort((a,b)=>b.단독편수-a.단독편수)[0];
-  $("#s10-mem-sub").textContent = t("s10.mem.sub", 요.전체편수, 요.멤버판별된편수,
-    이름(멤[0].멤버), 멤[0].출연편수, 이름(단독1위.멤버), 단독1위.단독편수);
+  // **편수·시간은 매일 다시 재지만 얼굴 판별은 그날 것이 아니다.** 모델과 사람 검수가 필요해
+  // 손으로 돌린 마지막 값을 그대로 둔다. 몇 편까지 본 것인지를 화면이 직접 말하게 한다.
+  const 기준편수 = st.멤버기준편수 || 요.전체편수;
+  $("#s10-mem-sub").textContent = t("s10.mem.sub", 기준편수, 요.멤버판별된편수,
+    이름(멤[0].멤버), 멤[0].출연편수, 이름(단독1위.멤버), 단독1위.단독편수)
+    + (요.전체편수 > 기준편수
+       ? " " + t("s10.mem.stale", st.멤버기준 || "", 요.전체편수 - 기준편수) : "");
   const mc = $("#s10-mem"); mc.innerHTML = "";
   멤.forEach(x=>{
     const row = el("div", "row mem");
