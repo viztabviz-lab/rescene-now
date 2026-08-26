@@ -14,6 +14,7 @@
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231a1a19'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%23fc6fcf'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
+<script src="lang.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 :root{
@@ -49,6 +50,20 @@ a{color:inherit}
 .brandline{display:flex;align-items:center;gap:9px;margin-bottom:18px}
 .brandline i{width:10px;height:10px;border-radius:3px;background:var(--pink);flex:none}
 .brandline span{font-size:12.5px;letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase}
+/* 언어 단추 — 채널 탭(.seg)과 같은 모양이라 「고르는 것」으로 읽힌다 */
+.langs{
+  margin-left:auto;display:flex;background:var(--surface);border:1px solid var(--line);
+  border-radius:999px;padding:3px;gap:2px;
+}
+.langs button{
+  font:inherit;font-size:12.5px;cursor:pointer;color:var(--ink-3);background:none;border:0;
+  border-radius:999px;padding:4px 11px;line-height:1.4;white-space:nowrap;letter-spacing:0;
+  text-transform:none;
+}
+.langs button:hover{color:var(--ink-2)}
+.langs button.on{background:var(--pink);color:#1a1a19;font-weight:700}
+/* 원문 그대로 두는 목록 밑에 붙는 단서 */
+.raw{font-size:12.5px;color:var(--ink-3);margin:8px 0 0}
 h1{
   font-size:clamp(38px,10vw,68px);font-weight:800;letter-spacing:-.035em;
   line-height:1.05;margin:0 0 14px;
@@ -330,9 +345,13 @@ footer p{max-width:60ch}
 <div class="wrap">
 
 <header class="top">
-  <div class="brandline"><i></i><span>Rescene · Data</span></div>
-  <h1>리센느, <em>지금</em></h1>
-  <p>리마인 야호!</p>
+  <div class="brandline"><i></i><span>Rescene · Data</span>
+    <div class="langs" id="langs" role="group" data-i18n-aria="hdr.langlabel" aria-label="언어 고르기">
+      <button type="button" data-lang="ko">한국어</button><button type="button" data-lang="en">English</button><button type="button" data-lang="ja">日本語</button>
+    </div>
+  </div>
+  <h1><span data-i18n="hdr.title1">리센느, </span><em data-i18n="hdr.title2">지금</em></h1>
+  <p data-i18n="hdr.tagline">리마인 야호!</p>
 </header>
 
 <main id="main" hidden>
@@ -347,14 +366,14 @@ footer p{max-width:60ch}
 
 
 
-  <nav class="chtabs" id="chtabs" role="group" aria-label="채널 고르기">
+  <nav class="chtabs" id="chtabs" role="group" data-i18n-aria="tab.group" aria-label="채널 고르기">
     <!-- 순서는 아래 게이지 카드와 같아야 한다. 어긋나면 왼쪽 탭을 눌렀는데
          오른쪽 카드가 켜지는 것처럼 읽힌다. -->
     <button type="button" class="chtab" data-ch="안원잘부" aria-pressed="true">
-      <b>안원잘부</b><small>원이 웹예능 · 솔파스튜디오</small>
+      <b data-i18n="tab.anw">안원잘부</b><small data-i18n="tab.anw.sub">원이 웹예능 · 솔파스튜디오</small>
     </button>
     <button type="button" class="chtab" data-ch="리센느" aria-pressed="false">
-      <b>RESCENE</b><small>리센느 공식 채널 · THE MUZE</small>
+      <b data-i18n="tab.res">RESCENE</b><small data-i18n="tab.res.sub">리센느 공식 채널 · THE MUZE</small>
     </button>
   </nav>
 
@@ -364,56 +383,57 @@ footer p{max-width:60ch}
 
   <section id="s1">
     <p class="eyebrow"><b>01</b> <span id="s1-eye">지금 이 순간</span></p>
-    <h2 id="s1-h">네 개의 숫자</h2>
+    <h2 id="s1-h" data-i18n="s1.h">네 개의 숫자</h2>
     <div class="tiles" id="tiles"></div>
     <p class="foot" id="tiles-foot"></p>
   </section>
 
   <section id="s3" data-ch="안원잘부">
-    <p class="eyebrow"><b>02</b> 안원잘부 구독자 순위</p>
-    <h2>27주 동안 한 번도 내려가지 않았다</h2>
+    <p class="eyebrow"><b>02</b> <span data-i18n="s3.eye">안원잘부 구독자 순위</span></p>
+    <h2 data-i18n="s3.h">27주 동안 한 번도 내려가지 않았다</h2>
     <p class="sub" id="s3-sub"></p>
     <div class="chart">
-      <p class="scalenote">세로축은 한국 구독자 순위다. 위로 갈수록 높은 순위이고, 눈금은 로그다 — 아래쪽 한 칸이 위쪽 한 칸보다 훨씬 많은 순위를 담는다.</p>
+      <p class="scalenote" data-i18n="s3.scalenote">세로축은 한국 구독자 순위다.</p>
       <div id="s3-chart"></div>
     </div>
     <p class="foot" id="s3-foot"></p>
   </section>
 
   <section id="s4" data-ch="리센느">
-    <p class="eyebrow"><b>02</b> 뮤직비디오</p>
-    <h2>11편 중 절반이 최근 1년에 나왔다</h2>
+    <p class="eyebrow"><b>02</b> <span data-i18n="s4.eye">뮤직비디오</span></p>
+    <h2 data-i18n="s4.h">11편 중 절반이 최근 1년에 나왔다</h2>
     <p class="sub" id="s4-sub"></p>
     <div class="legend">
-      <span><i style="background:var(--pink)"></i>최근 1년</span>
-      <span><i style="background:var(--ink-3)"></i>그 이전</span>
+      <span><i style="background:var(--pink)"></i><span data-i18n="s4.lg.new">최근 1년</span></span>
+      <span><i style="background:var(--ink-3)"></i><span data-i18n="s4.lg.old">그 이전</span></span>
     </div>
     <div class="rows" id="s4-rows"></div>
     <p class="foot" id="s4-foot"></p>
   </section>
 
   <section id="sv">
-    <p class="eyebrow"><b>03</b> 영상 랭킹</p>
+    <p class="eyebrow"><b>03</b> <span data-i18n="sv.eye">영상 랭킹</span></p>
     <h2 id="sv-h">조회수 상위 20편</h2>
     <p class="sub" id="sv-sub"></p>
     <div class="controls">
-      <div class="seg" id="sv-metric" role="group" aria-label="무엇으로 줄 세울까">
-        <button type="button" data-v="조회수" class="on">조회수</button><button type="button" data-v="좋아요">좋아요</button>
+      <div class="seg" id="sv-metric" role="group" data-i18n-aria="sv.metric" aria-label="무엇으로 줄 세울까">
+        <button type="button" data-v="조회수" data-word class="on">조회수</button><button type="button" data-v="좋아요" data-word>좋아요</button>
       </div>
-      <div class="seg" id="sv-kind" role="group" aria-label="형식">
-        <button type="button" data-v="전체" class="on">전체</button><button type="button" data-v="영상">영상</button><button type="button" data-v="쇼츠">쇼츠</button><button type="button" data-v="라이브">라이브</button>
+      <div class="seg" id="sv-kind" role="group" data-i18n-aria="sv.kind" aria-label="형식">
+        <button type="button" data-v="전체" data-word class="on">전체</button><button type="button" data-v="영상" data-word>영상</button><button type="button" data-v="쇼츠" data-word>쇼츠</button><button type="button" data-v="라이브" data-word>라이브</button>
       </div>
-      <div class="seg" id="sv-n" role="group" aria-label="몇 편까지">
+      <div class="seg" id="sv-n" role="group" data-i18n-aria="sv.howmany" aria-label="몇 편까지">
         <button type="button" data-v="10">10</button><button type="button" data-v="20" class="on">20</button><button type="button" data-v="30">30</button><button type="button" data-v="50">50</button>
       </div>
     </div>
     <div class="rows" id="sv-rows"></div>
+    <p class="raw" data-i18n="sv.titlenote" hidden></p>
     <p class="foot" id="sv-foot"></p>
   </section>
 
   <section id="s10" data-ch="리센느">
-    <p class="eyebrow"><b>04</b> 라이브 아카이브</p>
-    <h2>2년 5개월, 207번의 라이브</h2>
+    <p class="eyebrow"><b>04</b> <span data-i18n="s10.eye">라이브 아카이브</span></p>
+    <h2 data-i18n="s10.h">2년 5개월, 207번의 라이브</h2>
     <p class="sub" id="s10-sub"></p>
     <div class="tiles" id="s10-tiles"></div>
 
@@ -424,12 +444,12 @@ footer p{max-width:60ch}
 
     <div class="two" style="margin-top:14px">
       <div class="pane">
-        <h3>시작 시각 (KST)</h3>
+        <h3 data-i18n="s10.hour.h">시작 시각 (KST)</h3>
         <p class="when" id="s10-hour-cap"></p>
         <div id="s10-hour"></div>
       </div>
       <div class="pane">
-        <h3>요일</h3>
+        <h3 data-i18n="s10.dow.h">요일</h3>
         <p class="when" id="s10-dow-cap"></p>
         <div id="s10-dow"></div>
       </div>
@@ -440,76 +460,77 @@ footer p{max-width:60ch}
       <div id="s10-dur"></div>
     </div>
 
-    <h3 class="subhead">누가 나오나</h3>
+    <h3 class="subhead" data-i18n="s10.mem.h">누가 나오나</h3>
     <p class="sub" id="s10-mem-sub"></p>
     <div class="legend">
-      <span><i style="background:var(--pink)"></i>혼자 켠 방송</span>
-      <span><i style="background:var(--ink-3)"></i>둘 이상 함께</span>
+      <span><i style="background:var(--pink)"></i><span data-i18n="s10.mem.solo">혼자 켠 방송</span></span>
+      <span><i style="background:var(--ink-3)"></i><span data-i18n="s10.mem.with">둘 이상 함께</span></span>
     </div>
     <div class="rows" id="s10-mem"></div>
     <p class="foot" id="s10-mem-foot"></p>
 
-    <h3 class="subhead">자주 붙는 조합</h3>
+    <h3 class="subhead" data-i18n="s10.combo.h">자주 붙는 조합</h3>
     <p class="sub" id="s10-combo-sub"></p>
     <div class="tablewrap">
       <table>
-        <thead><tr><th>출연 (추정)</th><th class="num">편수</th><th class="num">평균 조회수</th></tr></thead>
+        <thead><tr><th data-i18n="s10.combo.th1">출연 (추정)</th><th class="num" data-i18n="s10.combo.th2">편수</th><th class="num" data-i18n="s10.combo.th3">평균 조회수</th></tr></thead>
         <tbody id="s10-combo"></tbody>
       </table>
     </div>
 
-    <h3 class="subhead">월별 평균 조회수</h3>
+    <h3 class="subhead" data-i18n="s10.view.h">월별 평균 조회수</h3>
     <p class="sub" id="s10-view-sub"></p>
     <div class="chart">
-      <p class="scalenote">라이브 한 편이 받는 평균 조회수다. 편수가 아니라 <b>한 편당</b> 값이라 채널이 커진 만큼 그대로 올라간다.</p>
+      <p class="scalenote" data-i18n-html="s10.view.note">라이브 한 편이 받는 평균 조회수다.</p>
       <div id="s10-view"></div>
     </div>
     <p class="foot" id="s10-foot"></p>
   </section>
 
   <section id="s11" data-ch="안원잘부">
-    <p class="eyebrow"><b>04</b> 카카오 이모티콘</p>
+    <p class="eyebrow"><b>04</b> <span data-i18n="s11.eye">카카오 이모티콘</span></p>
     <h2 id="s11-h">여섯 탭이 전부 같은 1위</h2>
     <p class="sub" id="s11-sub"></p>
     <div class="tiles" id="s11-tiles"></div>
 
-    <h3 class="subhead">연령 탭마다 1위와 2위</h3>
+    <h3 class="subhead" data-i18n="s11.rank.h">연령 탭마다 1위와 2위</h3>
     <p class="sub" id="s11-rank-sub"></p>
     <div class="tablewrap">
       <table>
-        <thead><tr><th>탭</th><th class="num">리센느 X 안원잘부</th><th>그 탭 2위</th></tr></thead>
+        <thead><tr><th data-i18n="s11.rank.th1">탭</th><th class="num" id="s11-rank-th2">리센느 X 안원잘부</th><th data-i18n="s11.rank.th3">그 탭 2위</th></tr></thead>
         <tbody id="s11-rank"></tbody>
       </table>
     </div>
     <p class="foot" id="s11-rank-foot"></p>
 
-    <h3 class="subhead">24종은 어느 편에서 나왔나</h3>
+    <h3 class="subhead" id="s11-src-h">24종은 어느 편에서 나왔나</h3>
     <p class="sub" id="s11-src-sub"></p>
     <div class="rows" id="s11-src"></div>
     <details>
-      <summary>24종 전부 보기 — 문구 · 편 · 그 장면으로 바로 가기</summary>
+      <summary id="s11-list-sum">24종 전부 보기 — 문구 · 편 · 그 장면으로 바로 가기</summary>
       <div class="tablewrap" style="margin-top:8px">
         <table>
-          <thead><tr><th class="num">#</th><th>문구</th><th>편</th><th class="num">장면</th></tr></thead>
+          <thead><tr><th class="num">#</th><th data-i18n="s11.list.th2">문구</th><th data-i18n="s11.list.th3">편</th><th class="num" data-i18n="s11.list.th4">장면</th></tr></thead>
           <tbody id="s11-list"></tbody>
         </table>
       </div>
     </details>
+    <p class="raw" data-i18n="s11.kornote" hidden></p>
     <p class="foot" id="s11-foot"></p>
   </section>
 
-  <div class="split">두 채널 공통 · 리센느라는 그룹</div>
+  <div class="split" data-i18n="split">두 채널 공통 · 리센느라는 그룹</div>
 
   <section id="s2">
-    <p class="eyebrow"><b>04</b> 구글 검색 관심도</p>
-    <h2>110주 동안 곡선은 바닥에 있었다</h2>
+    <p class="eyebrow"><b>04</b> <span data-i18n="s2.eye">구글 검색 관심도</span></p>
+    <h2 data-i18n="s2.h">110주 동안 곡선은 바닥에 있었다</h2>
     <p class="sub" id="s2-sub"></p>
     <div class="chart">
       <p class="scalenote" id="s2-scale"></p>
       <div class="legend">
-        <span><i class="line" style="background:var(--pink)"></i>검색 관심도</span>
-        <span><i style="background:var(--ink-3);border-radius:2px;width:9px;height:9px;transform:rotate(45deg)"></i>앨범 발매</span>
-        <span><i style="background:var(--pink-dim);width:3px;height:13px;border-radius:2px"></i>안원잘부 업로드 <span style="color:var(--ink-3)">(높을수록 많이 본 편)</span></span>
+        <span><i class="line" style="background:var(--pink)"></i><span data-i18n="s2.lg.line">검색 관심도</span></span>
+        <span><i style="background:var(--ink-3);border-radius:2px;width:9px;height:9px;transform:rotate(45deg)"></i><span data-i18n="s2.lg.rel">앨범 발매</span></span>
+        <span><i style="background:var(--pink-dim);width:3px;height:13px;border-radius:2px"></i><span data-i18n="s2.lg.up">안원잘부 업로드</span> <span style="color:var(--ink-3)" data-i18n="s2.lg.up2">(높을수록 많이 본 편)</span></span>
       </div>
       <div id="s2-chart"></div>
     </div>
@@ -517,19 +538,19 @@ footer p{max-width:60ch}
   </section>
 
   <section id="s5">
-    <p class="eyebrow"><b>05</b> 개인 브랜드평판</p>
-    <h2>TOP 10에 리센느가 다섯</h2>
+    <p class="eyebrow"><b>05</b> <span data-i18n="s5.eye">개인 브랜드평판</span></p>
+    <h2 data-i18n="s5.h">TOP 10에 리센느가 다섯</h2>
     <p class="sub" id="s5-sub"></p>
     <div class="legend">
-      <span><i style="background:var(--pink)"></i>리센느</span>
-      <span><i style="background:var(--ink-3)"></i>그 외</span>
+      <span><i style="background:var(--pink)"></i><span data-i18n="s5.lg.res">리센느</span></span>
+      <span><i style="background:var(--ink-3)"></i><span data-i18n="s5.lg.other">그 외</span></span>
     </div>
     <div class="rows" id="s5-rows"></div>
     <p class="foot" id="s5-foot"></p>
   </section>
 
   <section id="s6">
-    <p class="eyebrow"><b>06</b> 걸그룹 100만 클럽</p>
+    <p class="eyebrow"><b>06</b> <span data-i18n="s6.eye">걸그룹 100만 클럽</span></p>
     <h2 id="s6-h">44팀, 리센느는 45번째</h2>
     <p class="sub" id="s6-sub"></p>
     <div class="chart" style="padding:14px 12px">
@@ -539,27 +560,29 @@ footer p{max-width:60ch}
   </section>
 
   <section id="s7">
-    <p class="eyebrow"><b>07</b> 함께 검색된 말</p>
-    <h2>2년 동안 없던 말이 생겼다</h2>
+    <p class="eyebrow"><b>07</b> <span data-i18n="s7.eye">함께 검색된 말</span></p>
+    <h2 data-i18n="s7.h">2년 동안 없던 말이 생겼다</h2>
     <p class="sub" id="s7-sub"></p>
     <div class="two" id="s7-two"></div>
+    <p class="raw" data-i18n="s7.kornote" hidden></p>
     <p class="foot" id="s7-foot"></p>
   </section>
 
   <section id="s8">
-    <p class="eyebrow"><b>08</b> 아카이브</p>
-    <h2>우리가 세어 본 것들</h2>
+    <p class="eyebrow"><b>08</b> <span data-i18n="s8.eye">아카이브</span></p>
+    <h2 data-i18n="s8.h">우리가 세어 본 것들</h2>
     <p class="sub" id="s8-sub"></p>
     <div class="cards" id="s8-cards"></div>
+    <p class="raw" data-i18n="s8.kornote" hidden></p>
   </section>
 
   <section id="s9">
-    <p class="eyebrow"><b>09</b> 출처</p>
-    <h2>어디서 가져왔고 언제 잰 값인가</h2>
-    <p class="sub">수집이 실패하면 화면에는 직전 값이 그대로 보이고, 이 표에 실패로 남는다.</p>
+    <p class="eyebrow"><b>09</b> <span data-i18n="s9.eye">출처</span></p>
+    <h2 data-i18n="s9.h">어디서 가져왔고 언제 잰 값인가</h2>
+    <p class="sub" data-i18n="s9.sub">수집이 실패하면 화면에는 직전 값이 그대로 보이고, 이 표에 실패로 남는다.</p>
     <div class="tablewrap">
       <table>
-        <thead><tr><th>항목</th><th>출처</th><th>기준</th><th>주기</th><th>결과</th></tr></thead>
+        <thead><tr id="s9-th"><th>항목</th><th>출처</th><th>기준</th><th>주기</th><th>결과</th></tr></thead>
         <tbody id="s9-rows"></tbody>
       </table>
     </div>
@@ -567,18 +590,16 @@ footer p{max-width:60ch}
 
   <footer>
     <p id="ft-when"></p>
-    <p>구글 트렌드 값과 브랜드평판 지수는 <b>단위 없는 상대 지표</b>다. 개수나 건수로 읽으면 안 된다. 유튜브가 공개하는 구독자 수는 유효숫자 3자리 반올림이라 1만 단위로 뛴다.</p>
+    <p data-i18n-html="ft.unit">구글 트렌드 값과 브랜드평판 지수는 단위 없는 상대 지표다.</p>
     <p id="ft-gap"></p>
-    <p>만든 곳 · <a href="https://www.youtube.com/@data-viz">유튜브 @data-viz</a> · 리센느와 소속사·제작사와 아무 관계가 없는 팬 제작 페이지다.</p>
+    <p><span data-i18n="ft.made">만든 곳 · </span><a href="https://www.youtube.com/@data-viz" data-i18n="ft.madelink">유튜브 @data-viz</a><span data-i18n="ft.disc"> · 리센느와 소속사·제작사와 아무 관계가 없는 팬 제작 페이지다.</span></p>
   </footer>
 </main>
 
 <div class="err" id="err" hidden>
-  <b>데이터를 불러오지 못했다.</b><br>
+  <b data-i18n="err.h">데이터를 불러오지 못했다.</b><br>
   <span id="err-msg"></span><br><br>
-  파일을 직접 열면 브라우저가 <code>data/*.json</code> 읽기를 막는다.
-  폴더에서 <code>python -m http.server 8000</code> 을 돌리고
-  <code>http://localhost:8000</code> 으로 열 것.
+  <span data-i18n-html="err.help">파일을 직접 열면 브라우저가 <code>data/*.json</code> 읽기를 막는다.</span>
 </div>
 
 </div>
@@ -591,15 +612,8 @@ let D = null;   // 읽어 온 JSON 전부
 const $ = s => document.querySelector(s);
 const el = (t,c,x) => { const n=document.createElement(t); if(c)n.className=c; if(x!==undefined)n.textContent=x; return n; };
 
-/* 값은 만 단위로 줄여 적는다 — 자릿수가 적어야 세로 화면에서 읽힌다 */
-function 만(n){
-  if(n>=1e8){ const 억=Math.floor(n/1e8), 남=Math.round((n%1e8)/1e4);
-    return 남 ? `${억}억 ${남.toLocaleString("ko")}만` : `${억}억`; }
-  if(n>=1e4){ const v=n/1e4;
-    return (v>=100 ? Math.round(v).toLocaleString("ko") : String(+v.toFixed(1))) + "만"; }
-  return n.toLocaleString("ko");
-}
-const 콤마 = n => n.toLocaleString("ko");
+/* 만()·콤마() 는 lang.js 에 있다 — 나라말마다 자리 이름이 다르기 때문이다
+   (103만 / 1.03M / 103万). 여기서 다시 정의하면 이름이 겹쳐 페이지가 죽는다. */
 const 날 = s => s ? s.slice(2).replace(/-/g,".") : "";
 
 /* ─────────────────────────────────────────── 00 게이지 */
@@ -614,9 +628,9 @@ function 게이지카드({이름, 부제, 구독자, 목표, 기준, 주인공, 
   // 두 카드가 같은 줄에 놓이도록 큰 숫자 → 한 줄 설명 → 게이지 → 밑줄 순서를 똑같이 쓴다.
   h.append(el("div","big", 만(구독자)),
            el("div","of", 돌파
-             ? `${돌파} ${만(목표)} 돌파 · 걸그룹 클럽 안으로`
+             ? t("s0.done", 돌파, 만(목표))
              // 큰 숫자는 만 단위로 줄여 적는다. 「140,000명」은 자릿수를 세어야 읽힌다
-             : `${만(목표)}까지 남은 ${만(목표 - 구독자)} 명`));
+             : t("s0.left", 만(목표), 만(목표 - 구독자))));
   h.append(el("div","grow"));
 
   const 진행 = 구독자 / 목표 * 100;
@@ -625,8 +639,8 @@ function 게이지카드({이름, 부제, 구독자, 목표, 기준, 주인공, 
   g.append(i); h.append(g);
 
   const l = el("div","left");
-  l.append(el("span", null, 돌파 ? `${만(목표)} 넘었다` : `${진행.toFixed(1)}% 왔다`));
-  const b = el("span"); b.append("기준 ", el("b", null, 날(기준)));
+  l.append(el("span", null, 돌파 ? t("s0.passed", 만(목표)) : t("s0.pct", 진행.toFixed(1))));
+  const b = el("span"); b.append(t("s0.asof"), el("b", null, 날(기준)));
   l.append(b); h.append(l);
   return h;
 }
@@ -638,16 +652,16 @@ function 그리기_hero(live, milestone){
   const 안목표 = Math.ceil(안.구독자 / 1e6) * 1e6;
   // 카드 순서는 고정이다 — 채널을 바꿀 때마다 자리가 바뀌면 어느 쪽을 보고 있었는지 놓친다.
   const 카드 = [
-    ["안원잘부", 게이지카드({이름:"안원잘부", 부제:"원이 웹예능", 구독자:안.구독자,
+    ["안원잘부", 게이지카드({이름:t("s0.anw"), 부제:t("s0.anw.sub"), 구독자:안.구독자,
                         목표:안목표, 기준:안.기준, 주인공:상태.채널==="안원잘부"})],
-    ["리센느", 게이지카드({이름:"리센느 공식 채널", 부제:"THE MUZE", 구독자:리.구독자,
+    ["리센느", 게이지카드({이름:t("s0.res"), 부제:t("s0.res.sub"), 구독자:리.구독자,
                       목표:live.목표, 기준:리.기준, 주인공:상태.채널==="리센느",
                       돌파:milestone.백만돌파})],
   ];
   카드.forEach(([키, n])=>{
     if(키 !== 상태.채널){
       n.classList.add("pick"); n.tabIndex = 0; n.setAttribute("role","button");
-      n.setAttribute("aria-label", `${키} 채널로 넘어가기`);
+      n.setAttribute("aria-label", t("tab.goto", 이름(키)));
       n.addEventListener("click", ()=>전환(키));
       n.addEventListener("keydown", e=>{
         if(e.key==="Enter" || e.key===" "){ e.preventDefault(); 전환(키); }
@@ -666,23 +680,21 @@ function 타일(k,v,d,강조){
 }
 function 그리기_tiles(live, vids, milestone){
   const 키 = 상태.채널, ch = live.채널[키], v = vids.채널[키];
-  $("#s1-eye").textContent = (키==="리센느" ? "RESCENE" : "안원잘부") + " 채널, 지금";
+  $("#s1-eye").textContent = t("s1.eye", 키==="리센느" ? "RESCENE" : 이름("안원잘부"));
   const c=$("#tiles"); c.innerHTML="";
   const 구독부제 = 키==="리센느"
-    ? (milestone.백만돌파 ? `${milestone.백만돌파} 100만 돌파` : `100만까지 ${콤마(live.남은수)}`)
-    : `리센느 공식의 ${live.배수}배`;
+    ? (milestone.백만돌파 ? t("s1.subs.done", milestone.백만돌파) : t("s1.subs.left", 콤마(live.남은수)))
+    : t("s1.subs.mul", live.배수);
   const 편 = v.편수;
-  const 구성 = ["영상","쇼츠","라이브"].filter(f=>편[f]>0).map(f=>`${f} ${콤마(편[f])}`).join(" · ");
+  const 구성 = ["영상","쇼츠","라이브"].filter(f=>편[f]>0).map(f=>`${낱(f)} ${콤마(편[f])}`).join(" · ");
   c.append(
-    타일("구독자", 만(ch.구독자), 구독부제, true),
-    타일("누적 조회수", 만(v.합계.조회수), `올린 ${콤마(편.전체)}편 전부`, false),
-    타일("누적 좋아요", 만(v.합계.좋아요),
-        v.좋아요숨김 ? `좋아요 숨긴 ${콤마(v.좋아요숨김)}편은 빠졌다` : "숨긴 편 없다", false),
-    타일("올린 편수", 콤마(편.전체), 구성, false)
+    타일(t("s1.subs"), 만(ch.구독자), 구독부제, true),
+    타일(t("s1.views"), 만(v.합계.조회수), t("s1.views.d", 콤마(편.전체)), false),
+    타일(t("s1.likes"), 만(v.합계.좋아요),
+        v.좋아요숨김 ? t("s1.likes.hid", 콤마(v.좋아요숨김)) : t("s1.likes.non"), false),
+    타일(t("s1.count"), 콤마(편.전체), 구성, false)
   );
-  $("#tiles-foot").innerHTML =
-    `구독자가 <b>1만 단위로 뛰는 건 사실 그대로다</b> — 유튜브가 공개하는 구독자 수는 유효숫자 3자리 반올림이다. `+
-    `조회수·좋아요는 <b>${vids.기준}</b> 에 이 채널의 영상 ${콤마(편.전체)}편을 하나씩 다시 재서 더한 값이다.`;
+  $("#tiles-foot").innerHTML = t("s1.foot", vids.기준, 콤마(편.전체));
 }
 
 /* ─────────────────────────────────────────── 도구 */
@@ -706,11 +718,12 @@ function 툴팁(부모){
 }
 
 /* ─────────────────────────────────────────── 02 트렌드 */
+/* 이 함수만 인자 이름이 t 라 사전 t() 가 가려진다. 안에서는 t2() 로 부른다. */
+const t2 = (...a) => t(...a);
 function 그리기_trends(t){
   const 집 = t.집계;
-  $("#s2-sub").textContent =
-    `데뷔 후 ${집.바닥주수}주 중 ${집["4이하인주"]}주가 4 이하였다. 그 사이 앨범이 6장 나왔지만 곡선은 움직이지 않았다.`;
-  $("#s2-scale").textContent = t.값의의미 + " 가장 높은 주가 100이다.";
+  $("#s2-sub").textContent = t2("s2.sub", 집.바닥주수, 집["4이하인주"]);
+  $("#s2-scale").textContent = tj("s2.meaning", t.값의의미) + " " + t2("s2.scale");
 
   // 위쪽 T 위 구간은 안원잘부 업로드 눈금 전용 레인이다. 곡선과 겹치지 않게 비워 둔다.
   const W=1000,H=320,L=34,R=8,T=52,B=30,레인=34;
@@ -720,7 +733,7 @@ function 그리기_trends(t){
 
   const wrap = $("#s2-chart"); wrap.innerHTML="";
   const s = svg(W,H);
-  s.setAttribute("aria-label",`구글 검색 관심도 주간 곡선 ${n}주. 최근 값 ${주.at(-1).값}, 최고 100.`);
+  s.setAttribute("aria-label", t2("s2.aria", n, 주.at(-1).값));
 
   /* 눈금 */
   [0,25,50,75,100].forEach(v=>{
@@ -734,7 +747,7 @@ function 그리기_trends(t){
   if(시작>0){
     s.append(요소("rect",{x:px(시작),y:T,width:(W-R)-px(시작),height:H-T-B,fill:"#fc6fcf",opacity:.07}));
     const lb=요소("text",{x:px(시작)+8,y:T+14,fill:"var(--pink)","font-size":11.5,"font-weight":600});
-    lb.textContent=`최근 ${집.역주행주수}주`; s.append(lb);
+    lb.textContent=t2("s2.recent", 집.역주행주수); s.append(lb);
   }
 
   /* 곡선 */
@@ -762,7 +775,7 @@ function 그리기_trends(t){
       stroke:"var(--pink-dim)","stroke-width":2.5,"stroke-linecap":"round",opacity:.9}));
   });
   const 레인표 = 요소("text",{x:L,y:14,fill:"var(--ink-3)","font-size":11});
-  레인표.textContent = `안원잘부 업로드 ${t.영상.length}편`;
+  레인표.textContent = t2("s2.lane", t.영상.length);
   s.append(레인표);
 
   /* x 라벨 */
@@ -789,19 +802,17 @@ function 그리기_trends(t){
     const 발 = t.발매.find(r=>r.주인덱스===i);
     tip.보이기(box.left - s.parentElement.getBoundingClientRect().left + px(i)/W*box.width,
       box.top - s.parentElement.getBoundingClientRect().top + py(주[i].값)/H*box.height,
-      `${주[i].주시작} 주<br><b>${주[i].값}</b>${발?` · ${발.제목} 발매`:""}`);
+      t2("s2.tip", 주[i].주시작, 주[i].값, 발 ? 발.제목 : null));
   });
   hit.addEventListener("pointerleave", ()=>{
     tip.숨기기(); 세로.setAttribute("opacity",0); 점.setAttribute("opacity",0);
   });
 
-  $("#s2-foot").innerHTML =
-    `유일한 예외는 ${집.유일한예외.주시작} 한 주(${집.유일한예외.값})인데 앨범이 아니라 다른 일 때문이었고 다음 주 4로 돌아왔다. `+
-    `<b>${집.무발매구간.구간}</b> 90일 동안 발매가 하나도 없었지만 값은 ${집.무발매구간.구간시작값}에서 ${집.무발매구간.구간끝값}으로 올랐다. `+
-    `다만 ${t.주의}`;
+  $("#s2-foot").innerHTML = t2("s2.foot", 집.유일한예외.주시작, 집.유일한예외.값,
+    집.무발매구간.구간, 집.무발매구간.구간시작값, 집.무발매구간.구간끝값, tj("s2.caution", t.주의));
 
   const dt = el("details");
-  dt.append(el("summary",null,"숫자로 보기 — 주간 값 표"));
+  dt.append(el("summary",null,t2("s2.table")));
   const tb=el("table"); const bd=el("tbody");
   주.forEach(w=>{ const r=el("tr"); r.append(el("td",null,w.주시작), el("td","num",String(w.값))); bd.append(r); });
   tb.append(bd); dt.append(tb); $("#s2-chart").after(dt);
@@ -811,7 +822,7 @@ function 그리기_trends(t){
 function 그리기_rank(r){
   const 집=r.집계;
   $("#s3-sub").textContent =
-    `${집.구간.replace(" ~ "," ~ ")} 사이 한국 구독자 순위가 ${콤마(집.첫한국순위)}위에서 ${콤마(집.끝한국순위)}위로 올랐다. 내려간 주는 ${집.내려간주}이다.`;
+    t("s3.sub", 집.구간, 콤마(집.첫한국순위), 콤마(집.끝한국순위), 집.내려간주);
 
   const W=1000,H=300,L=52,R=10,T=20,B=30;
   const 주=r.주간, n=주.length;
@@ -824,13 +835,13 @@ function 그리기_rank(r){
 
   const wrap=$("#s3-chart"); wrap.innerHTML="";
   const s=svg(W,H);
-  s.setAttribute("aria-label",`안원잘부 한국 구독자 순위 계단. ${콤마(집.첫한국순위)}위에서 ${콤마(집.끝한국순위)}위로.`);
+  s.setAttribute("aria-label", t("s3.aria", 콤마(집.첫한국순위), 콤마(집.끝한국순위)));
 
   [100000,10000,1000,100].forEach(v=>{
     if(v>최악||v<최고) return;
     s.append(요소("line",{x1:L,x2:W-R,y1:py(v),y2:py(v),stroke:"var(--line)","stroke-width":1}));
     const lb=요소("text",{x:L-8,y:py(v)+4,fill:"var(--ink-3)","font-size":11,"text-anchor":"end"});
-    lb.textContent=콤마(v)+"위"; s.append(lb);
+    lb.textContent=t("s3.rank", 콤마(v)); s.append(lb);
   });
 
   /* 계단 — 값이 유지되다 뛰므로 step-after 로 그린다 */
@@ -843,7 +854,7 @@ function 그리기_rank(r){
     "stroke-linejoin":"round","stroke-linecap":"round"}));
 
   /* 깃발 */
-  [[집.백만돌파,"구독 100만"],[집.천위진입,"1,000위 진입"]].forEach(([m,txt])=>{
+  [[집.백만돌파,t("s3.flag1")],[집.천위진입,t("s3.flag2")]].forEach(([m,txt])=>{
     if(!m) return;
     const x=px(new Date(m.날짜+"T00:00:00Z").getTime()), y=py(m.순위);
     s.append(요소("circle",{cx:x,cy:y,r:4.5,fill:"var(--pink)",stroke:"var(--bg)","stroke-width":2}));
@@ -871,26 +882,25 @@ function 그리기_rank(r){
     const pbox=wrap.parentElement.getBoundingClientRect();
     tip.보이기(box.left-pbox.left+px(날짜[best])/W*box.width,
       box.top-pbox.top+py(w.한국)/H*box.height,
-      `${w.날짜}<br>한국 <b>${콤마(w.한국)}위</b> · 구독 ${만(w.구독)}`);
+      t("s3.tip", w.날짜, 콤마(w.한국), 만(w.구독)));
   });
   hit.addEventListener("pointerleave", ()=>{ tip.숨기기(); 점.setAttribute("opacity",0); });
 
-  $("#s3-foot").innerHTML =
-    `가장 크게 오른 주는 ${집.구간.split(" ~ ")[0]} 이후 ${콤마(집.오른계단)}계단을 오르는 동안의 한 주였다. `+
-    `일별 평균 증가는 ${콤마(집.일별평균증가)}명이다. 출처는 ${r.출처}이고 공개 API 가 없어 페이지를 읽는 방식이라 <b>수집이 가장 잘 깨지는 항목</b>이다.`;
+  $("#s3-foot").innerHTML = t("s3.foot", 집.구간.split(" ~ ")[0], 콤마(집.오른계단),
+    콤마(집.일별평균증가), tj("s3.src", r.출처));
 }
 
 /* ─────────────────────────────────────────── 04 MV */
 function 그리기_mv(live){
   const M=live.MV, 최대=Math.max(...M.목록.map(m=>m.조회수));
   $("#s4-sub").textContent =
-    `본편 ${M.목록.length}편 누적 ${만(M.합계)}. 최근 1년에 올라온 ${M.최근1년편수}편이 ${M.최근1년비중}%를 가져갔다.`;
+    t("s4.sub", M.목록.length, 만(M.합계), M.최근1년편수, M.최근1년비중);
   const c=$("#s4-rows"); c.innerHTML="";
   M.목록.forEach(m=>{
     const a=el("a","row mv"+(m.최근1년?" on":""));
     a.href=`https://www.youtube.com/watch?v=${m.id}`;
     a.target="_blank"; a.rel="noopener";
-    a.setAttribute("aria-label",`${m.곡} ${만(m.조회수)}회, ${m.공개일} 공개`);
+    a.setAttribute("aria-label", t("s4.aria", m.곡, 만(m.조회수), m.공개일));
     a.append(el("span","rk",String(m.순위)));
     const img=el("img","thumb");
     img.src=`https://i.ytimg.com/vi/${m.id}/mqdefault.jpg`;
@@ -903,9 +913,7 @@ function 그리기_mv(live){
     a.append(mid, el("span","val num", 만(m.조회수)));
     c.append(a);
   });
-  $("#s4-foot").innerHTML =
-    `티저 · Performance ver. · 일본어판 · Special Video 를 뺀 <b>본편 ${M.목록.length}편</b>이다. `+
-    `줄을 누르면 유튜브로 간다. 썸네일은 유튜브에서 그대로 불러온다.`;
+  $("#s4-foot").innerHTML = t("s4.foot", M.목록.length);
 }
 
 /* ─────────────────────────────────────────── 03 영상 랭킹 */
@@ -917,7 +925,7 @@ function 칠하기(그룹, 값){
 function 초시각(초){
   if(!초) return "";
   const m = Math.floor(초/60), s2 = 초%60;
-  return m >= 60 ? `${Math.floor(m/60)}시간 ${m%60}분` : (m ? `${m}분 ${s2}초` : `${s2}초`);
+  return m >= 60 ? t("u.hour", Math.floor(m/60), m%60) : (m ? t("u.min", m, s2) : t("u.sec", s2));
 }
 function 그리기_videos(vids){
   const v = vids.채널[상태.채널];
@@ -938,25 +946,26 @@ function 그리기_videos(vids){
     .sort((a,b) => b[기준] - a[기준])
     .slice(0, 상태.N);
 
-  const 이름 = 상태.채널 === "리센느" ? "RESCENE 공식" : "안원잘부";
+  const 채널이름 = 상태.채널 === "리센느" ? t("sv.ch.res") : t("sv.ch.anw");
   const 몇편 = 상태.형식 === "전체" ? v.편수.전체 : v.편수[상태.형식];
-  $("#sv-h").textContent = `${기준} 상위 ${뽑.length}편`;
-  $("#sv-sub").textContent =
-    `${이름} 채널의 ${상태.형식 === "전체" ? "" : 상태.형식 + " "}${콤마(몇편)}편을 ${기준}로 줄 세운 것이다. ` +
-    (기준 === "좋아요" && v.좋아요숨김
-      ? `좋아요를 숨긴 ${콤마(v.좋아요숨김)}편은 여기에 못 들어온다.`
-      : `1위 한 편이 ${만(뽑.length ? 뽑[0][기준] : 0)}${기준 === "조회수" ? "회" : "개"}다.`);
+  const 단위 = 기준 === "조회수" ? t("sv.unit.view") : t("sv.unit.like");
+  $("#sv-h").textContent = t("sv.h", 낱(기준), 뽑.length);
+  $("#sv-sub").textContent = t("sv.sub", 채널이름,
+    상태.형식 === "전체" ? "" : 낱(상태.형식) + " ", 콤마(몇편), 낱(기준),
+    (기준 === "좋아요" && v.좋아요숨김)
+      ? t("sv.sub.hid", 콤마(v.좋아요숨김))
+      : t("sv.sub.top", 만(뽑.length ? 뽑[0][기준] : 0), 단위));
 
   const c = $("#sv-rows"); c.innerHTML = "";
   if(!뽑.length){
-    c.append(el("p","empty","이 형식에는 남긴 영상이 없다."));
+    c.append(el("p","empty",t("sv.empty")));
   }
   const 최대 = 뽑.length ? 뽑[0][기준] : 1;
   뽑.forEach((x,i)=>{
     const a = el("a","row vid" + (i === 0 ? " on" : ""));
     a.href = (x.형식 === "쇼츠" ? "https://www.youtube.com/shorts/" : "https://www.youtube.com/watch?v=") + x.id;
     a.target = "_blank"; a.rel = "noopener";
-    a.setAttribute("aria-label", `${i+1}위 ${x.제목}, ${기준} ${만(x[기준])}`);
+    a.setAttribute("aria-label", t("sv.aria", i+1, x.제목, 낱(기준), 만(x[기준])));
     a.append(el("span","rk",String(i+1)));
     const img = el("img","thumb");
     img.src = `https://i.ytimg.com/vi/${x.id}/mqdefault.jpg`;
@@ -969,22 +978,19 @@ function 그리기_videos(vids){
     bar.append(i2); mid.append(bar);
     const 메타 = el("div","meta");
     메타.append(날(x.공개일) + "  ·  ");
-    메타.append(el("b", null, 상태.형식 === "전체" ? x.형식 : 초시각(x.길이)));
+    메타.append(el("b", null, 상태.형식 === "전체" ? 낱(x.형식) : 초시각(x.길이)));
     // 오른쪽 큰 값이 이미 기준 값이다. 여기에는 반대쪽 값만 적어 같은 수를 두 번 적지 않는다.
     메타.append(기준 === "조회수"
-      ? "  ·  좋아요 " + (x.좋아요 === null ? "숨김" : 만(x.좋아요))
-      : "  ·  조회 " + 만(x.조회수));
+      ? t("sv.meta.like", x.좋아요 === null ? t("sv.likehid") : 만(x.좋아요))
+      : t("sv.meta.view", 만(x.조회수)));
     mid.append(메타);
     a.append(mid, el("span","val num", 만(x[기준])));
     c.append(a);
   });
 
-  $("#sv-foot").innerHTML =
-    `줄을 누르면 유튜브로 간다. 썸네일은 유튜브에서 그대로 불러온다. ` +
-    `<b>${vids.기준}</b> 에 ${vids.수단} 으로 이 채널 전편(${콤마(v.편수.전체)}편)을 재고, ` +
-    `저장소에는 조회수·좋아요 상위 ${콤마(vids.보관.채널상위)}편(형식마다 ${vids.보관.형식상위}편)만 남긴다 — ` +
-    `위 타일의 누적값은 남긴 편이 아니라 <b>전편</b>을 더한 값이다.` +
-    (v.못받은편수 ? ` 이번 수집에서 ${콤마(v.못받은편수)}편은 조회에 실패해 빠졌다.` : "");
+  $("#sv-foot").innerHTML = t("sv.foot", vids.기준, vids.수단, 콤마(v.편수.전체),
+    콤마(vids.보관.채널상위), vids.보관.형식상위,
+    v.못받은편수 ? t("sv.foot.miss", 콤마(v.못받은편수)) : "");
 }
 
 /* ─────────────────────────────────────────── 04 라이브 아카이브 */
@@ -1038,67 +1044,60 @@ function 세로막대(자리, 값들, 라벨들, 옵션){
 
 function 그리기_streams(st){
   const 요 = st.요약;
-  $("#s10-sub").textContent =
-    `공식 채널 라이브 탭 ${요.전체편수}편을 전부 받아 방송 간격·길이·썸네일 얼굴·조회수를 세었다. ` +
-    `사흘에 한 번꼴로 켰고, 한 번 켜면 평균 ${Math.round(요.평균길이분)}분이다.`;
+  $("#s10-sub").textContent = t("s10.sub", 요.전체편수, Math.round(요.평균길이분));
 
   const c = $("#s10-tiles"); c.innerHTML = "";
   c.append(
-    타일("라이브 편수", 콤마(요.전체편수), `${st.구간.slice(0,10)} 첫 방송부터`, true),
-    타일("방송 간격", 요.중앙간격일 + "일", `중앙값 · 평균 ${요.평균간격일}일`, false),
-    타일("평균 길이", Math.round(요.평균길이분) + "분", `한 시간 넘는 편이 ${요["1시간이상비율%"]}%`, false),
-    타일("누적 방송시간", Math.round(요.총방송시간h) + "시간", `다 보려면 12일 넘게 걸린다`, false)
+    타일(t("s10.t1"), 콤마(요.전체편수), t("s10.t1d", st.구간.slice(0,10)), true),
+    타일(t("s10.t2"), t("s10.t2v", 요.중앙간격일), t("s10.t2d", 요.평균간격일), false),
+    타일(t("s10.t3"), t("s10.t3v", Math.round(요.평균길이분)), t("s10.t3d", 요["1시간이상비율%"]), false),
+    타일(t("s10.t4"), t("s10.t4v", Math.round(요.총방송시간h)), t("s10.t4d"), false)
   );
 
   // 월별 편수
   const m = st.월별;
   $("#s10-month-note").innerHTML =
-    `월별 편수다. 2024년 ${st.연도별[0].편수}편 → 2025년 ${st.연도별[1].편수}편 → 2026년 ${st.연도별[2].편수}편(8월까지). ` +
-    `<b>뜸해졌지만 한 편이 받는 조회수는 자릿수가 달라졌다</b> — 아래 월별 평균 조회수를 같이 볼 것.`;
+    t("s10.monthnote", st.연도별[0].편수, st.연도별[1].편수, st.연도별[2].편수);
   const 최다달 = m.reduce((a,b)=>b.편수 > a.편수 ? b : a);
   세로막대($("#s10-month"), m.map(r=>r.편수), m.map(r=>r.연월.slice(2).replace("-", ".")),
-    {라벨간격:2, 설명:"월별 라이브 편수", 짚기:i=>m[i].연월 === 최다달.연월,
-     툴팁:(i,v)=>`<b>${m[i].연월}</b> · ${v}편<br>평균 ${Math.round(m[i].평균분)}분 · 평균 ${만(Math.round(m[i].평균조회수))}회`});
+    {라벨간격:2, 설명:t("s10.month.aria"), 짚기:i=>m[i].연월 === 최다달.연월,
+     툴팁:(i,v)=>t("s10.month.tip", m[i].연월, v, Math.round(m[i].평균분), 만(Math.round(m[i].평균조회수)))});
 
   // 시각 · 요일
   const 시값 = [], 시라 = [];
   for(let h = 0; h < 24; h++){ 시값.push(st.시각[h] || 0); 시라.push(h); }
-  $("#s10-hour-cap").textContent = `밤 10시가 가장 많다. ${st.시각[22]}편이 22시대에 시작했고, 자정을 넘겨 시작한 편도 ${(st.시각[0]||0)+(st.시각[1]||0)+(st.시각[2]||0)}편이다.`;
+  $("#s10-hour-cap").textContent = t("s10.hour.cap", st.시각[22], (st.시각[0]||0)+(st.시각[1]||0)+(st.시각[2]||0));
   const 최다시 = 시값.indexOf(Math.max(...시값));
-  세로막대($("#s10-hour"), 시값, 시라, {폭:500, 높이:200, 눈금:3, 라벨간격:3, 설명:"시작 시각별 편수",
+  세로막대($("#s10-hour"), 시값, 시라, {폭:500, 높이:200, 눈금:3, 라벨간격:3, 설명:t("s10.hour.aria"),
     짚기:i=>i === 최다시,
-    툴팁:(i,v)=>`<b>${i}시대</b> · ${v}편`});
+    툴팁:(i,v)=>t("s10.hour.tip", i, v)});
 
   const 요일 = ["월","화","수","목","금","토","일"];
   // 요일은 짚는 막대가 없다 — 「쏠림이 없다」가 이 화면의 주장이라 한 칸만 밝히면 거짓이 된다
-  $("#s10-dow-cap").textContent = "수·토가 조금 많지만 요일 쏠림은 거의 없다.";
-  세로막대($("#s10-dow"), 요일.map(d=>st.요일[d] || 0), 요일, {폭:500, 높이:200, 눈금:3, 설명:"요일별 편수",
-    툴팁:(i,v)=>`<b>${요일[i]}요일</b> · ${v}편`});
+  $("#s10-dow-cap").textContent = t("s10.dow.cap");
+  세로막대($("#s10-dow"), 요일.map(d=>st.요일[d] || 0), 요일.map(낱), {폭:500, 높이:200, 눈금:3, 설명:t("s10.dow.aria"),
+    툴팁:(i,v)=>t("s10.dow.tip", 낱(요일[i]), v)});
 
   // 러닝타임
   const 구간 = Object.keys(st.히스);
-  $("#s10-dur-note").innerHTML =
-    `러닝타임 분포다(분). 네 편 중 세 편이 한 시간을 넘고, 다섯 편 중 한 편은 두 시간을 넘긴다. ` +
-    `가장 긴 편은 <b>${Math.round(요.최장분)}분</b>짜리 「어디까엉???」이다.`;
+  $("#s10-dur-note").innerHTML = t("s10.durnote", Math.round(요.최장분));
   const 최다구간 = 구간.reduce((a,b)=>st.히스[b] > st.히스[a] ? b : a);
-  세로막대($("#s10-dur"), 구간.map(k=>st.히스[k]), 구간, {높이:210, 설명:"러닝타임 구간별 편수",
+  세로막대($("#s10-dur"), 구간.map(k=>st.히스[k]), 구간.map(분구간), {높이:210, 설명:t("s10.dur.aria"),
     짚기:i=>구간[i] === 최다구간,
-    툴팁:(i,v)=>`<b>${구간[i]}분</b> · ${v}편`});
+    툴팁:(i,v)=>t("s10.dur.tip", 분구간(구간[i]), v)});
 
   // 멤버별 단독 vs 함께
   const 멤 = [...st.멤버].sort((a,b)=>b.출연편수-a.출연편수);
   const 최대출연 = 멤[0].출연편수;
   const 단독1위 = [...st.멤버].sort((a,b)=>b.단독편수-a.단독편수)[0];
-  $("#s10-mem-sub").textContent =
-    `썸네일 얼굴을 다섯 명으로 가르고 제목의 별명(메라디오·원쨩·까엉 등)을 합쳐 출연을 추정했다. ` +
-    `${요.전체편수}편 중 ${요.멤버판별된편수}편에서 최소 한 명을 특정했다. ` +
-    `${멤[0].멤버}가 ${멤[0].출연편수}편으로 가장 많이 얼굴을 비쳤고, 혼자 켠 방송은 ${단독1위.멤버}가 ${단독1위.단독편수}편으로 가장 많다.`;
+  $("#s10-mem-sub").textContent = t("s10.mem.sub", 요.전체편수, 요.멤버판별된편수,
+    이름(멤[0].멤버), 멤[0].출연편수, 이름(단독1위.멤버), 단독1위.단독편수);
   const mc = $("#s10-mem"); mc.innerHTML = "";
   멤.forEach(x=>{
     const row = el("div", "row mem");
-    row.append(el("span", "who", x.멤버));
+    row.append(el("span", "who", 이름(x.멤버)));
     const mid = el("div", "mid");
-    mid.append(el("div", "nm", `혼자 ${x.단독편수}편  ·  함께 ${x.출연편수 - x.단독편수}편  ·  얼굴이 잡힌 총 시간 ${Math.round(x.출연총시간h)}시간`));
+    mid.append(el("div", "nm", t("s10.mem.row", x.단독편수, x.출연편수 - x.단독편수, Math.round(x.출연총시간h))));
     const bar = el("div", "bar stack");
     const 단 = el("i"), 함 = el("i"), 남 = el("i");
     단.className = "solo"; 함.className = "with"; 남.className = "rest";
@@ -1106,43 +1105,39 @@ function 그리기_streams(st){
     함.style.width = ((x.출연편수 - x.단독편수) / 최대출연 * 100).toFixed(1) + "%";
     남.style.width = ((최대출연 - x.출연편수) / 최대출연 * 100).toFixed(1) + "%";
     bar.append(단, 함, 남); mid.append(bar);
-    row.append(mid, el("span", "val num", x.출연편수 + "편"));
+    row.append(mid, el("span", "val num", t("s10.mem.val", x.출연편수)));
     mc.append(row);
   });
-  $("#s10-mem-foot").innerHTML = `<b>판별 방법과 한계.</b> ${st.판별} ${st.한계}`;
+  $("#s10-mem-foot").innerHTML = t("s10.mem.foot", tj("s10.judge", st.판별), tj("s10.limit", st.한계));
 
   // 조합
   const 조 = st.조합;
-  $("#s10-combo-sub").textContent =
-    `혼자 켠 방송이 ${st.인원별.find(x=>x.출연수===1).편수}편, 둘이 ${st.인원별.find(x=>x.출연수===2).편수}편이다. ` +
-    `다섯 명이 다 잡힌 건 ${st.인원별.find(x=>x.출연수===5).편수}편뿐인데 쇼케이스·기념일처럼 다 모이는 자리였다.`;
+  $("#s10-combo-sub").textContent = t("s10.combo.sub",
+    st.인원별.find(x=>x.출연수===1).편수, st.인원별.find(x=>x.출연수===2).편수,
+    st.인원별.find(x=>x.출연수===5).편수);
   const tb = $("#s10-combo"); tb.innerHTML = "";
   조.forEach(x=>{
     const 이름 = x["출연(추정)"];
     const 수 = 이름.split(",").length;
     const tr = el("tr");
-    const td1 = el("td", null, 수 === 5 ? "다섯 명 전원"
-                             : 수 === 1 ? 이름 + " 혼자"
-                             : 이름.replace(/,/g, " · "));
-    tr.append(td1, el("td", "num", 콤마(x.편수) + "편"), el("td", "num", 만(Math.round(x.평균조회수))));
+    const 옮긴 = 이름.split(",").map(z=>이름표옮김(z.trim())).join(" · ");
+    const td1 = el("td", null, 수 === 5 ? t("s10.combo.all")
+                             : 수 === 1 ? t("s10.combo.solo", 옮긴)
+                             : 옮긴);
+    tr.append(td1, el("td", "num", t("s10.mem.val", 콤마(x.편수))), el("td", "num", 만(Math.round(x.평균조회수))));
     tb.append(tr);
   });
 
   // 월별 평균 조회수
   $("#s10-view-sub").textContent =
-    `라이브 다시보기 누적 ${만(요.총조회수)}회, 좋아요 ${만(요.총좋아요)}개. 편당 중앙값은 ${만(요.중앙조회수)}회다. ` +
-    `2026년 3월부터 자릿수가 바뀐다.`;
+    t("s10.view.sub", 만(요.총조회수), 만(요.총좋아요), 만(요.중앙조회수));
   세로막대($("#s10-view"), m.map(r=>Math.round(r.평균조회수)), m.map(r=>r.연월.slice(2).replace("-", ".")),
-    {라벨간격:2, 높이:240, 설명:"월별 평균 조회수", 눈금글:v=>만(Math.round(v)),
+    {라벨간격:2, 높이:240, 설명:t("s10.view.aria"), 눈금글:v=>만(Math.round(v)),
      짚기:i=>m[i].연월 >= "2026-03",
-     툴팁:(i,v)=>`<b>${m[i].연월}</b> · 평균 ${만(v)}회<br>${m[i].편수}편 · 좋아요율 ${m[i].평균좋아요율}%`});
+     툴팁:(i,v)=>t("s10.view.tip", m[i].연월, 만(v), m[i].편수, m[i].평균좋아요율)});
 
-  $("#s10-foot").innerHTML =
-    `<b>멤버별 조회수를 그대로 비교하면 안 된다.</b> 채널이 커지는 동안 조회수가 통째로 올라, ` +
-    `최근에 방송을 많이 한 멤버가 유리하다. 같은 달 라이브 평균 대비 배수로 보정하면 다섯 명의 중앙값이 ` +
-    `${Math.min(...st.멤버.map(m=>m.상대조회배수중앙))}~${Math.max(...st.멤버.map(m=>m.상대조회배수중앙))}로 사실상 같다. ` +
-    `멤버 간 차이는 인기 차이라기보다 <b>방송 시점 차이</b>다. ` +
-    `한 편씩의 조회수·좋아요 순위는 위 <b>03 영상 랭킹</b>에서 형식을 「라이브」로 고르면 나온다 — 그쪽이 매주 갱신되는 값이다.`;
+  $("#s10-foot").innerHTML = t("s10.foot",
+    Math.min(...st.멤버.map(m=>m.상대조회배수중앙)), Math.max(...st.멤버.map(m=>m.상대조회배수중앙)));
 }
 
 /* ─────────────────────────────────────────── 04 카카오 이모티콘 (안원잘부) */
@@ -1156,50 +1151,51 @@ function 그리기_emoticon(e){
   const 이위종류 = new Set(탭.map(t => t["2위"])).size;
 
   // 제목에 쓰는 작은 수는 한글로 적는다 — 「6개 탭」보다 「여섯 탭」이 읽힌다
-  const 한글수 = n => ["","한","두","세","네","다섯","여섯","일곱","여덟","아홉","열"][n] || String(n);
+  const 한글수 = n => (LANG === "ko"
+    ? (["","한","두","세","네","다섯","여섯","일곱","여덟","아홉","열"][n] || String(n))
+    : String(n));
   $("#s11-h").textContent =
-    일위 === 탭.length ? `${한글수(탭.length)} 탭이 전부 같은 1위`
-    : 일위 ? `${한글수(탭.length)} 탭 중 ${한글수(일위)} 곳에서 1위`
-    : 최고 ? `연령 탭 최고 ${최고}위` : "인기 50위 밖";
+    일위 === 탭.length ? t("s11.h.all", 한글수(탭.length))
+    : 일위 ? t("s11.h.some", 한글수(탭.length), 한글수(일위))
+    : 최고 ? t("s11.h.best", 최고) : t("s11.h.out");
 
-  $("#s11-sub").textContent =
-    `카카오 이모티콘 「${상.이름}」은 안원잘부 장면 ${상.종수}종으로 만들어졌다. ` +
-    `인기 순위는 나이대별로 탭이 갈리는데, ` +
+  $("#s11-sub").textContent = t("s11.sub", 상.이름, 상.종수,
     (일위 === 탭.length
-      ? `${한글수(탭.length)} 탭 전부에서 1위다. 2위는 ${한글수(이위종류)} 종류로 갈리는데 1위만 하나로 모였다.`
-      : `지금은 ${든것.map(t => t.탭 + " " + t.리센느순위 + "위").join(" · ")}다.`);
+      ? t("s11.sub.all", 한글수(탭.length), 한글수(이위종류))
+      : t("s11.sub.some", 든것.map(x => 낱(x.탭) + " " + t("s11.t2v", x.리센느순위)).join(" · "))));
 
   const c = $("#s11-tiles"); c.innerHTML = "";
   c.append(
-    타일("이모티콘", 상.종수 + "종", `${상.출시} 출시`, false),
-    타일(일위 === 탭.length ? "모든 탭에서" : "가장 높은 자리",
-        (최고 || "—") + "위", `${한글수(탭.length)} 연령 탭 기준`, true),
-    타일("2위는", 이위종류 + "종류", "탭마다 다른 이모티콘", false),
-    타일("가격", 콤마(가.판매가) + "원",
-        가.할인율 ? `정가 ${콤마(가.정가)}원 · ${가.문구}` : "정가", false)
+    타일(t("s11.t1"), t("s11.t1v", 상.종수), t("s11.t1d", 상.출시), false),
+    타일(일위 === 탭.length ? t("s11.t2.all") : t("s11.t2.best"),
+        최고 ? t("s11.t2v", 최고) : "—", t("s11.t2d", 한글수(탭.length)), true),
+    타일(t("s11.t3"), t("s11.t3v", 이위종류), t("s11.t3d"), false),
+    타일(t("s11.t4"), t("s11.t4v", 콤마(가.판매가)),
+        가.할인율 ? t("s11.t4d", 콤마(가.정가),
+                     LANG === "ko" ? 가.문구 : t("s11.sale", 가.할인율)) : t("s11.t4d0"), false)
   );
 
-  $("#s11-rank-sub").textContent =
-    `${e.순위.수집시각} 기준. 순위는 실시간으로 바뀌므로 이 화면은 잰 시각을 같이 적는다.`;
+  $("#s11-rank-sub").textContent = t("s11.rank.sub", e.순위.수집시각);
+  $("#s11-rank-th2").textContent = 상.이름;
+  $("#s11-src-h").textContent = t("s11.src.h", 상.종수);
+  $("#s11-list-sum").textContent = t("s11.list.sum", 상.종수);
   const tb = $("#s11-rank"); tb.innerHTML = "";
   탭.forEach(t=>{
     const tr = el("tr");
-    tr.append(el("td", null, t.탭));
+    tr.append(el("td", null, 낱(t.탭)));
     const 자리 = el("td", "num");
-    const b = el("b", null, t.리센느순위 ? t.리센느순위 + "위" : "50위 밖");
+    const b = el("b", null, t.리센느순위 ? t2("s11.t2v", t.리센느순위) : t2("s11.rank.out"));
     if(t.리센느순위 === 1) b.style.color = "var(--pink)";
     자리.append(b);
     tr.append(자리, el("td", null, t["2위"]));
     tb.append(tr);
   });
-  $("#s11-rank-foot").innerHTML =
-    `출처 <b>${e.순위.출처}</b>. 인기 순위는 카카오가 매기는 값이고 판매량 그 자체가 아니다. ` +
-    `가격·할인은 <b>${가.기준일}</b> 기준이며 할인은 한시적일 수 있다.`;
+  $("#s11-rank-foot").innerHTML = t("s11.rank.foot", tj("s11.src", e.순위.출처), 가.기준일);
 
   // 편별 분포
   const 편 = e.원본.편별, 최대 = Math.max(...편.map(x=>x.종수));
-  $("#s11-src-sub").textContent =
-    `${상.종수}종이 안원잘부 ${편.length}편에서 나왔다. 상위 네 편이 ${편.slice(0,4).reduce((a,b)=>a+b.종수,0)}종을 차지한다.`;
+  $("#s11-src-sub").textContent = t("s11.src.sub", 상.종수, 편.length,
+    편.slice(0,4).reduce((a,b)=>a+b.종수,0));
   const sc = $("#s11-src"); sc.innerHTML = "";
   편.forEach((x,i)=>{
     const row = el("div", "row" + (i === 0 ? " on" : ""));
@@ -1209,7 +1205,7 @@ function 그리기_emoticon(e){
     const bar = el("div","bar"), b = el("i");
     b.style.width = (x.종수/최대*100).toFixed(1) + "%";
     bar.append(b); mid.append(bar);
-    row.append(mid, el("span","val num", x.종수 + "종"));
+    row.append(mid, el("span","val num", t("s11.src.val", x.종수)));
     sc.append(row);
   });
 
@@ -1227,12 +1223,8 @@ function 그리기_emoticon(e){
     lb.append(tr);
   });
 
-  $("#s11-foot").innerHTML =
-    `장면은 ${e.원본.찾은법} <b>카카오가 자막을 다시 쓴 것이 있다</b> — ` +
-    `거제 1편의 「마떼루용~」은 원본 화면자막이 「기다린다구~」이고, 첫TVCF 의 「와 이리 자주 봅니까?」는 ` +
-    `원본이 「와 이래 많이 봅니까? 우리」다. 그래서 대사 검색으로는 못 찾고 프레임이 최종 근거다. ` +
-    `시각을 누르면 그 장면부터 재생된다. ` +
-    `<a href="${상.링크}" target="_blank" rel="noopener" style="color:var(--pink)">이모티콘 보러 가기</a>`;
+  $("#s11-foot").innerHTML = t("s11.foot", tj("s11.how", e.원본.찾은법)) +
+    `<a href="${상.링크}" target="_blank" rel="noopener" style="color:var(--pink)">${t("s11.foot.link")}</a>`;
 }
 
 /* ─────────────────────────────────────────── 채널 전환 */
@@ -1279,23 +1271,21 @@ function 조작붙이기(){
 /* ─────────────────────────────────────────── 05 브랜드평판 */
 function 그리기_rep(r){
   const 최대=Math.max(...r.TOP10.map(t=>t.지수));
-  $("#s5-sub").textContent =
-    `${r.기준} ${r.지표}. 리센느는 5인조이니 TOP 10 안의 리센느 ${r.리센느수}명이 곧 멤버 전원이다.`;
+  $("#s5-sub").textContent = t("s5.sub", t("s5.base", r.기준), tj("s5.index", r.지표), r.리센느수);
   const c=$("#s5-rows"); c.innerHTML="";
   r.TOP10.forEach(t=>{
     const 리 = t.그룹==="리센느";
     const row=el("div","row"+(리?" on":""));
     row.append(el("span","rk",String(t.순위)));
     const mid=el("div","mid");
-    mid.append(el("div","nm", `${t.이름}  ·  ${t.그룹}`));
+    mid.append(el("div","nm", `${이름(t.이름)}  ·  ${이름(t.그룹)}`));
     const bar=el("div","bar"); const i=el("i");
     i.style.width=(t.지수/최대*100).toFixed(1)+"%"; bar.append(i); mid.append(bar);
     row.append(mid, el("span","val num", 만(t.지수)));
     c.append(row);
   });
-  $("#s5-foot").innerHTML =
-    `<b>${r.단서}</b> 지수 ${콤마(r.TOP10[0].지수)}를 「언급 ${만(r.TOP10[0].지수)} 건」으로 읽으면 안 된다. `+
-    `${r.기관} 발표이고 원표는 brikorea 에 있다. 매월 초 발표라 자동으로 갱신되지 않는다.`;
+  $("#s5-foot").innerHTML = t("s5.foot", tj("s5.clue", r.단서),
+    콤마(r.TOP10[0].지수), 만(r.TOP10[0].지수), tj("s5.org", r.기관));
 }
 
 /* ─────────────────────────────────────────── 06 100만 클럽 */
@@ -1312,17 +1302,16 @@ function 그리기_club(c, live, milestone){
   const 꼴찌 = 목록.at(-1);
 
   $("#s6-h").textContent = 돌파
-    ? `${목록.length}팀, 리센느가 ${나자리+1}번째`
-    : `${c.총팀수}팀, 리센느는 ${c.리센느자리}번째`;
-  $("#s6-sub").textContent =
-    `걸그룹 유튜브 공식 채널 중 구독자 100만 이상. ` +
-    `1위 ${만(목록[0].구독자)}과 ${꼴찌.순위}위 ${만(꼴찌.구독자)}은 ${Math.round(목록[0].구독자/꼴찌.구독자)}배 차이라 같은 축의 막대로 그리지 않는다.`;
+    ? t("s6.h.in", 목록.length, 나자리+1)
+    : t("s6.h.out", c.총팀수, c.리센느자리);
+  $("#s6-sub").textContent = t("s6.sub", 만(목록[0].구독자), 만(꼴찌.구독자),
+    꼴찌.순위, Math.round(목록[0].구독자/꼴찌.구독자));
 
   const box=$("#s6-club"); box.innerHTML="";
   const 줄 = x => {
     const r=el("div","cr"+(x.나?" me":""));
     r.append(el("span","r", String(x.순위)),
-             el("span","g", x.그룹),
+             el("span","g", 이름(x.그룹)),
              el("span","s num", 만(x.구독자)));
     return r;
   };
@@ -1336,56 +1325,52 @@ function 그리기_club(c, live, milestone){
   if(시작 > 3) box.append(el("div","gap","· · ·"));
   뒤.forEach(x=>box.append(줄(x)));
   if(!돌파){
-    box.append(el("div","threshold","100만"));
+    box.append(el("div","threshold",t("s6.threshold")));
     box.append(줄({순위:c.리센느자리, 그룹:"리센느", 구독자:리, 나:true}));
   }else if(뒤.at(-1) !== 꼴찌){
     // 아래가 잘렸으면 잘렸다고 말한다 — 문턱 줄이 곧 목록 끝인 것처럼 보이면 안 된다
     box.append(el("div","gap","· · ·"));
     box.append(줄(꼴찌));
   }
-  box.append(el("div","threshold","100만"));
+  box.append(el("div","threshold",t("s6.threshold")));
 
-  $("#s6-foot").innerHTML =
-    `<b>${c.기준}</b> 기준 구독자다. 유튜브 공개 구독자는 유효숫자 3자리 반올림이라 끝자리를 단정할 수 없다. `+
-    `참고로 <b>안원잘부 ${만(c.안원잘부.구독자)}</b>을 이 표에 넣으면 ${c.안원잘부.위}와 ${c.안원잘부.아래} 사이 ${c.안원잘부.끼는자리}번째다 — 다만 그룹 공식 채널이 아니라 제작사 채널이라 표에는 넣지 않았다. `+
-    `${c.제외}`;
+  $("#s6-foot").innerHTML = t("s6.foot", c.기준, 만(c.안원잘부.구독자),
+    이름(c.안원잘부.위), 이름(c.안원잘부.아래), c.안원잘부.끼는자리, tj("s6.exclude", c.제외));
 }
 
 /* ─────────────────────────────────────────── 07 검색어 */
 function 그리기_search(s){
-  $("#s7-sub").textContent = s.값의의미;
+  $("#s7-sub").textContent = tj("s7.meaning", s.값의의미);
   const two=$("#s7-two"); two.innerHTML="";
 
   const 왼=el("div","pane");
-  왼.append(el("h3",null,"데뷔 후 2년"), el("p","when", s.비교기간));
+  왼.append(el("h3",null,t("s7.left.h")), el("p","when", 기간표(s.비교기간)));
   const c1=el("div","chips");
   s.데뷔후2년.forEach(x=> c1.append(el("span","chip", x.검색어)));
   왼.append(c1);
-  const t1=el("div","tally");
-  t1.innerHTML = `팬이 되어야 나오는 검색 <b>${s.데뷔후2년팬검색}개</b>`;
-  왼.append(t1);
+  const 셈1=el("div","tally");
+  셈1.innerHTML = t("s7.tally", s.데뷔후2년팬검색);
+  왼.append(셈1);
 
   const 오=el("div","pane");
-  오.append(el("h3",null,"최근 16주 급상승"), el("p","when", s.기간));
+  오.append(el("h3",null,t("s7.right.h")), el("p","when", 기간표(s.기간)));
   const c2=el("div","chips");
   s.급상승.forEach(x=>{
     const ch=el("span","chip"+(x.분류==="팬"?" on":""), x.검색어);
     ch.title = x.분류; c2.append(ch);
   });
   오.append(c2);
-  const t2=el("div","tally");
-  t2.innerHTML = `팬이 되어야 나오는 검색 <b>${s.집계.팬}개</b> — 버블 · 포카 · 콘서트 · 팬클럽 · 배경화면 · 일정`;
-  오.append(t2);
+  const 셈2=el("div","tally");
+  셈2.innerHTML = t("s7.tally2", s.집계.팬);
+  오.append(셈2);
 
   two.append(왼,오);
-  $("#s7-foot").innerHTML =
-    `${s.제외.표기} 이름 오타 ${s.집계.오타}개도 목록에 그대로 두었다 — 새로 알게 된 사람이 늘었다는 증거다. `+
-    `왼쪽은 값이 큰 순서, 오른쪽은 <b>늘어난 크기 순서</b>라 두 목록의 눈금이 다르다.`;
+  $("#s7-foot").innerHTML = t("s7.foot", tj("s7.excl", s.제외.표기), s.집계.오타);
 }
 
 /* ─────────────────────────────────────────── 08 카드 */
 function 그리기_archive(a){
-  $("#s8-sub").textContent = a.설명;
+  $("#s8-sub").textContent = tj("s8.desc", a.설명);
   const c=$("#s8-cards"); c.innerHTML="";
   a.카드.forEach(k=>{
     const node = k.링크 ? el("a","card") : el("div","card soon");
@@ -1394,10 +1379,10 @@ function 그리기_archive(a){
       const img=el("img"); img.src=k.썸네일; img.alt=""; img.loading="lazy";
       node.append(img);
     }else{
-      node.append(el("div","ph","아직 안 올린 편"));  // 자리를 비우면 옆 카드와 어긋난다
+      node.append(el("div","ph",t("s8.noimg")));  // 자리를 비우면 옆 카드와 어긋난다
     }
     const b=el("div","body");
-    b.append(el("div","n", k.공개예정 ? "공개 예정" : 날(k.날짜)));
+    b.append(el("div","n", k.공개예정 ? t("s8.soon") : 날(k.날짜)));
     b.append(el("div","t", k.제목));
     b.append(el("div","c", k.주장));
     // 수치는 사람이 붙이는 한마디다. 자동으로 실린 카드는 비어 있으니 그 줄을 아예 만들지 않는다
@@ -1411,20 +1396,41 @@ function 그리기_status(st){
   const b=$("#s9-rows"); b.innerHTML="";
   st.항목.forEach(x=>{
     const r=el("tr");
-    r.append(el("td",null,x.이름), el("td",null,x.출처), el("td","num",x.기준), el("td",null,x.주기));
-    const 결=el("td", x.결과==="OK"?"ok":"bad", x.결과==="OK"?"정상":"실패");
+    r.append(el("td",null,출처이름옮김(x.키, x.이름)), el("td",null,출처값옮김(x.키, x.출처)),
+             el("td","num",x.기준), el("td",null,낱(x.주기)));
+    const 결=el("td", x.결과==="OK"?"ok":"bad", x.결과==="OK"?t("s9.ok"):t("s9.bad"));
     r.append(결); b.append(r);
   });
-  $("#ft-when").innerHTML =
-    `마지막 갱신 <b>${st.갱신}</b>. ${st.메모}`;
+  const th = $("#s9-th");
+  if(th) t("s9.th").forEach((v,i)=>{ if(th.children[i]) th.children[i].textContent = v; });
+  $("#ft-when").innerHTML = t("ft.when", st.갱신, tj("ft.memo", st.메모));
 }
 
 /* 항목마다 잰 날이 다르면 그 사실을 숨기지 않는다 */
 function 그리기_기준일차이(live){
   const 리 = live.채널.리센느.기준, 안 = live.채널.안원잘부.기준;
   $("#ft-gap").innerHTML = 리 === 안
-    ? `두 채널 구독자는 <b>${리}</b> 같은 시각에 쟀다.`
-    : `리센느 공식은 <b>${리}</b>, 안원잘부는 <b>${안}</b> 기준이라 이틀 차이가 난다 — ${live.배수}배라는 값도 그만큼 어림이다. 자동 갱신이 붙으면 같은 시각으로 맞춰진다.`;
+    ? t("ft.same", 리)
+    : t("ft.gap", 리, 안, live.배수);
+}
+
+/* 나라말을 바꾸면 값이 든 문장은 전부 다시 만들어야 한다.
+   틀(고정 문구)은 나라말칠하기() 가, 값이 든 문장은 여기가 맡는다. */
+function 모두그리기(){
+  const d = D; if(!d) return;
+  document.querySelectorAll("#s2-chart ~ details").forEach(x=>x.remove());
+  그리기_trends(d.trends);
+  그리기_rank(d.rank);
+  그리기_mv(d.live);
+  그리기_rep(d.reputation);
+  그리기_club(d.club, d.live, d.milestone);
+  그리기_search(d.searches);
+  그리기_archive(d.archive);
+  그리기_streams(d.streams);
+  그리기_emoticon(d.emoticon);
+  그리기_status(d.status);
+  그리기_기준일차이(d.live);
+  전환(상태.채널);
 }
 
 /* ─────────────────────────────────────────── 시작 */
@@ -1437,6 +1443,7 @@ function 그리기_기준일차이(live){
     }));
     D = Object.fromEntries(파일.map((f,i)=>[f, 결과[i]]));
     const d = D;
+    LANG = 첫나라말();
     // 기본은 안원잘부다. #rescene 로 들어온 사람만 공식 채널 화면으로 연다.
     상태.채널 = location.hash === "#rescene" ? "리센느" : "안원잘부";
     조작붙이기();
@@ -1452,6 +1459,11 @@ function 그리기_기준일차이(live){
     그리기_status(d.status);
     그리기_기준일차이(d.live);
     전환(상태.채널);          // 채널에 딸린 세 화면은 여기서 한꺼번에 그린다
+    나라말칠하기();
+    $("#langs").addEventListener("click", e=>{
+      const b = e.target.closest("button[data-lang]");
+      if(b) 나라말바꾸기(b.dataset.lang, 모두그리기);
+    });
     $("#main").hidden = false;
   }catch(e){
     $("#err-msg").textContent = e.message;
