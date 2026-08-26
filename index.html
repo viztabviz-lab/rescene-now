@@ -643,7 +643,7 @@ let D = null;   // 읽어 온 JSON 전부
    코드가 비어 있으면 아무것도 부르지 않고 아무것도 안 보인다(남의 서버를 괜히 두드리지 않는다).
    붙이는 법: goatcounter.com 에서 주소코드를 만들고 여기 그 코드만 적는다.
    그리고 Settings → 「Allow adding visitor counts to your website」 를 켜야 총계가 열린다. */
-const GC코드 = "";              // 예: "rescene-now" → rescene-now.goatcounter.com
+const GC코드 = "rescene-now";   // rescene-now.goatcounter.com
 const GC시작 = "2026-08-27";    // 세기 시작한 날
 let 방문 = null;
 
@@ -656,8 +656,11 @@ function 방문세기(){
   fetch(`https://${GC코드}.goatcounter.com/counter/TOTAL.json`)
     .then(r => r.ok ? r.json() : Promise.reject(r.status))
     .then(j => {
-      const n = Number(String(j.count).replace(/[^\d]/g, ""));
-      if(!n) return;              // 0 이면 안 보여준다 — 셈이 아직 안 열린 것과 구별이 안 된다
+      // count 는 열어 본 횟수, count_unique 는 사람 수다. 「방문자」라고 적을 거라면 뒤쪽이다.
+      const n = Number(String(j.count_unique).replace(/[^\d]/g, ""));
+      if(!Number.isFinite(n)) return;
+      // 0 도 보여준다. 총계가 안 열렸으면 여기까지 오지 못하고 403 으로 걸러진다 —
+      // 「아직 아무도 안 왔다」와 「셈이 안 열렸다」는 HTTP 상태로 이미 갈렸다.
       방문 = n; 그리기_방문();
     })
     .catch(()=>{});               // 못 받으면 조용히 없던 일로 한다

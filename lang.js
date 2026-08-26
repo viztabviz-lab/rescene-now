@@ -110,7 +110,7 @@ const STR = {
 "hdr.tagline": {ko:"리마인 야호!", en:"Rimine, yaho!", ja:"リマイン やっほー！"},
 /* 방문 수 — 머리에는 숫자만, 언제부터 센 값인지는 꼬리말에 적는다.
    「지금까지」라고 쓰지 않는다. 붙인 날부터 센 값이라 그 말은 거짓이 된다. */
-"hdr.visits":  {ko:n=>`방문 ${n}`, en:n=>`${n} visits`, ja:n=>`訪問 ${n}`},
+"hdr.visits":  {ko:n=>`방문자 ${n}`, en:n=>`${n} visitors`, ja:n=>`訪問者 ${n}`},
 "hdr.visits.title":{ko:d=>`${d} 부터 센 값이다`, en:d=>`Counted since ${d}`, ja:d=>`${d} からの集計です`},
 "hdr.langlabel":{ko:"언어 고르기", en:"Choose language", ja:"言語を選ぶ"},
 
@@ -500,9 +500,9 @@ const STR = {
 "ft.gap":      {ko:(a,b,m)=>`리센느 공식은 <b>${a}</b>, 안녕하세요원이입니다잘부탁드립니다 는 <b>${b}</b> 기준이라 이틀 차이가 난다 — ${m}배라는 값도 그만큼 어림이다. 자동 갱신이 붙으면 같은 시각으로 맞춰진다.`,
                 en:(a,b,m)=>`The official channel is as of <b>${a}</b> and the other as of <b>${b}</b> — two days apart, so the ${m}× figure is that approximate. Once automatic collection covers both they will line up.`,
                 ja:(a,b,m)=>`RESCENE公式は <b>${a}</b>、もう一方は <b>${b}</b> 基準で2日ずれています — ${m}倍という値もその分だけ概算です。自動更新が付けば同じ時刻に揃います。`},
-"ft.visits":   {ko:d=>`방문 수는 ${d} 부터 GoatCounter 로 셌다. 그 전 기록은 어디에도 남아 있지 않다. 쿠키를 쓰지 않고 개인을 알아보지 않는다.`,
-                en:d=>`Visits have been counted with GoatCounter since ${d}. Nothing from before that was ever recorded. It uses no cookies and does not identify anyone.`,
-                ja:d=>`訪問数は ${d} から GoatCounter で数えています。それ以前の記録はどこにも残っていません。Cookie は使わず、個人を特定しません。`},
+"ft.visits":   {ko:d=>`방문자 수는 ${d} 부터 GoatCounter 로 셌다. 그 전 기록은 어디에도 남아 있지 않다. 쿠키를 쓰지 않고 개인을 알아보지 않으며, 그래서 같은 사람이 다른 날 다시 오면 다시 센다.`,
+                en:d=>`Visitors have been counted with GoatCounter since ${d}. Nothing from before that was ever recorded. It uses no cookies and identifies no one, so the same person returning on another day is counted again.`,
+                ja:d=>`訪問者数は ${d} から GoatCounter で数えています。それ以前の記録はどこにも残っていません。Cookie を使わず個人を特定しないため、同じ人が別の日に再訪すると再度数えられます。`},
 "ft.made":     {ko:"만든 곳 · ", en:"Made by · ", ja:"制作 · "},
 "ft.madelink": {ko:"유튜브 @data-viz", en:"YouTube @data-viz", ja:"YouTube @data-viz"},
 "ft.disc":     {ko:" · 리센느와 소속사·제작사와 아무 관계가 없는 팬 제작 페이지다.",
