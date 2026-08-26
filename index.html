@@ -58,6 +58,12 @@ a{color:inherit}
 /* 방문 수 — 브랜드 줄 오른쪽. 셀 수 없으면 아예 안 그린다(hidden). 0 을 보여주지 않는다. */
 .brandline .visits{letter-spacing:0;text-transform:none;color:var(--ink-3)}
 .brandline .visits::before{content:"·";margin:0 7px 0 3px;color:var(--line)}
+/* 조회 수는 사람 수보다 한 칸 흐리게 — 무엇이 주인공인지 색으로 가른다.
+   **여기에 --pink-dim 을 쓰지 말 것.** 보조 정보가 브랜드 강조처럼 읽혀
+   주인공(방문자)보다 눈에 띈다. 강조는 올려서 만들지 말고 내려서 만든다.
+   #6b6b66 은 --ink-3 와 --line 사이 — 배경 대비 3.2:1 로 작은 글씨도 읽힌다. */
+.brandline .visits .views{color:#6b6b66}
+.brandline .visits .views::before{content:"·";margin:0 6px;color:var(--line)}
 /* 언어 단추 — 채널 탭(.seg)과 같은 모양이라 「고르는 것」으로 읽힌다 */
 .langs{
   margin-left:auto;display:flex;background:var(--surface);border:1px solid var(--line);
@@ -656,12 +662,13 @@ function 방문세기(){
   fetch(`https://${GC코드}.goatcounter.com/counter/TOTAL.json`)
     .then(r => r.ok ? r.json() : Promise.reject(r.status))
     .then(j => {
-      // count 는 열어 본 횟수, count_unique 는 사람 수다. 「방문자」라고 적을 거라면 뒤쪽이다.
-      const n = Number(String(j.count_unique).replace(/[^\d]/g, ""));
-      if(!Number.isFinite(n)) return;
+      // count 는 열어 본 횟수, count_unique 는 사람 수. 둘은 다른 것을 재므로 둘 다 적는다.
+      const 수 = k => Number(String(j[k]).replace(/[^\d]/g, ""));
+      const n = 수("count_unique"), c = 수("count");
+      if(!Number.isFinite(n) || !Number.isFinite(c)) return;
       // 0 도 보여준다. 총계가 안 열렸으면 여기까지 오지 못하고 403 으로 걸러진다 —
       // 「아직 아무도 안 왔다」와 「셈이 안 열렸다」는 HTTP 상태로 이미 갈렸다.
-      방문 = n; 그리기_방문();
+      방문 = {사람: n, 조회: c}; 그리기_방문();
     })
     .catch(()=>{});               // 못 받으면 조용히 없던 일로 한다
 }
@@ -669,11 +676,13 @@ function 방문세기(){
 function 그리기_방문(){
   if(방문 == null) return;
   const v = $("#visits");
-  v.textContent = t("hdr.visits", 콤마(방문));
+  v.innerHTML = "";
+  v.append(t("hdr.visits", 콤마(방문.사람)),
+           el("span", "views", t("hdr.views", 콤마(방문.조회))));
   v.title = t("hdr.visits.title", GC시작);
   v.hidden = false;
   const f = $("#ft-visits");
-  f.textContent = t("ft.visits", GC시작);
+  f.innerHTML = t("ft.visits", GC시작);      // 문구 안에 <b> 가 있다
   f.hidden = false;
 }
 const $ = s => document.querySelector(s);
