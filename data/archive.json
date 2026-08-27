@@ -1,9 +1,31 @@
 {
- "기준": "2026-08-27",
+ "기준": "2026-08-28",
  "설명": "갱신되지 않는 일회성 집계는 전부 여기 모은다. 카드 하나가 쇼츠 한 편이다.",
  "채널": "https://www.youtube.com/@data-viz",
  "썸네일주의": "i.ytimg.com 을 참조만 한다. 파일을 저장소에 복사하지 않고, 카드 전체가 영상 링크가 된다.",
  "카드": [
+  {
+   "id": "vwvPqlbfHzY",
+   "날짜": "2026-08-28",
+   "제목": "수박차트 114위에서 1위까지 #리센느",
+   "주장": "2024년 10월 10일 고려대학교 가을축제.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/vwvPqlbfHzY",
+   "썸네일": "https://i.ytimg.com/vi/vwvPqlbfHzY/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "ohKp2LbGVg8",
+   "날짜": "2026-08-27",
+   "제목": "리센느 러브어택 Love Attack 2년 발자취 #shorts",
+   "주장": "리센느 「LOVE ATTACK」이 2026년 8월 27일로 발매 2년(730일)이 됐습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/ohKp2LbGVg8",
+   "썸네일": "https://i.ytimg.com/vi/ohKp2LbGVg8/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
   {
    "id": "8brnqci7B88",
    "날짜": "2026-08-27",
