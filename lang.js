@@ -538,6 +538,9 @@ function t(k, ...a){
   if(!e) return k;
   let v = e[LANG];
   if(v === undefined || v === null) v = e.ko;
+  // ko:null 은 「한국어는 원문을 그대로 쓴다」는 뜻이다. 그대로 돌려주면 화면에 null 이 찍힌다 —
+  // 실제로 화면 05 가 「null 걸그룹 개인 브랜드평판」으로 나갔다(s5.base). 원문을 돌려준다.
+  if(v === undefined || v === null) return a.length ? a[0] : "";
   return typeof v === "function" ? v(...a) : v;
 }
 /* JSON 안에 든 한국어 설명글. 한국어면 원문, 아니면 사전에 적어 둔 번역 */

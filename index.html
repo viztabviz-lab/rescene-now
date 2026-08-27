@@ -98,12 +98,10 @@ h2{
   font-size:clamp(22px,5.4vw,30px);font-weight:800;letter-spacing:-.025em;
   line-height:1.3;margin:0 0 10px;
 }
-.sub{color:var(--ink-2);margin:0 0 22px;font-size:15px;max-width:52ch}
-/* 52ch 는 여러 줄짜리 설명글을 읽기 좋게 하려고 둔 값이다. 05 트렌드의 한 문장은
-   그 안에서 두 줄로 접히는데, 「109주가 4 이하」와 「앨범 6장」이 갈라져 두 사실이
-   따로 읽혔다. 한 줄에 두면 둘이 한 문장으로 읽힌다. 좁은 화면에서는 그대로 접힌다.
-   한 줄 폭 실측 — 한국어 541px · 日本語 734px · English 778px. */
-#s2-sub{max-width:none}
+/* 각주(.foot)와 같다 — 폭을 묶지 않는다. 52ch 로 두면 오른쪽 절반이 통째로 빈다.
+   실측(1280px): 05 평판 2줄→1줄 · 04 이모티콘 3줄→2줄 · 09 출처 2줄→1줄.
+   좁은 화면은 칸 자체가 좁아 그대로다. */
+.sub{color:var(--ink-2);margin:0 0 22px;font-size:15px}
 /* 각주에는 max-width 를 주지 않는다 — 칸을 다 쓴다.
    56ch 로 묶어 뒀더니 서너 줄로 접히고 오른쪽 절반이 통째로 비었다.
    **두 단(columns:2)으로도 해 봤는데 되돌렸다.** 크롬 균형기가 짧은 각주를 안 가른다 —
