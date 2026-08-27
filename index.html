@@ -615,6 +615,7 @@ footer p{max-width:60ch;margin:0}
     <h2 data-i18n="s8.h">우리가 세어 본 것들</h2>
     <p class="sub" id="s8-sub"></p>
     <div class="cards" id="s8-cards"></div>
+    <p class="foot" id="s8-hidden" hidden></p>
     <p class="raw" data-i18n="s8.kornote" hidden></p>
   </section>
 
@@ -1476,9 +1477,17 @@ function 그리기_search(s){
 
 /* ─────────────────────────────────────────── 08 카드 */
 function 그리기_archive(a){
+  // **전체 공개인 편만 낸다.** 올렸다가 일부공개로 돌린 편은 링크로는 열려도
+  // 채널 목록에 없다 — 채널을 소개하는 화면에 두면 맞지 않는다.
+  // 아직 안 올린 「공개 예정」 카드도 여기서는 빼고, 몇 장을 뺐는지는 밑에 적는다.
+  const 다 = a.카드 || [];
+  const 카드 = 다.filter(k => k.링크 && k.공개 !== false);
+  // 뺀 까닭이 둘이라 따로 센다 — 「올렸다가 내린 것」과 「아직 안 올린 것」은 다른 이야기다
+  const 내린것 = 다.filter(k => k.링크 && k.공개 === false).length;
+  const 안올린것 = 다.filter(k => !k.링크).length;
   $("#s8-sub").textContent = tj("s8.desc", a.설명);
   const c=$("#s8-cards"); c.innerHTML="";
-  a.카드.forEach(k=>{
+  카드.forEach(k=>{
     const node = k.링크 ? el("a","card") : el("div","card soon");
     if(k.링크){ node.href=k.링크; node.target="_blank"; node.rel="noopener"; }
     if(k.썸네일){
@@ -1495,6 +1504,12 @@ function 그리기_archive(a){
     if(k.수치) b.append(el("div","m", k.수치));
     node.append(b); c.append(node);
   });
+  // 뺀 게 있으면 말한다 — 조용히 줄이면 화면이 「이게 전부」라고 거짓말한다
+  const h = $("#s8-hidden");
+  const 말 = [내린것 ? t("s8.hidden", 내린것) : "",
+             안올린것 ? t("s8.notyet", 안올린것) : ""].filter(Boolean).join(" ");
+  h.textContent = 말;
+  h.hidden = !말;
 }
 
 /* ─────────────────────────────────────────── 09 출처 */

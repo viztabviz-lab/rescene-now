@@ -813,6 +813,45 @@ def 첫문장(설명):
     return 문장
 
 
+def _전체공개(아이디들):
+    """{id: True/False} — 「전체 공개」인 것만 True. 판정을 못 하면 빈 dict 를 돌려준다.
+
+    **일부공개(unlisted)는 링크로는 열려도 채널 목록에 안 나온다.** 아카이브는 채널을
+    소개하는 화면이니 목록에 없는 편은 빼는 게 맞다. 판정을 못 했을 때 전부 False 로
+    두면 화면이 통째로 비므로, 그럴 땐 아무 판정도 하지 않고 옛 값을 그대로 둔다.
+    """
+    아이디들 = [v for v in 아이디들 if v]
+    if not 아이디들:
+        return {}
+    키 = os.environ.get("YOUTUBE_API_KEY")
+    if 키:
+        # status.privacyStatus 가 유일하게 확실한 답이다. 33편이면 한 번이면 끝난다.
+        본것 = {}
+        for i in range(0, len(아이디들), 50):
+            d = _api("videos", {"part": "status", "id": ",".join(아이디들[i:i + 50])})
+            for v in d.get("items", []):
+                본것[v["id"]] = v.get("status", {}).get("privacyStatus") == "public"
+        # 지워진 영상은 응답에 아예 없다 — 그것도 「지금 볼 수 없다」이므로 False 다
+        return {v: 본것.get(v, False) for v in 아이디들}
+
+    import yt_dlp
+    옵션 = {"quiet": True, "no_warnings": True, "extract_flat": True, "skip_download": True}
+    공개 = set()
+    with yt_dlp.YoutubeDL(옵션) as y:
+        for 탭 in ("shorts", "videos"):
+            try:
+                info = y.extract_info(f"https://www.youtube.com/channel/{아카이브채널}/{탭}",
+                                      download=False)
+            except Exception as e:
+                if "does not have a" in str(e):
+                    continue
+                raise
+            공개 |= {e["id"] for e in (info.get("entries") or []) if e.get("id")}
+    if not 공개:
+        return {}                    # 목록을 통째로 못 받았다 — 판정하지 않는다
+    return {v: (v in 공개) for v in 아이디들}
+
+
 def 아카이브():
     """@data-viz 채널에 새로 올라온 리센느 쇼츠를 카드로 더한다.
 
@@ -849,10 +888,24 @@ def 아카이브():
         예정 = [c for c in a["카드"] if c.get("공개예정")]
         올린것 = sorted(새것 + 올린것, key=lambda c: c["날짜"], reverse=True)
         a["카드"] = 올린것 + 예정        # 아직 안 올린 카드는 늘 맨 뒤에 둔다
+    # **전체 공개인 것만 화면에 낸다.** 올렸다가 일부공개로 돌린 편이 실제로 있었다
+    # (M-7GXO7E_rc). 링크는 열려도 채널 목록에 없으니 아카이브에 두면 안 맞는다.
+    판정 = _전체공개([c.get("id") for c in a["카드"]])
+    가려짐 = 0
+    if 판정:
+        for c in a["카드"]:
+            if c.get("id"):
+                c["공개"] = bool(판정.get(c["id"]))
+                가려짐 += 0 if c["공개"] else 1
+    else:
+        print("    공개 여부를 못 받았다 — 옛 판정을 그대로 둔다")
+
     a["기준"] = 오늘
     쓰기("archive.json", a)
 
     말 = f"카드 {len(a['카드'])}장" + (f" (새로 {len(새것)}장)" if 새것 else " (새 편 없음)")
+    if 가려짐:
+        말 += f" · 전체 공개가 아니라 뺀 {가려짐}장"
     for c in 새것:
         print(f"    + {c['날짜']} {c['제목'][:34]}")
     상태기록("archive", "OK", 오늘, 말)
