@@ -16,16 +16,19 @@
 /* ── 이름표 — 뜻이 아니라 표기를 바꾼다 ───────────────────────────────── */
 const 이름표 = {
   // 리센느 멤버
-  "원이": {en:"Wony", ja:"ウォニ"},
-  "제나": {en:"Zena", ja:"ゼナ"},
-  "미나미": {en:"Minami", ja:"ミナミ"},
-  "리브": {en:"Liv", ja:"リヴ"},
-  "메이": {en:"May", ja:"メイ"},
+  // 공식 표기다 — 생일 라이브 썸네일(HAPPY LIV / ZENA / WONI / MINAMI DAY · MAY Birthday)
+  // 을 근거로 다섯 명 모두 대문자로 적는다. 그룹 이름 RESCENE 과도 결이 맞는다.
+  // **Wony · Jena 로 적지 말 것** — 둘 다 이 그룹이 쓰는 표기가 아니다.
+  "원이": {en:"WONI", ja:"ウォニ"},
+  "제나": {en:"ZENA", ja:"ゼナ"},
+  "미나미": {en:"MINAMI", ja:"ミナミ"},
+  "리브": {en:"LIV", ja:"リヴ"},
+  "메이": {en:"MAY", ja:"メイ"},
   // 그룹
   "리센느": {en:"RESCENE", ja:"RESCENE"},
   // 채널의 정식 이름은 「안녕하세요원이입니다잘부탁드립니다」다. 줄임말 「안원잘부」로 오는 값도 여기서 편다.
-  "안원잘부": {ko:"안녕하세요원이입니다잘부탁드립니다", en:"Annyeonghaseyo Wony-imnida Jalbutakdeurimnida", ja:"アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ"},
-  "안녕하세요원이입니다잘부탁드립니다": {en:"Annyeonghaseyo Wony-imnida Jalbutakdeurimnida", ja:"アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ"},
+  "안원잘부": {ko:"안녕하세요원이입니다잘부탁드립니다", en:"Annyeonghaseyo WONI-imnida Jalbutakdeurimnida", ja:"アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ"},
+  "안녕하세요원이입니다잘부탁드립니다": {en:"Annyeonghaseyo WONI-imnida Jalbutakdeurimnida", ja:"アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ"},
   "아이브": {en:"IVE", ja:"IVE"},
   "블랙핑크": {en:"BLACKPINK", ja:"BLACKPINK"},
   "에스파": {en:"aespa", ja:"aespa"},
@@ -118,8 +121,8 @@ const STR = {
 "hdr.langlabel":{ko:"언어 고르기", en:"Choose language", ja:"言語を選ぶ"},
 
 "tab.group":   {ko:"채널 고르기", en:"Choose a channel", ja:"チャンネルを選ぶ"},
-"tab.anw":     {ko:"안녕하세요원이입니다잘부탁드립니다", en:"Annyeonghaseyo Wony-imnida Jalbutakdeurimnida", ja:"アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ"},
-"tab.anw.sub": {ko:"원이 웹예능 · 솔파스튜디오", en:"Wony's web show · Solfa Studio", ja:"ウォニのウェブ番組・Solfa Studio"},
+"tab.anw":     {ko:"안녕하세요원이입니다잘부탁드립니다", en:"Annyeonghaseyo WONI-imnida Jalbutakdeurimnida", ja:"アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ"},
+"tab.anw.sub": {ko:"원이 웹예능 · 솔파스튜디오", en:"WONI's web show · Solfa Studio", ja:"ウォニのウェブ番組・Solfa Studio"},
 "tab.res":     {ko:"RESCENE", en:"RESCENE", ja:"RESCENE"},
 "tab.res.sub": {ko:"리센느 공식 채널 · THE MUZE", en:"Official channel · THE MUZE", ja:"公式チャンネル・THE MUZE"},
 "tab.goto":    {ko:k=>`${k} 채널로 넘어가기`, en:k=>`Switch to ${k}`, ja:k=>`${k} チャンネルに切り替える`},
@@ -129,8 +132,8 @@ const STR = {
                 ja:"両チャンネル共通・グループとしてのRESCENE"},
 
 /* 00 게이지 카드 */
-"s0.anw":      {ko:"안녕하세요원이입니다잘부탁드립니다", en:"Annyeonghaseyo Wony-imnida Jalbutakdeurimnida", ja:"アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ"},
-"s0.anw.sub":  {ko:"원이 웹예능", en:"Wony's web show", ja:"ウォニのウェブ番組"},
+"s0.anw":      {ko:"안녕하세요원이입니다잘부탁드립니다", en:"Annyeonghaseyo WONI-imnida Jalbutakdeurimnida", ja:"アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ"},
+"s0.anw.sub":  {ko:"원이 웹예능", en:"WONI's web show", ja:"ウォニのウェブ番組"},
 "s0.res":      {ko:"리센느 공식 채널", en:"RESCENE official", ja:"RESCENE 公式"},
 "s0.res.sub":  {ko:"THE MUZE", en:"THE MUZE", ja:"THE MUZE"},
 "s0.done":     {ko:(d,g)=>`${d} ${g} 돌파 · 걸그룹 클럽 안으로`,
@@ -171,7 +174,7 @@ const STR = {
 "s2.scale":    {ko:"가장 높은 주가 100이다.", en:"The highest week is 100.", ja:"最も高い週を100としています。"},
 "s2.lg.line":  {ko:"검색 관심도", en:"Search interest", ja:"検索の関心度"},
 "s2.lg.rel":   {ko:"앨범 발매", en:"Album release", ja:"アルバム発売"},
-"s2.lg.up":    {ko:"안녕하세요원이입니다잘부탁드립니다 업로드", en:"Annyeonghaseyo Wony-imnida Jalbutakdeurimnida upload", ja:"アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ 投稿"},
+"s2.lg.up":    {ko:"안녕하세요원이입니다잘부탁드립니다 업로드", en:"Annyeonghaseyo WONI-imnida Jalbutakdeurimnida upload", ja:"アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ 投稿"},
 "s2.lg.up2":   {ko:"(높을수록 많이 본 편)", en:"(taller = more views)", ja:"（高いほど再生数が多い）"},
 "s2.aria":     {ko:(n,v)=>`구글 검색 관심도 주간 곡선 ${n}주. 최근 값 ${v}, 최고 100.`,
                 en:(n,v)=>`Weekly Google search interest, ${n} weeks. Latest ${v}, peak 100.`,
@@ -193,7 +196,7 @@ const STR = {
                 ja:"トレンドの上昇と動画投稿は同じ時期に起きた二つの事実です — 因果は断定しません。"},
 
 /* 03 안원잘부 구독자 순위 */
-"s3.eye":      {ko:"안녕하세요원이입니다잘부탁드립니다 구독자 순위", en:"Annyeonghaseyo Wony-imnida Jalbutakdeurimnida — subscriber rank", ja:"アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ の登録者順位"},
+"s3.eye":      {ko:"안녕하세요원이입니다잘부탁드립니다 구독자 순위", en:"Annyeonghaseyo WONI-imnida Jalbutakdeurimnida — subscriber rank", ja:"アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ の登録者順位"},
 "s3.h":        {ko:"27주 동안 한 번도 내려가지 않았다",
                 en:"27 weeks without a single step back",
                 ja:"27週のあいだ、一度も下がらなかった"},
@@ -204,7 +207,7 @@ const STR = {
                 en:(seg,a,b,c)=>`Between ${seg}, the Korean subscriber rank climbed from #${a} to #${b}. Weeks it went down: ${c}.`,
                 ja:(seg,a,b,c)=>`${seg} のあいだに韓国の登録者順位が ${a}位から ${b}位へ上がりました。下がった週は ${c}です。`},
 "s3.aria":     {ko:(a,b)=>`안녕하세요원이입니다잘부탁드립니다 한국 구독자 순위 계단. ${a}위에서 ${b}위로.`,
-                en:(a,b)=>`Annyeonghaseyo Wony-imnida Jalbutakdeurimnida — Korean subscriber rank, step chart. From #${a} to #${b}.`,
+                en:(a,b)=>`Annyeonghaseyo WONI-imnida Jalbutakdeurimnida — Korean subscriber rank, step chart. From #${a} to #${b}.`,
                 ja:(a,b)=>`アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ の韓国登録者順位。${a}位から ${b}位へ。`},
 "s3.rank":     {ko:v=>`${v}위`, en:v=>`#${v}`, ja:v=>`${v}位`},
 "s3.flag1":    {ko:"구독 100만", en:"1M subscribers", ja:"登録100万"},
@@ -249,7 +252,7 @@ const STR = {
 "sv.unit.view":{ko:"회", en:"views", ja:"回"},
 "sv.unit.like":{ko:"개", en:"likes", ja:"件"},
 "sv.ch.res":   {ko:"RESCENE 공식", en:"RESCENE official", ja:"RESCENE 公式"},
-"sv.ch.anw":   {ko:"안녕하세요원이입니다잘부탁드립니다", en:"Annyeonghaseyo Wony-imnida Jalbutakdeurimnida", ja:"アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ"},
+"sv.ch.anw":   {ko:"안녕하세요원이입니다잘부탁드립니다", en:"Annyeonghaseyo WONI-imnida Jalbutakdeurimnida", ja:"アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ"},
 "sv.empty":    {ko:"이 형식에는 남긴 영상이 없다.", en:"No videos kept for this format.", ja:"この形式で残している動画はありません。"},
 "sv.aria":     {ko:(i,t,m,v)=>`${i}위 ${t}, ${m} ${v}`, en:(i,t,m,v)=>`#${i} ${t}, ${m} ${v}`, ja:(i,t,m,v)=>`${i}位 ${t}、${m} ${v}`},
 "sv.likehid":  {ko:"숨김", en:"hidden", ja:"非表示"},
@@ -359,7 +362,7 @@ const STR = {
 "s11.h.best":  {ko:r=>`연령 탭 최고 ${r}위`, en:r=>`Best age-tab rank: #${r}`, ja:r=>`年齢タブ最高 ${r}位`},
 "s11.h.out":   {ko:"인기 50위 밖", en:"Outside the top 50", ja:"人気50位圏外"},
 "s11.sub":     {ko:(name,kinds,tail)=>`카카오 이모티콘 「${name}」은 안녕하세요원이입니다잘부탁드립니다 장면 ${kinds}종으로 만들어졌다. 인기 순위는 나이대별로 탭이 갈리는데, ${tail}`,
-                en:(name,kinds,tail)=>`The KakaoTalk emoticon set 「${name}」 is built from ${kinds} scenes out of Annyeonghaseyo Wony-imnida Jalbutakdeurimnida. The popularity chart splits into tabs by age group, and ${tail}`,
+                en:(name,kinds,tail)=>`The KakaoTalk emoticon set 「${name}」 is built from ${kinds} scenes out of Annyeonghaseyo WONI-imnida Jalbutakdeurimnida. The popularity chart splits into tabs by age group, and ${tail}`,
                 ja:(name,kinds,tail)=>`カカオ絵文字「${name}」はアンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ の場面 ${kinds}種で作られています。人気順位は年代別にタブが分かれていて、${tail}`},
 "s11.sub.all": {ko:(n,k)=>`${n} 탭 전부에서 1위다.`,
                 en:(n,k)=>`it is #1 in all ${n} tabs.`,
@@ -435,7 +438,7 @@ const STR = {
                 ja:(t,l,r,x)=>`登録者100万人以上のガールグループ公式YouTubeチャンネルです。1位の ${t} と ${r}位の ${l} は ${x}倍差なので、同じ軸の棒では描いていません。`},
 "s6.threshold":{ko:"100만", en:"1M", ja:"100万"},
 "s6.foot":     {ko:(d,anw,up,down,pos,ex)=>`<b>${d}</b> 기준 구독자다. 유튜브 공개 구독자는 유효숫자 3자리 반올림이라 끝자리를 단정할 수 없다. 참고로 <b>안녕하세요원이입니다잘부탁드립니다 ${anw}</b>을 이 표에 넣으면 ${up}와 ${down} 사이 ${pos}번째다 — 다만 그룹 공식 채널이 아니라 제작사 채널이라 표에는 넣지 않았다. ${ex}`,
-                en:(d,anw,up,down,pos,ex)=>`Subscriber counts as of <b>${d}</b>. YouTube publishes them rounded to three significant digits, so the last digits cannot be pinned down. For reference, dropping <b>Annyeonghaseyo Wony-imnida Jalbutakdeurimnida at ${anw}</b> into this table would place it #${pos}, between ${up} and ${down} — but it is a production company's channel rather than a group's official one, so it is not included. ${ex}`,
+                en:(d,anw,up,down,pos,ex)=>`Subscriber counts as of <b>${d}</b>. YouTube publishes them rounded to three significant digits, so the last digits cannot be pinned down. For reference, dropping <b>Annyeonghaseyo WONI-imnida Jalbutakdeurimnida at ${anw}</b> into this table would place it #${pos}, between ${up} and ${down} — but it is a production company's channel rather than a group's official one, so it is not included. ${ex}`,
                 ja:(d,anw,up,down,pos,ex)=>`<b>${d}</b> 時点の登録者数です。YouTubeの公開値は有効数字3桁に丸められているため、末尾は断定できません。参考までに <b>アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ ${anw}</b> をこの表に入れると ${up} と ${down} の間の ${pos}番目になります — ただしグループ公式ではなく制作会社のチャンネルのため表には入れていません。${ex}`},
 "s6.exclude":  {ko:null,
                 en:"Groups counted here follow the K-pop system even when the members are not Korean; a mixed-gender group is excluded.",
