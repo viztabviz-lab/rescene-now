@@ -1,9 +1,42 @@
 {
- "기준": "2026-09-01",
+ "기준": "2026-09-02",
  "설명": "갱신되지 않는 일회성 집계는 전부 여기 모은다. 카드 하나가 쇼츠 한 편이다.",
  "채널": "https://www.youtube.com/@data-viz",
  "썸네일주의": "i.ytimg.com 을 참조만 한다. 파일을 저장소에 복사하지 않고, 카드 전체가 영상 링크가 된다.",
  "카드": [
+  {
+   "id": "Vwp720itxdU",
+   "날짜": "2026-09-02",
+   "제목": "리센느 LOVE ATTACK 멜론 월간 8위 → 2위 → 1위 #shorts",
+   "주장": "2026년 8월 멜론 월간차트 100위 안에 리센느 곡이 넷 들어갔고, 넷 다 7월보다 올랐습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/Vwp720itxdU",
+   "썸네일": "https://i.ytimg.com/vi/Vwp720itxdU/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "dZneH6zKNxg",
+   "날짜": "2026-09-01",
+   "제목": "안원잘부 원이 근황, 100시간 만에 1000만 #shorts",
+   "주장": "안원잘부 「원이 근황」이 2026년 8월 28일 저녁 7시에 공개된 뒤 나흘 만에 1000만 조회수를 넘었습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/dZneH6zKNxg",
+   "썸네일": "https://i.ytimg.com/vi/dZneH6zKNxg/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "k8DPIk-y5cU",
+   "날짜": "2026-09-01",
+   "제목": "리센느 광고 준 회사, 매출 +48%",
+   "주장": "2026년 6월 24일부터 8월 18일까지 55일.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/k8DPIk-y5cU",
+   "썸네일": "https://i.ytimg.com/vi/k8DPIk-y5cU/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
   {
    "id": "IVc1VHOM9Jc",
    "날짜": "2026-09-01",
