@@ -1,9 +1,31 @@
 {
- "기준": "2026-09-02",
+ "기준": "2026-09-03",
  "설명": "갱신되지 않는 일회성 집계는 전부 여기 모은다. 카드 하나가 쇼츠 한 편이다.",
  "채널": "https://www.youtube.com/@data-viz",
  "썸네일주의": "i.ytimg.com 을 참조만 한다. 파일을 저장소에 복사하지 않고, 카드 전체가 영상 링크가 된다.",
  "카드": [
+  {
+   "id": "irfwIvJpbFU",
+   "날짜": "2026-09-03",
+   "제목": "리센느 원이 광고, 누가 5점을 줬나",
+   "주장": "올리브영에서 「리센느」로 검색되는 17개 상품의 리뷰 16,210건을 받아, 리뷰에 무엇을 썼는지로 넷으로 갈라 봤습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/irfwIvJpbFU",
+   "썸네일": "https://i.ytimg.com/vi/irfwIvJpbFU/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "1WtERjgVmtE",
+   "날짜": "2026-09-02",
+   "제목": "리센느 보러 온 사람이 1만 명 있었다 #shorts",
+   "주장": "2026 천안 K-컬처 박람회 개막축하공연 라이브의 동시접속을 20초마다 직접 쟀습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/1WtERjgVmtE",
+   "썸네일": "https://i.ytimg.com/vi/1WtERjgVmtE/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
   {
    "id": "Sp8dgkk_UMs",
    "날짜": "2026-09-02",
