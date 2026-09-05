@@ -137,10 +137,6 @@ h2{
 /* 주인공만 색을 준다 — 나머지는 무채색으로 두어야 대비가 주장이 된다 */
 .hero.sub .big{color:var(--ink)}
 .hero.sub .gauge i{background:var(--ink-3)}
-/* 돌파 카드도 글자 크기·구성을 그대로 쓴다. 크기를 줄이면 옆 카드와 줄이 어긋난다. */
-.done{border-color:var(--pink)}
-/* 고르지 않은 채널이면 돌파 테두리를 죽인다 — 분홍이 두 곳이면 어느 쪽을 보고 있는지 흐려진다 */
-.hero.sub.done{border-color:var(--line)}
 /* 고르지 않은 채널 카드는 눌러서 넘어갈 수 있다 */
 .hero.pick{cursor:pointer}
 .hero.pick:hover{border-color:var(--track)}
@@ -706,19 +702,20 @@ const 날 = s => s ? s.slice(2).replace(/-/g,".") : "";
 
 /* ─────────────────────────────────────────── 00 게이지 */
 /* 채널 하나 = 카드 하나. 다음 백만까지 얼마나 왔는지를 같은 형태로 보여준다. */
-function 게이지카드({이름, 부제, 구독자, 목표, 기준, 주인공, 돌파}){
-  const h = el("div", "hero" + (주인공 ? "" : " sub") + (돌파 ? " done" : ""));
+function 게이지카드({이름, 부제, 구독자, 기준, 주인공}){
+  // 다음 눈금은 지금 값 바로 위의 백만 자리다. 넘으면 저절로 다음 눈금으로 올라간다.
+  // ceil 이 아니라 floor+1 인 까닭 — 딱 200만인 날 「200만까지 남은 0명」이 되면 안 된다.
+  const 목표 = (Math.floor(구독자 / 1e6) + 1) * 1e6;
+  const h = el("div", "hero" + (주인공 ? "" : " sub"));
   const cap = el("div","cap");
   cap.append(el("b",null,이름));
   if(부제) cap.append(" · " + 부제);
   h.append(cap);
 
   // 두 카드가 같은 줄에 놓이도록 큰 숫자 → 한 줄 설명 → 게이지 → 밑줄 순서를 똑같이 쓴다.
+  // 큰 숫자는 만 단위로 줄여 적는다. 「140,000명」은 자릿수를 세어야 읽힌다
   h.append(el("div","big", 만(구독자)),
-           el("div","of", 돌파
-             ? t("s0.done", 돌파, 만(목표))
-             // 큰 숫자는 만 단위로 줄여 적는다. 「140,000명」은 자릿수를 세어야 읽힌다
-             : t("s0.left", 만(목표), 만(목표 - 구독자))));
+           el("div","of", t("s0.left", 만(목표), 만(목표 - 구독자))));
   h.append(el("div","grow"));
 
   const 진행 = 구독자 / 목표 * 100;
@@ -727,7 +724,7 @@ function 게이지카드({이름, 부제, 구독자, 목표, 기준, 주인공, 
   g.append(i); h.append(g);
 
   const l = el("div","left");
-  l.append(el("span", null, 돌파 ? t("s0.passed", 만(목표)) : t("s0.pct", 진행.toFixed(1))));
+  l.append(el("span", null, t("s0.pct", 진행.toFixed(1))));
   const b = el("span"); b.append(t("s0.asof"), el("b", null, 날(기준)));
   l.append(b); h.append(l);
   return h;
@@ -736,15 +733,12 @@ function 게이지카드({이름, 부제, 구독자, 목표, 기준, 주인공, 
 function 그리기_hero(live, milestone){
   const h = $("#hero"); h.innerHTML = "";
   const 안 = live.채널.안원잘부, 리 = live.채널.리센느;
-  // 안원잘부는 정해진 목표가 없다. 지금 값 바로 위의 백만 자리를 다음 눈금으로 삼는다.
-  const 안목표 = Math.ceil(안.구독자 / 1e6) * 1e6;
   // 카드 순서는 고정이다 — 채널을 바꿀 때마다 자리가 바뀌면 어느 쪽을 보고 있었는지 놓친다.
   const 카드 = [
     ["안원잘부", 게이지카드({이름:t("s0.anw"), 부제:t("s0.anw.sub"), 구독자:안.구독자,
-                        목표:안목표, 기준:안.기준, 주인공:상태.채널==="안원잘부"})],
+                        기준:안.기준, 주인공:상태.채널==="안원잘부"})],
     ["리센느", 게이지카드({이름:t("s0.res"), 부제:t("s0.res.sub"), 구독자:리.구독자,
-                      목표:live.목표, 기준:리.기준, 주인공:상태.채널==="리센느",
-                      돌파:milestone.백만돌파})],
+                      기준:리.기준, 주인공:상태.채널==="리센느"})],
   ];
   카드.forEach(([키, n])=>{
     if(키 !== 상태.채널){
