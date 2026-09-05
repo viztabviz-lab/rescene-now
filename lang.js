@@ -470,7 +470,8 @@ const STR = {
 "s7.eye":      {ko:"함께 검색된 말", en:"Searched alongside", ja:"一緒に検索された言葉"},
 "s7.h":        {ko:"2년 동안 없던 말이 생겼다", en:"Words that were not there for two years", ja:"2年間なかった言葉が生まれた"},
 "s7.left.h":   {ko:"데뷔 후 2년", en:"First two years", ja:"デビュー後2年"},
-"s7.right.h":  {ko:"최근 16주 급상승", en:"Rising, last 16 weeks", ja:"直近16週の急上昇"},
+/* 주 수를 박아 두면 다음 달에 조용히 틀린다 — 정확한 기간은 바로 아래 줄에 있다 */
+"s7.right.h":  {ko:"역주행 이후 급상승", en:"Rising since the resurgence", ja:"再浮上以降の急上昇"},
 "s7.tally":    {ko:n=>`팬이 되어야 나오는 검색 <b>${n}개</b>`,
                 en:n=>`<b>${n}</b> searches only a fan would make`,
                 ja:n=>`ファンでなければ出ない検索が <b>${n}件</b>`},
@@ -636,9 +637,9 @@ STR["s11.how"] = {ko:null,
   ja:"各回を360pで取得し、コンタクトシートで見渡したうえで候補区間のフレームを絵文字の絵と照合して特定しました。時刻はそのフレームの位置です。"};
 /* 제외한 수는 달마다 바뀐다. 문장을 박아 두면 숫자가 조용히 틀린다 — 값에서 만든다. */
 STR["s7.excl"] = {
-  ko:(전, 신, 논, 남, 좌)=>`구글 급상승 ${전}개 중 개인 신체에 관한 ${신}건과 논란성 ${논}건을 뺀 ${남}개다. 왼쪽 목록에서도 논란성 ${좌}건을 뺐다.`,
-  en:(전, 신, 논, 남, 좌)=>`Of ${전} rising Google searches we removed ${신} about a person's body and ${논} tied to a harassment controversy, leaving ${남}. ${좌} was removed from the left-hand list for the same reason.`,
-  ja:(전, 신, 논, 남, 좌)=>`Googleの急上昇 ${전}件のうち、身体に関する ${신}件と、二次加害の論争に関わる ${논}件を除いた ${남}件です。左のリストからも同じ理由で ${좌}件を除いています。`};
+  ko:(전, 신, 논, 남, 좌)=>`구글 급상승 ${전}개 중 ${신 ? `개인 신체에 관한 ${신}건과 ` : ""}논란성 ${논}건을 뺀 ${남}개다. 왼쪽 목록에서도 논란성 ${좌}건을 뺐다.`,
+  en:(전, 신, 논, 남, 좌)=>`Of ${전} rising Google searches we removed ${신 ? `${신} about a person's body and ` : ""}${논} tied to controversy or unrelated names, leaving ${남}. ${좌} was removed from the left-hand list for the same reason.`,
+  ja:(전, 신, 논, 남, 좌)=>`Googleの急上昇 ${전}件のうち、${신 ? `身体に関する ${신}件と、` : ""}論争や無関係な実名に関わる ${논}件を除いた ${남}件です。左のリストからも同じ理由で ${좌}件を除いています。`};
 
 /* ── 도우미 — 지역 변수에 가려지는 곳에서 쓰는 이름들 ───────────────────── */
 const 이름표옮김 = s => 옮김(이름표, s);
