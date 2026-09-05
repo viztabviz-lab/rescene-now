@@ -9,6 +9,7 @@ data/*.json 을 다시 채운다. GitHub Actions 가 이 스크립트만 돌린�
   python -X utf8 scripts/수집.py archive   @data-viz 에 새로 올린 쇼츠를 카드로
   python -X utf8 scripts/수집.py emoticon  카카오 이모티콘 인기 순위 여섯 탭
   python -X utf8 scripts/수집.py club      걸그룹 100만 클럽 44팀 구독자
+  python -X utf8 scripts/수집.py region    구글 트렌드 지역별 관심도 네 구간
   python -X utf8 scripts/수집.py --확인    아무것도 쓰지 않고 조회만 해 본다
 
 원칙 셋 — 셋 다 이 파일 안에서 강제된다.
@@ -345,12 +346,22 @@ def daily():
     club["리센느자리"] = sum(1 for c in club["전체"] if c["구독자"] > 리센느) + 1
     쓰기("club.json", club)
 
-    # 백만 돌파는 한 번만 기록한다
+    # 백만 눈금은 넘을 때마다 채널별로 한 번씩만 기록한다.
+    # 한 번 쓴 날짜는 다시 건드리지 않는다 — 나중에 다시 계산하면 그날이 지워진다.
     ms = 읽기("milestone.json")
+    기록 = ms.setdefault("돌파", {})
+    새로 = []
+    for 이름, 값 in (("리센느", 리센느), ("안원잘부", 안원잘부)):
+        칸 = 기록.setdefault(이름, {})
+        눈금 = (값 // 1_000_000) * 1_000_000
+        if 눈금 >= 1_000_000 and str(눈금) not in 칸:
+            칸[str(눈금)] = 오늘
+            새로.append(f"{이름} {눈금 // 10_000}만")
     if 리센느 >= 1_000_000 and not ms.get("백만돌파"):
-        ms["백만돌파"] = 오늘
+        ms["백만돌파"] = 오늘          # 옛 이름 — 다른 곳이 아직 읽는다
+    if 새로:
         쓰기("milestone.json", ms)
-        print(f"    ★ 100만 돌파 기록: {오늘}")
+        print(f"    ★ 돌파 기록: {', '.join(새로)} ({오늘})")
 
     상태기록("live", "OK", 오늘, f"리센느 {리센느:,} · 안원잘부 {안원잘부:,}")
     상태기록("club", "OK", club["기준"], "리센느·안원잘부 자리만 갱신 (44팀 값은 weekly 가 받는다)")
@@ -1012,17 +1023,76 @@ def 클럽():
     return 말
 
 
+# ────────────────────────────────────────────────────────── 지역별 관심도
+# 기간을 좁힐수록 경남이 올라오는 것이 이 화면의 주장이라, 네 구간을 같은 잣대로 받는다.
+# 첫 구간(데뷔 후 110주)은 비교 기준이라 날짜를 고정한다 — 움직이면 비교가 성립하지 않는다.
+지역구간 = [
+    ("급등이전", "데뷔 후 110주", "2024-03-26", "2026-04-30"),
+    ("급등이후", "급등 이후", 역주행시작 := "2026-05-03", None),
+    ("최근90일", "최근 90일", -90, None),
+    ("최근30일", "최근 30일", -30, None),
+]
+
+
+def 지역받기(op, 시작, 끝):
+    """{지역: 값} — 값은 그 지역의 전체 검색 대비 비율을 100 기준으로 상대화한 지수다."""
+    요청 = {"comparisonItem": [{"keyword": 트렌드엔티티, "geo": "KR", "time": f"{시작} {끝}"}],
+          "category": 0, "property": ""}
+    탐색 = 트렌드받기(op, "https://trends.google.co.kr/trends/api/explore?hl=ko&tz=-540&geo=KR&req="
+                    + urllib.parse.quote(json.dumps(요청, ensure_ascii=False)))
+    지도 = next(w for w in 탐색["widgets"] if w["id"] == "GEO_MAP")
+    d = 트렌드받기(op, "https://trends.google.co.kr/trends/api/widgetdata/comparedgeo?hl=ko&tz=-540&req="
+                 + urllib.parse.quote(json.dumps(지도["request"], ensure_ascii=False))
+                 + "&token=" + urllib.parse.quote(지도["token"]))
+    나옴 = [{"지역": x["geoName"], "값": x["value"][0]} for x in d["default"]["geoMapData"]
+          if x.get("hasData", [True])[0]]
+    if len(나옴) < 15:
+        raise RuntimeError(f"지역이 {len(나옴)}개뿐이다 ({시작}~{끝})")
+    나옴.sort(key=lambda x: -x["값"])
+    return 나옴
+
+
+def 지역():
+    """네 구간의 지역별 관심도를 다시 받는다.
+
+    **주인공을 코드에 박지 않는다.** 지금은 경남이 1위지만 그건 값이 그렇다는 것이고,
+    바뀌면 화면도 바뀌어야 한다. 여기서는 구간마다 순위만 매겨 두고 화면이 읽는다.
+    """
+    r = 읽기("region.json")
+    op = 트렌드열기()
+    구간들 = []
+    for 키, 이름, 시작, 끝 in 지역구간:
+        시 = 시작 if isinstance(시작, str) else (date.fromisoformat(오늘) + timedelta(days=시작)).isoformat()
+        마 = 끝 or 오늘
+        목록 = 지역받기(op, 시, 마)
+        구간들.append({"키": 키, "이름": 이름, "기간": f"{시} ~ {마}",
+                    "지역": [dict(x, 순위=i + 1) for i, x in enumerate(목록)]})
+        print(f"    {이름:<12} 1위 {목록[0]['지역']} {목록[0]['값']}")
+        time.sleep(2)
+
+    r["구간"] = 구간들
+    r["기준"] = 오늘
+    쓰기("region.json", r)
+
+    끝구간 = 구간들[-1]
+    말 = f"{len(구간들)}구간 · 최근 30일 1위 {끝구간['지역'][0]['지역']}"
+    상태기록("region", "OK", 오늘, 말)
+    return 말
+
+
 # ────────────────────────────────────────────────────────── 실행
 작업 = {
     # daily 는 **매시** 돈다. 라이브 전수(210편)를 여기 붙이면 매시 210번을 두드리게 된다 —
     # streams 는 하루 한 번짜리 워크플로(streams.yml)로 따로 뺐다.
     "daily": [("live", daily), ("archive", 아카이브), ("emoticon", 이모티콘)],
-    "weekly": [("trends", weekly_트렌드), ("rank", weekly_순위), ("club", 클럽)],
+    "weekly": [("trends", weekly_트렌드), ("rank", weekly_순위), ("club", 클럽),
+               ("region", 지역)],
     "videos": [("videos", videos)],
     "streams": [("streams", streams)],
     "archive": [("archive", 아카이브)],
     "emoticon": [("emoticon", 이모티콘)],
     "club": [("club", 클럽)],
+    "region": [("region", 지역)],
 }
 
 

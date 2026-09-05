@@ -576,6 +576,20 @@ footer p{max-width:60ch;margin:0}
     <p class="foot" id="s2-foot"></p>
   </section>
 
+  <section id="sr">
+    <p class="eyebrow"><b>05</b> <span data-i18n="sr.eye">지역별 검색</span></p>
+    <h2 id="sr-h"></h2>
+    <p class="sub" id="sr-sub"></p>
+    <div class="controls">
+      <div class="seg" id="sr-seg" role="group" aria-label="기간"></div>
+    </div>
+    <div class="chart">
+      <p class="scalenote" id="sr-scale"></p>
+      <div class="rows" id="sr-rows"></div>
+    </div>
+    <p class="foot" id="sr-foot"></p>
+  </section>
+
   <section id="s5">
     <p class="eyebrow"><b>05</b> <span data-i18n="s5.eye">개인 브랜드평판</span></p>
     <h2 data-i18n="s5.h">TOP 10에 리센느가 다섯</h2>
@@ -646,7 +660,7 @@ footer p{max-width:60ch;margin:0}
 </div>
 
 <script>
-const 파일 = ["live","videos","streams","emoticon","trends","rank","club","reputation","searches","archive","milestone","status"];
+const 파일 = ["live","videos","streams","emoticon","trends","region","rank","club","reputation","searches","archive","milestone","status"];
 /* 화면은 채널 하나씩 보여준다. 무엇을 보고 있나가 이 한 곳에 모인다. */
 const 상태 = {채널:"리센느", 기준:"조회수", 형식:"전체", N:20};
 let D = null;   // 읽어 온 JSON 전부
@@ -766,9 +780,16 @@ function 그리기_tiles(live, vids, milestone){
   const 키 = 상태.채널, ch = live.채널[키], v = vids.채널[키];
   $("#s1-eye").textContent = t("s1.eye", 키==="리센느" ? "RESCENE" : 이름("안원잘부"));
   const c=$("#tiles"); c.innerHTML="";
-  const 구독부제 = 키==="리센느"
-    ? (milestone.백만돌파 ? t("s1.subs.done", milestone.백만돌파) : t("s1.subs.left", 콤마(live.남은수)))
-    : t("s1.subs.mul", live.배수);
+  // 최근에 넘은 눈금이 있으면 그것부터 알린다. 60일이 지나면 다시 「몇 배」로 돌아간다 —
+  // 이 페이지는 「지금」이라서, 두 달 전 돌파를 계속 머리에 이고 있을 이유가 없다.
+  const 돌파칸 = (milestone.돌파 || {})[키] || {};
+  const 최근돌파 = Object.entries(돌파칸)
+    .map(([값, 날짜]) => ({값:+값, 날짜}))
+    .filter(x => (Date.now() - Date.parse(x.날짜)) / 86400000 <= 60)
+    .sort((a,b) => b.값 - a.값)[0];
+  const 구독부제 = 최근돌파
+    ? t("s1.subs.done", 최근돌파.날짜, 만(최근돌파.값))
+    : (키==="리센느" ? t("s1.subs.left", 콤마(live.남은수)) : t("s1.subs.mul", live.배수));
   const 편 = v.편수;
   const 구성 = ["영상","쇼츠","라이브"].filter(f=>편[f]>0).map(f=>`${낱(f)} ${콤마(편[f])}`).join(" · ");
   c.append(
@@ -1359,9 +1380,58 @@ function 조작붙이기(){
     const 키 = location.hash === "#rescene" ? "리센느" : "안원잘부";
     if(키 !== 상태.채널) 전환(키);
   });
+  $("#sr-seg").addEventListener("click", e=>{
+    const b = e.target.closest("button");
+    if(b){ 지역구간 = +b.dataset.v; 그리기_region(D.region); }
+  });
   세그("#sv-metric", "기준");
   세그("#sv-kind", "형식");
   세그("#sv-n", "N", true);
+}
+
+/* ─────────────────────────────────────────── 05 지역별 검색 */
+/* 주인공을 코드에 박지 않는다. 지금 1위인 지역을 값에서 찾아 네 구간에서 따라간다 —
+   경남이 아닌 다른 곳이 1위가 되는 날에도 화면이 저절로 맞는다. */
+// 처음에는 마지막 구간(가장 좁은 기간)을 보여준다 — 제목이 말하는 결론이 그 구간이다.
+let 지역구간 = null;
+function 그리기_region(r){
+  const 구간 = r.구간 || [];
+  if(!구간.length) return;
+  if(지역구간 === null) 지역구간 = 구간.length - 1;
+  const 마지막 = 구간.at(-1);
+  const 주인공 = 마지막.지역[0].지역;
+  const 첫구간 = 구간[0];
+  const 옛자리 = (첫구간.지역.find(x=>x.지역===주인공) || {}).순위;
+
+  $("#sr-h").textContent = t("sr.h", 이름표옮김(주인공), 마지막.이름);
+  $("#sr-sub").textContent = t("sr.sub", 이름표옮김(주인공), 옛자리, 첫구간.이름);
+
+  const seg = $("#sr-seg"); seg.innerHTML = "";
+  구간.forEach((g, i)=>{
+    const b = el("button", i === 지역구간 ? "on" : "", g.이름);
+    b.type = "button"; b.dataset.v = String(i);
+    seg.append(b);
+  });
+
+  const g = 구간[지역구간] || 마지막;
+  $("#sr-scale").textContent = `${g.기간} · ${r.값의의미}`;
+  const c = $("#sr-rows"); c.innerHTML = "";
+  g.지역.forEach(x=>{
+    const 나 = x.지역 === 주인공;
+    const row = el("div", "row" + (나 ? " on" : ""));
+    row.append(el("span","rk", String(x.순위)));
+    const mid = el("div","mid");
+    mid.append(el("div","nm", 이름표옮김(x.지역)));
+    const bar = el("div","bar"), i = el("i");
+    i.style.width = x.값 + "%";
+    bar.append(i); mid.append(bar);
+    row.append(mid, el("span","val num", String(x.값)));
+    c.append(row);
+  });
+
+  $("#sr-foot").innerHTML =
+    `${r.지역수주의} <b>${t("sr.rank", (g.지역.find(x=>x.지역===주인공)||{}).순위, g.지역.length)}</b> · ` +
+    `${t("sr.wobble")} ${r.미확인}`;
 }
 
 /* ─────────────────────────────────────────── 05 브랜드평판 */
@@ -1538,6 +1608,7 @@ function 모두그리기(){
   그리기_trends(d.trends);
   그리기_rank(d.rank);
   그리기_mv(d.live);
+  그리기_region(d.region);
   그리기_rep(d.reputation);
   그리기_club(d.club, d.live, d.milestone);
   그리기_search(d.searches);
@@ -1567,6 +1638,7 @@ function 모두그리기(){
     그리기_trends(d.trends);
     그리기_rank(d.rank);
     그리기_mv(d.live);
+    그리기_region(d.region);
     그리기_rep(d.reputation);
     그리기_club(d.club, d.live, d.milestone);
     그리기_search(d.searches);
