@@ -450,6 +450,18 @@ footer p{max-width:60ch;margin:0}
     <p class="foot" id="s4-foot"></p>
   </section>
 
+  <!-- 멜론 주간차트 — 만들어 둔 차트를 그대로 끼운다(melon-chart.html).
+       재생·슬라이더·호버·표 보기가 그 안에서 그대로 돈다. 높이는 자식이 알려 준다. -->
+  <section id="sm" data-ch="리센느">
+    <p class="eyebrow"><b>02</b> <span data-i18n="sm.eye">멜론 주간차트</span></p>
+    <h2 data-i18n="sm.h">주간 TOP10 안에 리센느가 3곡</h2>
+    <p class="sub" data-i18n="sm.sub">재생을 누르면 지난 12주가 한 주씩 흐른다. 슬라이더로 아무 주나
+      잡을 수 있고, 선 위에 마우스를 올리면 그 주 10곡 순위가 다 나온다. 「표로 보기」에 12주 원표가 있다.</p>
+    <iframe id="sm-frame" src="melon-chart.html" title="멜론 주간 TOP10 12주 순위 추이"
+            loading="lazy" scrolling="no"
+            style="width:100%;border:0;display:block;height:1180px;background:var(--bg)"></iframe>
+  </section>
+
   <section id="sv">
     <p class="eyebrow"><b>03</b> <span data-i18n="sv.eye">영상 랭킹</span></p>
     <h2 id="sv-h">조회수 상위 20편</h2>
@@ -1667,6 +1679,14 @@ function 모두그리기(){
     console.error(e);
   }
 })();
+</script>
+<script>
+/* melon-chart.html 이 제 높이를 postMessage 로 알려 준다 — 창 폭에 따라 달라진다 */
+addEventListener("message", function (e) {
+  var h = e.data && e.data["멜론차트높이"];
+  var fr = document.getElementById("sm-frame");
+  if (fr && typeof h === "number" && h > 200 && h < 6000) fr.style.height = h + "px";
+});
 </script>
 </body>
 </html>
