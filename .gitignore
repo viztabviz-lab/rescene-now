@@ -40,3 +40,6 @@ venv/
 Thumbs.db
 .DS_Store
 desktop.ini
+
+# 집 PC 의 주간 수집 로그 (rescene-now_주간수집.ps1)
+_주간수집.log
