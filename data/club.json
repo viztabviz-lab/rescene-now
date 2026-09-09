@@ -1,5 +1,5 @@
 {
- "기준": "2026-09-06",
+ "기준": "2026-09-09",
  "설명": "걸그룹 유튜브 공식 채널 중 구독자 100만 이상. yt-dlp 전수 실측.",
  "기준선": 1000000,
  "총팀수": 44,
@@ -21,7 +21,7 @@
   {
    "순위": 3,
    "그룹": "KATSEYE",
-   "구독자": 13700000,
+   "구독자": 13800000,
    "채널ID": "UCA61H4fWOMHikLcUFKyQUog"
   },
   {
@@ -39,26 +39,26 @@
   {
    "순위": 6,
    "그룹": "i-dle",
-   "구독자": 9820000,
+   "구독자": 9830000,
    "채널ID": "UCritGVo7pLJLUS8wEu32vow"
   },
   {
    "순위": 7,
    "그룹": "aespa",
-   "구독자": 8900000,
+   "구독자": 8910000,
    "채널ID": "UC9GtSLeksfK4yuJ_g1lgQbg"
   },
   {
    "순위": 8,
-   "그룹": "NewJeans",
-   "구독자": 8650000,
-   "채널ID": "UCMki_UkHb4qSc0qyEcOHHJw"
+   "그룹": "LE SSERAFIM",
+   "구독자": 8670000,
+   "채널ID": "UCs-QBT4qkj_YiQw1ZntDO3g"
   },
   {
    "순위": 9,
-   "그룹": "LE SSERAFIM",
+   "그룹": "NewJeans",
    "구독자": 8650000,
-   "채널ID": "UCs-QBT4qkj_YiQw1ZntDO3g"
+   "채널ID": "UCMki_UkHb4qSc0qyEcOHHJw"
   },
   {
    "순위": 10,
@@ -69,7 +69,7 @@
   {
    "순위": 11,
    "그룹": "ILLIT",
-   "구독자": 6570000,
+   "구독자": 6620000,
    "채널ID": "UCEpFoWeCMCo5z3EvWaz6hQQ"
   },
   {
@@ -105,7 +105,7 @@
   {
    "순위": 17,
    "그룹": "Hearts2Hearts",
-   "구독자": 3860000,
+   "구독자": 3900000,
    "채널ID": "UC7Q3HUnJA3nvjZR2JeMn2Cw"
   },
   {
@@ -117,7 +117,7 @@
   {
    "순위": 19,
    "그룹": "tripleS",
-   "구독자": 2950000,
+   "구독자": 2960000,
    "채널ID": "UCJnL-TBcsYrF2SLs7tmiC8Q"
   },
   {
@@ -152,15 +152,15 @@
   },
   {
    "순위": 25,
-   "그룹": "4minute",
-   "구독자": 2140000,
-   "채널ID": "UC_Dm4o5UrbPr2uvM7VPUR6g"
+   "그룹": "KISS OF LIFE",
+   "구독자": 2150000,
+   "채널ID": "UCvEEeBssb4XxIfWWIB8IjMw"
   },
   {
    "순위": 26,
-   "그룹": "KISS OF LIFE",
+   "그룹": "4minute",
    "구독자": 2140000,
-   "채널ID": "UCvEEeBssb4XxIfWWIB8IjMw"
+   "채널ID": "UC_Dm4o5UrbPr2uvM7VPUR6g"
   },
   {
    "순위": 27,
@@ -207,7 +207,7 @@
   {
    "순위": 34,
    "그룹": "MEOVV",
-   "구독자": 1580000,
+   "구독자": 1590000,
    "채널ID": "UCowiwt93gqGlNG4k5VDxO-w"
   },
   {
@@ -243,7 +243,7 @@
   {
    "순위": 40,
    "그룹": "Wonder Girls",
-   "구독자": 1110000,
+   "구독자": 1120000,
    "채널ID": "UCTE8ueKNA54RcO6MgXif2Tg"
   },
   {

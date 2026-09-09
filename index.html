@@ -429,7 +429,7 @@ footer p{max-width:60ch;margin:0}
 
   <section id="s3" data-ch="안원잘부">
     <p class="eyebrow"><b>02</b> <span data-i18n="s3.eye">안원잘부 구독자 순위</span></p>
-    <h2 data-i18n="s3.h">27주 동안 한 번도 내려가지 않았다</h2>
+    <h2 id="s3-h">27주 동안 한 번도 내려가지 않았다</h2>   <!-- 자리표시자 · 그리기_rank 가 다시 쓴다 -->
     <p class="sub" id="s3-sub"></p>
     <div class="chart">
       <p class="scalenote" data-i18n="s3.scalenote">세로축은 한국 구독자 순위다.</p>
@@ -938,6 +938,8 @@ function 그리기_trends(t){
 /* ─────────────────────────────────────────── 03 순위 계단 */
 function 그리기_rank(r){
   const 집=r.집계;
+  // 제목을 붙박이로 두면 주가 늘 때마다 조용히 틀린다 — 실제로 26주인데 27주라고 적혀 있었다.
+  $("#s3-h").textContent = t("s3.h", 집.측정수, 집.내려간주);
   $("#s3-sub").textContent =
     t("s3.sub", 집.구간, 콤마(집.첫한국순위), 콤마(집.끝한국순위), 집.내려간주);
 

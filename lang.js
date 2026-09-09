@@ -197,9 +197,9 @@ const STR = {
 
 /* 03 안원잘부 구독자 순위 */
 "s3.eye":      {ko:"안녕하세요원이입니다잘부탁드립니다 구독자 순위", en:"Annyeonghaseyo WONI-imnida Jalbutakdeurimnida — subscriber rank", ja:"アンニョンハセヨ ウォニイムニダ チャルブタットゥリムニダ の登録者順位"},
-"s3.h":        {ko:"27주 동안 한 번도 내려가지 않았다",
-                en:"27 weeks without a single step back",
-                ja:"27週のあいだ、一度も下がらなかった"},
+"s3.h":        {ko:(n,d)=>d===0?`${n}주 동안 한 번도 내려가지 않았다`:`${n}주 중 내려간 주는 ${d}주뿐이다`,
+                en:(n,d)=>d===0?`${n} weeks without a single step back`:`Only ${d} of ${n} weeks went down`,
+                ja:(n,d)=>d===0?`${n}週のあいだ、一度も下がらなかった`:`${n}週のうち下がったのは${d}週だけ`},
 "s3.scalenote":{ko:"세로축은 한국 구독자 순위다. 위로 갈수록 높은 순위이고, 눈금은 로그다 — 아래쪽 한 칸이 위쪽 한 칸보다 훨씬 많은 순위를 담는다.",
                 en:"The vertical axis is Korean subscriber rank. Higher is better, and the scale is logarithmic — one step near the bottom covers far more ranks than one step near the top.",
                 ja:"縦軸は韓国内の登録者順位です。上ほど高順位で、目盛りは対数です — 下の1目盛りは上の1目盛りよりずっと多くの順位を含みます。"},
