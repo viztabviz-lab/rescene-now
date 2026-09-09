@@ -3,7 +3,8 @@
 data/*.json 을 다시 채운다. GitHub Actions 가 이 스크립트만 돌린다.
 
   python -X utf8 scripts/수집.py daily     구독자 2채널 · MV 11편 조회수
-  python -X utf8 scripts/수집.py weekly    구글 트렌드 126주 · playboard 순위
+  python -X utf8 scripts/수집.py weekly    걸그룹 100만 클럽 44팀 (Actions)
+  python -X utf8 scripts/수집.py 주간로컬   구글 트렌드 · playboard 순위 · 지역 (집 IP 에서만 받힌다)
   python -X utf8 scripts/수집.py videos    채널 두 개의 전체 영상 조회수·좋아요
   python -X utf8 scripts/수집.py streams   라이브 아카이브 전수 (얼굴 판별은 빼고)
   python -X utf8 scripts/수집.py archive   @data-viz 에 새로 올린 쇼츠를 카드로
@@ -1085,8 +1086,13 @@ def 지역():
     # daily 는 **매시** 돈다. 라이브 전수(210편)를 여기 붙이면 매시 210번을 두드리게 된다 —
     # streams 는 하루 한 번짜리 워크플로(streams.yml)로 따로 뺐다.
     "daily": [("live", daily), ("archive", 아카이브), ("emoticon", 이모티콘)],
-    "weekly": [("trends", weekly_트렌드), ("rank", weekly_순위), ("club", 클럽),
-               ("region", 지역)],
+    # weekly 는 Actions 가 돈다. 트렌드·순위·지역은 여기 두지 않는다 —
+    # Actions IP 가 playboard 에 453, 구글 트렌드에 429 를 받아 첫 판 이후
+    # 한 번도 성공한 적이 없다. 매주 실패로 돌면서 status.json 의 「OK」를
+    # 「실패」로 덮어써, 집에서 받아 둔 최신 값이 화면에서 실패로 보였다.
+    # 셋은 주간로컬 로 옮겨 집 IP 에서 받는다 (작업 스케줄러 「리센느 주간 수집」).
+    "weekly": [("club", 클럽)],
+    "주간로컬": [("trends", weekly_트렌드), ("rank", weekly_순위), ("region", 지역)],
     "videos": [("videos", videos)],
     "streams": [("streams", streams)],
     "archive": [("archive", 아카이브)],
