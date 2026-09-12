@@ -438,6 +438,8 @@ footer p{max-width:60ch;margin:0}
 .ad .more{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:4px 4px 0}
 .ad .more a{display:block;aspect-ratio:16/9;border-radius:4px;overflow:hidden}
 .ad .more img{width:100%;height:100%;object-fit:cover;display:block}
+/* 빈 칸 — 영상이 적은 카드도 같은 높이를 차지해 브랜드 이름 줄이 맞는다 */
+.ad .more .slot{aspect-ratio:16/9;border-radius:4px}
 .ad .bd{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
 .nmrow{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
 .nmrow b{font-size:19px;font-weight:800;letter-spacing:-.02em}
@@ -1903,19 +1905,22 @@ function 광고카드(a){
     링.setAttribute("aria-label", t("ad.thumb.aria", 이름(a.브랜드), 1));
     const im = el("img"); im.src = 썸(주.id); im.alt = ""; im.loading = "lazy";
     링.append(im, el("span", "pl", a.영상.length > 1 ? t("ad.vids", a.영상.length) : t("ad.vid1")));
-    if(a.영상.length > 1){
-      const 더 = el("div", "more");
-      a.영상.slice(1, 5).forEach((v, i)=>{
-        const l = 바깥고리(더, 유튜브주소(v.id, v.쇼츠));
-        l.setAttribute("aria-label", t("ad.thumb.aria", 이름(a.브랜드), i + 2));
-        const g = el("img"); g.src = 썸(v.id); g.alt = ""; g.loading = "lazy";
-        l.append(g);
-      });
-      카.append(더);
-    }
   }else{
     카.append(el("div", "adthumb noimg", 이름(a.브랜드)));
   }
+
+  /* 작은 썸네일 줄은 영상이 적은 카드에서도 자리를 비워 둔다 —
+     칸을 아예 없애면 카드마다 그 아래 브랜드 이름의 높이가 달라져 줄이 안 맞는다 */
+  const 더 = el("div", "more");
+  for(let i = 0; i < 4; i++){
+    const v = a.영상[i + 1];
+    if(!v){ 더.append(el("div", "slot")); continue; }
+    const l = 바깥고리(더, 유튜브주소(v.id, v.쇼츠));
+    l.setAttribute("aria-label", t("ad.thumb.aria", 이름(a.브랜드), i + 2));
+    const g = el("img"); g.src = 썸(v.id); g.alt = ""; g.loading = "lazy";
+    l.append(g);
+  }
+  카.append(더);
 
   const 몸 = el("div", "bd");
   const 줄 = el("div", "nmrow");

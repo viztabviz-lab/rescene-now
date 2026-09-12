@@ -67,6 +67,29 @@ const 크롬 = ["C:/Program Files/Google/Chrome/Application/chrome.exe",
     }), h));
   }
 
-  console.log(JSON.stringify({ 저장, 폰넘침, 옛링크, 오류: [...new Set(오류)], 결과 }, null, 1));
+  // 광고 카드 — 같은 줄의 브랜드 이름이 같은 높이에 있나 (영상 수가 달라도 맞아야 한다)
+  await p.setViewport({ width: 1100, height: 900 });
+  await p.goto(주소 + "#ad", { waitUntil: "networkidle0" });
+  await new Promise(r => setTimeout(r, 500));
+  const 이름줄 = await p.evaluate(() => {
+    const 칸 = [...document.querySelectorAll("#nad-ads .nmrow b")].map(b => {
+      const r = b.getBoundingClientRect();
+      return { x: Math.round(r.left), y: Math.round(r.top + window.scrollY), 글: b.textContent };
+    });
+    const 열 = {};
+    칸.forEach(c => { (열[c.x] = 열[c.x] || []).push(c); });
+    const 열들 = Object.values(열);
+    const 줄수 = 열들.length ? Math.max(...열들.map(v => v.length)) : 0;
+    const 결과 = [];
+    for (let i = 0; i < 줄수; i++) {
+      const 줄칸 = 열들.map(v => v[i]).filter(Boolean);
+      if (줄칸.length < 2) continue;
+      const ys = 줄칸.map(c => c.y);
+      결과.push({ 줄: i + 1, 편차: Math.max(...ys) - Math.min(...ys), 브랜드: 줄칸.map(c => c.글) });
+    }
+    return 결과;
+  });
+
+  console.log(JSON.stringify({ 저장, 폰넘침, 옛링크, 이름줄, 오류: [...new Set(오류)], 결과 }, null, 1));
   await b.close();
 })();
