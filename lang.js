@@ -712,3 +712,136 @@ STR["s11.src"] = {ko:null, en:"KakaoTalk emoticon shop popularity ranking (e.kak
                   ja:"カカオ絵文字ショップの人気順位（e.kakao.com/popular）"};
 STR["s5.org"]  = {ko:null, en:"the Korea Institute of Corporate Reputation", ja:"韓国企業評判研究所"};
 STR["s5.base"] = {ko:null, en:m=>m.replace("년 ","-").replace("월",""), ja:m=>m};
+
+/* ══════════════════════════════════════════════════════════════════════
+   개편(탭 · 광고) — preview.html 이 쓰는 열쇠들.
+   기존 화면은 이 블록을 하나도 쓰지 않는다. 덧붙이기만 하므로 index.html 은 그대로다.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* 브랜드 이름 — 로마자 표기가 확인된 것만 적는다.
+   공식 표기를 못 찾은 브랜드(에이페·엘리트학생복·나랑드사이다·온그리디언츠·카사베르디)는
+   일부러 비워 둔다 — 적어 두지 않으면 한국어 원문이 그대로 나간다(옮김()). 지어내지 않는다. */
+Object.assign(이름표, {
+  "할리스":     {en:"HOLLYS", ja:"ホリーズ"},
+  "도미노피자":  {en:"Domino's Pizza", ja:"ドミノ・ピザ"},
+  "카카오톡":    {en:"KakaoTalk", ja:"カカオトーク"},
+  "서든어택":    {en:"Sudden Attack", ja:"サドンアタック"},
+  "FC모바일":   {en:"EA SPORTS FC Mobile", ja:"EA SPORTS FC モバイル"},   // 채널 이름이 근거
+  "한스킨":     {en:"Hanskin", ja:"ハンスキン"},                          // 채널 「한스킨 hanskin」
+  "프리티스킨":  {en:"PRETTYSKIN", ja:"プリティスキン"},                    // 채널 「프리티스킨 PRETTYSKIN.」
+  "바이오던스":  {en:"Biodance", ja:"バイオダンス"},                        // 채널 「Biodance 바이오던스」
+  "와키윌리":    {en:"Wacky WiLLy"},                                      // 채널 「와키윌리-Wacky WiLLy」
+  "티오더":     {en:"Torder"},                                           // torder.com
+});
+
+/* 분야와 링크 종류 — 값은 한국어 식별자이고 글자만 바뀐다 */
+Object.assign(낱말, {
+  "편의점":   {en:"Convenience store", ja:"コンビニ"},
+  "커피":     {en:"Coffee", ja:"コーヒー"},
+  "피자":     {en:"Pizza", ja:"ピザ"},
+  "음료":     {en:"Beverage", ja:"飲料"},
+  "건강식품":  {en:"Health food", ja:"健康食品"},
+  "식품":     {en:"Food", ja:"食品"},
+  "화장품":   {en:"Cosmetics", ja:"化粧品"},
+  "헤어케어":  {en:"Hair care", ja:"ヘアケア"},
+  "컬러렌즈":  {en:"Color lenses", ja:"カラコン"},
+  "패션":     {en:"Fashion", ja:"ファッション"},
+  "교복":     {en:"School uniforms", ja:"学生服"},
+  "게임":     {en:"Games", ja:"ゲーム"},
+  "IT":      {en:"IT", ja:"IT"},
+  "향수":     {en:"Perfume", ja:"香水"},
+  "기획전":   {en:"Collection", ja:"特設ページ"},
+  "상품":     {en:"Product", ja:"商品"},
+  "캠페인":   {en:"Campaign", ja:"キャンペーン"},
+  "매장찾기":  {en:"Store locator", ja:"店舗検索"},
+  "공식홈":   {en:"Official site", ja:"公式サイト"},
+  "보도자료":  {en:"Press release", ja:"プレスリリース"},
+});
+
+Object.assign(STR, {
+/* ── 주 메뉴 ── */
+"tab.nav":        {ko:"메뉴", en:"Menu", ja:"メニュー"},
+"tab.home":       {ko:"홈", en:"Home", ja:"ホーム"},
+"tab.home.sub":   {ko:"한눈에", en:"At a glance", ja:"ひと目で"},
+"tab.youtube":    {ko:"유튜브", en:"YouTube", ja:"YouTube"},
+"tab.youtube.sub":{ko:"채널 · 영상 · 라이브", en:"Channels · videos · live", ja:"チャンネル・動画・ライブ"},
+"tab.music":      {ko:"음원", en:"Music", ja:"音源"},
+"tab.music.sub":  {ko:"멜론 · MV", en:"Melon · MVs", ja:"Melon・MV"},
+"tab.ad":         {ko:"광고", en:"Ads", ja:"広告"},
+"tab.ad.sub":     {ko:"브랜드 · 평판", en:"Brands · reputation", ja:"ブランド・評判"},
+"tab.buzz":       {ko:"화제", en:"Buzz", ja:"話題"},
+"tab.buzz.sub":   {ko:"검색 · 이모티콘", en:"Search · emoticons", ja:"検索・絵文字"},
+"tab.ch.label":   {ko:"채널", en:"Channel", ja:"チャンネル"},
+
+/* ── 홈 ── */
+"home.dg.eye":    {ko:"메뉴마다 하나씩", en:"One number per menu", ja:"メニューごとに一つ"},
+"home.dg.h":      {ko:"지금 가장 큰 숫자", en:"The biggest number right now", ja:"いま一番大きな数字"},
+"home.dg.go":     {ko:n=>`${n} 보기 →`, en:n=>`Open ${n} →`, ja:n=>`${n}を見る →`},
+"home.dg.youtube":{ko:(w,f)=>`안원잘부 한국 구독자 순위. ${w}주 전엔 ${f}위였다`,
+                   en:(w,f)=>`Korean subscriber rank of the WONI show. ${w} weeks ago it was #${f}`,
+                   ja:(w,f)=>`アンウォンジャルブの韓国登録者順位。${w}週前は${f}位でした`},
+"home.dg.buzz":   {ko:p=>`${p} 지역별 검색 관심도 1위`,
+                   en:p=>`Top region by search interest, ${p}`,
+                   ja:p=>`${p}の地域別検索関心度1位`},
+"home.feed.eye":  {ko:"최근 바뀐 것", en:"What changed recently", ja:"最近変わったこと"},
+"home.feed.h":    {ko:"이 페이지가 최근에 받은 것", en:"What this page picked up lately", ja:"このページが最近受け取ったもの"},
+"home.feed.ad":   {ko:(b,n)=>`${b} 광고 영상 ${n}편 공개`,
+                   en:(b,n)=>`${b} released ${n} ad video(s)`,
+                   ja:(b,n)=>`${b} 広告動画 ${n}本公開`},
+"home.feed.ms":   {ko:(c,m)=>`${c} 구독자 ${m} 돌파`,
+                   en:(c,m)=>`${c} passed ${m} subscribers`,
+                   ja:(c,m)=>`${c} 登録者 ${m} 突破`},
+"home.feed.short":{ko:s=>`새 쇼츠 · ${s}`, en:s=>`New short · ${s}`, ja:s=>`新しいショート · ${s}`},
+"home.shorts.eye":{ko:"쇼츠", en:"Shorts", ja:"ショート"},
+"home.shorts.h":  {ko:"최근 올린 데이터 쇼츠", en:"Latest data shorts", ja:"最近のデータショート"},
+
+/* ── 광고 ── */
+"ad.eye":         {ko:"광고 내역", en:"Ad campaigns", ja:"広告一覧"},
+"ad.h":           {ko:n=>`리센느가 모델인 브랜드 ${n}곳`,
+                   en:n=>`${n} brands with RESCENE as their model`,
+                   ja:n=>`RESCENEがモデルのブランド ${n}社`},
+"ad.h.mem":       {ko:(m,n)=>`${m}가 나온 광고 ${n}곳`,
+                   en:(m,n)=>`${n} campaigns featuring ${m}`,
+                   ja:(m,n)=>`${m}が出た広告 ${n}社`},
+"ad.sub":         {ko:v=>`브랜드 공식 유튜브의 광고 영상 ${v}편을 모았다. 썸네일을 누르면 그 영상으로, 아래 단추는 브랜드 채널과 공식 상품 페이지로 간다.`,
+                   en:v=>`${v} ad videos from the brands' own YouTube channels. Click a thumbnail for the video; the buttons below go to the brand channel and its official product page.`,
+                   ja:v=>`ブランド公式YouTubeの広告動画 ${v}本を集めました。サムネイルで動画へ、下のボタンでブランドチャンネルと公式商品ページへ移動します。`},
+"ad.filter.aria": {ko:"멤버로 고르기", en:"Filter by member", ja:"メンバーで絞り込む"},
+"ad.all":         {ko:"전체", en:"All", ja:"すべて"},
+"ad.mem.all":     {ko:"리센느 전원", en:"All of RESCENE", ja:"RESCENE全員"},
+"ad.mem.unk":     {ko:"리센느 · 멤버 미확인", en:"RESCENE · members unconfirmed", ja:"RESCENE・メンバー未確認"},
+"ad.vids":        {ko:n=>`광고 영상 ${n}편`, en:n=>`${n} ad videos`, ja:n=>`広告動画 ${n}本`},
+"ad.vid1":        {ko:"광고 영상", en:"Ad video", ja:"広告動画"},
+"ad.ch":          {ko:"유튜브 채널", en:"YouTube channel", ja:"YouTubeチャンネル"},
+"ad.ch.none":     {ko:"공식 유튜브 확인 불가", en:"No official channel found", ja:"公式チャンネル確認不可"},
+"ad.since":       {ko:d=>`${d}~`, en:d=>`since ${d}`, ja:d=>`${d}~`},
+"ad.thumb.aria":  {ko:(b,n)=>`${b} 광고 영상 ${n}`, en:(b,n)=>`${b} ad video ${n}`, ja:(b,n)=>`${b} 広告動画 ${n}`},
+"ad.kornote":     {ko:null,
+                   en:"Ad video titles and campaign names are left in the original Korean.",
+                   ja:"広告動画のタイトルとキャンペーン名は韓国語の原文のままです。"},
+"ad.foot":        {ko:d=>`${d} 조사 · 모델 발탁 기사와 브랜드 공식 채널이 근거다. 상품 링크는 브랜드 공식 몰로만 걸고 제휴·단축 링크는 쓰지 않는다. 공개일과 수치를 나란히 둘 뿐 원인을 말하지 않는다.`,
+                   en:d=>`Compiled ${d} from model-appointment articles and the brands' official channels. Product links point only to official brand stores — no affiliate or shortened links. Dates and numbers are placed side by side; no causal claim is made.`,
+                   ja:d=>`${d} 調査 · モデル起用の記事とブランド公式チャンネルが根拠です。商品リンクはブランド公式モールのみで、アフィリエイト・短縮リンクは使いません。公開日と数値を並べるだけで、因果は述べません。`},
+"ad.perf.eye":    {ko:"광고와 같은 시기의 숫자", en:"Numbers from the same period", ja:"広告と同じ時期の数字"},
+"ad.perf.h":      {ko:"브랜드평판", en:"Brand reputation", ja:"ブランド評判"},
+"ad.perf.sub":    {ko:"아래는 광고가 나온 시기에 함께 잰 숫자다. 시점을 나란히 둘 뿐 원인을 말하지 않는다.",
+                   en:"Below are numbers measured over the same period as the campaigns. The timing is placed side by side; no cause is claimed.",
+                   ja:"以下は広告が出た時期に合わせて測った数字です。時期を並べるだけで、原因は述べません。"},
+"home.dg.music":  {ko:n=>"뮤직비디오 " + n + "편의 누적 조회수",
+                   en:n=>"Total views of " + n + " music videos",
+                   ja:n=>"ミュージックビデオ " + n + "本の累計再生数"},
+"home.dg.ad":     {ko:v=>"광고 영상 " + v + "편과 공식 상품 페이지",
+                   en:v=>v + " ad videos and official product pages",
+                   ja:v=>"広告動画 " + v + "本と公式商品ページ"},
+"home.dg.v.rank": {ko:n=>n + "위", en:n=>"#" + n, ja:n=>n + "位"},
+"home.dg.v.brands":{ko:n=>n + "곳", en:n=>n + " brands", ja:n=>n + "社"},
+
+/* 미리보기 띠 — preview.html 에만 나온다 */
+"pv.band":        {ko:"미리보기 — 개편안입니다. 지금 쓰는 페이지는 그대로 있습니다.",
+                   en:"Preview — a proposed redesign. The live page is unchanged.",
+                   ja:"プレビュー — 改編案です。公開中のページはそのままです。"},
+"pv.live":        {ko:"지금 페이지 보기", en:"Open the live page", ja:"公開中のページを見る"},
+"s8.more":        {ko:n=>"쇼츠 " + n + "편 더 보기",
+                   en:n=>"Show " + n + " more shorts",
+                   ja:n=>"ショートをあと" + n + "本見る"},
+});

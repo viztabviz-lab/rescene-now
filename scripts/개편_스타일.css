@@ -1,0 +1,81 @@
+/* ── 개편 미리보기 — 탭 · 광고 (scripts/개편_스타일.css) ──────────────
+   색·글꼴·모서리는 위 스타일의 변수를 그대로 쓴다. 여기서 새로 정하지 않는다. */
+
+/* 미리보기 띠 — 실제 페이지와 헷갈리지 않게 */
+.pvband{background:#24424b;border-bottom:1px solid #4f8a9b;color:#d4ecf3;font-size:13px;padding-block:9px}
+.pvband .in{max-width:1000px;margin:0 auto;padding:0 20px;display:flex;gap:10px 16px;align-items:center;flex-wrap:wrap}
+.pvband a{color:#d4ecf3}
+
+/* 주 메뉴 */
+.tabs{position:sticky;top:0;z-index:6;background:var(--bg);margin:30px -20px 0;padding:10px 20px;border-bottom:1px solid var(--line)}
+@media (max-width:420px){.tabs{margin-inline:-16px;padding-inline:16px}}
+.tabs .row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:4px}
+.tab{border:0;background:none;cursor:pointer;border-radius:10px;padding:9px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:1px;color:var(--ink-3);min-width:0;font:inherit}
+.tab b{font-size:15px;font-weight:700;letter-spacing:-.01em;white-space:nowrap}
+.tab small{font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.tab:hover{color:var(--ink-2)}
+.tab[aria-selected="true"]{background:var(--ink);color:#1a1a19}
+.tab[aria-selected="true"] small{color:#55554f}
+@media (max-width:620px){.tab small{display:none}.tab b{font-size:14px}.tab{padding:9px 2px}}
+.tabpane[hidden]{display:none}
+.tabpane .chtabs{position:static;margin-top:22px}
+
+/* 홈 — 메뉴마다 숫자 하나 */
+.digest{display:grid;gap:10px;grid-template-columns:1fr}
+@media (min-width:640px){.digest{grid-template-columns:1fr 1fr}}
+.dg{text-align:left;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:2px;font:inherit;color:inherit}
+.dg:hover{border-color:#44443f}
+.dg .t{font-size:12px;letter-spacing:.12em;color:var(--ink-3);text-transform:uppercase}
+.dg .v{font-size:30px;font-weight:800;letter-spacing:-.03em;line-height:1.25;color:var(--ink);font-variant-numeric:tabular-nums}
+.dg .d{font-size:14px;color:var(--ink-2);line-height:1.5}
+.dg .w{font-size:12px;color:var(--ink-3);margin-top:6px}
+
+/* 홈 — 최근 바뀐 것 */
+.feed{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.feed li{display:grid;grid-template-columns:62px 1fr;gap:6px 12px;padding:11px 2px;border-bottom:1px solid var(--line);align-items:baseline}
+.feed .dt{font-size:13px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.feed .tx{font-size:15px}
+.feed .go{grid-column:2;justify-self:start;font-size:12px;color:var(--ink-2);border:1px solid var(--line);border-radius:999px;padding:1px 9px;background:none;cursor:pointer;font-family:inherit}
+.feed .go:hover{border-color:var(--ink-3)}
+
+/* 홈 — 쇼츠 줄 */
+.strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(180px,1fr);gap:10px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x proximity}
+.strip a{text-decoration:none;scroll-snap-align:start;display:flex;flex-direction:column;gap:6px}
+.strip img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;display:block;background:var(--track)}
+.strip span{font-size:13px;line-height:1.45;color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.strip small{font-size:11.5px;color:var(--ink-3)}
+.strip a:hover span{color:var(--ink)}
+
+/* 광고 카드 */
+.ads{display:grid;gap:12px;grid-template-columns:1fr;margin-top:16px}
+@media (min-width:640px){.ads{grid-template-columns:1fr 1fr}}
+@media (min-width:920px){.ads{grid-template-columns:1fr 1fr 1fr}}
+.ad{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
+.adthumb{position:relative;display:block;aspect-ratio:16/9;background:var(--track)}
+.adthumb img{width:100%;height:100%;object-fit:cover;display:block}
+.adthumb .pl{position:absolute;left:10px;bottom:10px;font-size:12px;font-weight:700;background:rgba(26,26,25,.82);color:var(--ink);border-radius:999px;padding:3px 10px 3px 8px}
+.adthumb .pl::before{content:"\25B6";color:var(--pink);margin-right:5px;font-size:10px}
+.adthumb.noimg{display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;letter-spacing:-.03em;color:var(--ink-3);text-align:center;padding:0 12px}
+.ad .more{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:4px 4px 0}
+.ad .more a{display:block;aspect-ratio:16/9;border-radius:4px;overflow:hidden}
+.ad .more img{width:100%;height:100%;object-fit:cover;display:block}
+.ad .bd{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.nmrow{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.nmrow b{font-size:19px;font-weight:800;letter-spacing:-.02em}
+.nmrow span{font-size:12.5px;color:var(--ink-3);text-align:right}
+.mem{display:flex;flex-wrap:wrap;gap:4px}
+.mem i{font-style:normal;font-size:12px;border:1px solid var(--pink-dim);color:var(--pink);border-radius:999px;padding:1px 9px}
+.mem i.all{background:var(--pink);color:#1a1a19;border-color:var(--pink);font-weight:700}
+.mem i.unk{border-color:var(--line);color:var(--ink-3)}
+.lk{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:4px}
+.lk a{font-size:13px;text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:6px 11px;color:var(--ink);background:var(--bg)}
+.lk a:hover{border-color:var(--ink-3)}
+.lk a.yt::before{content:"";display:inline-block;width:9px;height:9px;border-radius:2px;background:#e8453c;margin-right:6px;vertical-align:0}
+.lk a.shop::after{content:" \2192";color:var(--ink-3)}
+.lk .off{font-size:12.5px;color:var(--ink-3);padding:6px 2px}
+
+/* 아카이브 접기 — 홈 첫 화면이 카드 여든 장으로 길어지지 않게 */
+.cards.fold > *:nth-child(n+13){display:none}
+.morecards{display:block;width:100%;margin-top:12px;padding:11px 16px;font:inherit;font-size:14px;
+  cursor:pointer;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.morecards:hover{color:var(--ink);border-color:var(--ink-3)}

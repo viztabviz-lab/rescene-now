@@ -1,0 +1,2124 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">   <!-- 미리보기는 검색에 올리지 않는다 -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>리센느, 지금</title>
+<!-- 링크로 공유될 때 보이는 카드. 주장을 적으면 무슨 페이지인지 모른다 —
+     무엇을 보는 곳인지부터 적는다. -->
+<meta name="description" content="리센느(RESCENE) 유튜브 채널 분석 페이지입니다.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://viztabviz-lab.github.io/rescene-now/">
+<meta property="og:title" content="리센느, 지금">
+<meta property="og:description" content="리센느(RESCENE) 유튜브 채널 분석 페이지입니다.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231a1a19'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%23fc6fcf'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<script src="lang.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+  --bg:#1a1a19;
+  --surface:#232322;
+  --line:#2f2f2d;
+  --track:#3a3a37;
+  --ink:#f2f2f0;
+  --ink-2:#b4b4ae;
+  --ink-3:#8a8a86;
+  --pink:#fc6fcf;
+  --pink-dim:#7d3a68;
+  --warn:#e0a06a;
+  --r:12px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard Variable",Pretendard,-apple-system,"Malgun Gothic",sans-serif;
+  font-size:16px;line-height:1.7;word-break:keep-all;
+  -webkit-font-smoothing:antialiased;
+}
+.num{font-variant-numeric:tabular-nums}
+/* word-break:keep-all 은 한국어용이다 — 어절 안에서 안 꺾이게 한다.
+   일본어는 낱말 사이에 띄어쓰기가 없어 그대로 두면 줄이 아예 안 꺾이고 칸을 넘는다. */
+html[lang="ja"] body{word-break:normal;line-break:strict}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--pink);outline-offset:3px;border-radius:6px}
+
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px 96px}
+@media (max-width:420px){.wrap{padding:0 16px 80px}}
+
+/* ── 머리 ── */
+.top{padding:56px 0 0}
+/* 방문 수가 붙어 좁은 화면에서 넘쳤다(360px 日本語 에서 9px). 자르지 말고 접는다 —
+   넘치면 언어 단추가 아랫줄로 내려가 오른쪽에 붙는다. */
+.brandline{display:flex;align-items:center;gap:9px;margin-bottom:18px;flex-wrap:wrap;row-gap:10px}
+.brandline i{width:10px;height:10px;border-radius:3px;background:var(--pink);flex:none}
+.brandline span{font-size:12.5px;letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase}
+/* 방문 수 — 브랜드 줄 오른쪽. 셀 수 없으면 아예 안 그린다(hidden). 0 을 보여주지 않는다. */
+.brandline .visits{letter-spacing:0;text-transform:none;color:var(--ink-3)}
+.brandline .visits::before{content:"·";margin:0 7px 0 3px;color:var(--line)}
+/* 조회 수는 사람 수보다 한 칸 흐리게 — 무엇이 주인공인지 색으로 가른다.
+   **여기에 --pink-dim 을 쓰지 말 것.** 보조 정보가 브랜드 강조처럼 읽혀
+   주인공(방문자)보다 눈에 띈다. 강조는 올려서 만들지 말고 내려서 만든다.
+   #6b6b66 은 --ink-3 와 --line 사이 — 배경 대비 3.2:1 로 작은 글씨도 읽힌다. */
+.brandline .visits .views{color:#6b6b66}
+.brandline .visits .views::before{content:"·";margin:0 6px;color:var(--line)}
+/* 언어 단추 — 채널 탭(.seg)과 같은 모양이라 「고르는 것」으로 읽힌다 */
+.langs{
+  margin-left:auto;display:flex;background:var(--surface);border:1px solid var(--line);
+  border-radius:999px;padding:3px;gap:2px;
+}
+.langs button{
+  font:inherit;font-size:12.5px;cursor:pointer;color:var(--ink-3);background:none;border:0;
+  border-radius:999px;padding:4px 11px;line-height:1.4;white-space:nowrap;letter-spacing:0;
+  text-transform:none;
+}
+.langs button:hover{color:var(--ink-2)}
+.langs button.on{background:var(--pink);color:#1a1a19;font-weight:700}
+/* 원문 그대로 두는 목록 밑에 붙는 단서 */
+.raw{font-size:12.5px;color:var(--ink-3);margin:8px 0 0}
+h1{
+  font-size:clamp(38px,10vw,68px);font-weight:800;letter-spacing:-.035em;
+  line-height:1.05;margin:0 0 14px;
+}
+h1 em{font-style:normal;color:var(--pink)}
+.top p{color:var(--ink-2);max-width:38ch;margin:0;font-size:clamp(15px,3.6vw,17px)}
+
+/* ── 섹션 ── */
+section{padding-top:64px;scroll-margin-top:96px}
+/* 부제가 한 줄뿐이라 머리와 첫 카드 사이가 비어 보인다. 첫 섹션만 좁힌다. */
+#s0{padding-top:26px}
+.eyebrow{
+  font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-3);margin:0 0 8px;display:flex;gap:8px;align-items:center;
+}
+.eyebrow b{color:var(--pink);font-weight:600}
+h2{
+  font-size:clamp(22px,5.4vw,30px);font-weight:800;letter-spacing:-.025em;
+  line-height:1.3;margin:0 0 10px;
+}
+/* 각주(.foot)와 같다 — 폭을 묶지 않는다. 52ch 로 두면 오른쪽 절반이 통째로 빈다.
+   실측(1280px): 05 평판 2줄→1줄 · 04 이모티콘 3줄→2줄 · 09 출처 2줄→1줄.
+   좁은 화면은 칸 자체가 좁아 그대로다. */
+.sub{color:var(--ink-2);margin:0 0 22px;font-size:15px}
+/* 각주에는 max-width 를 주지 않는다 — 칸을 다 쓴다.
+   56ch 로 묶어 뒀더니 서너 줄로 접히고 오른쪽 절반이 통째로 비었다.
+   **두 단(columns:2)으로도 해 봤는데 되돌렸다.** 크롬 균형기가 짧은 각주를 안 가른다 —
+   07 검색어 각주(107자)는 왼쪽 단에 두 줄로 그대로 남고 오른쪽 단이 비어, 고치려던 문제가
+   그대로 남았다. 여러 줄이 갈리면 읽는 차례도 ①③②④ 로 꼬여, 문단이 여럿인 발밑 글과 달리
+   한 문단짜리 각주에는 맞지 않는다.
+   실측(1280px): 07 검색어 3줄→1줄 · 06 클럽 6줄→3줄. 좁은 화면은 칸이 좁아 그대로다. */
+.foot{color:var(--ink-3);font-size:12.5px;margin:14px 0 0;line-height:1.6}
+.foot b{color:var(--ink-2);font-weight:600}
+
+/* ── 00 게이지 ── */
+.heroes{display:grid;gap:10px;align-items:stretch}
+@media (min-width:760px){.heroes{grid-template-columns:1fr 1fr}}
+.hero{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:24px 20px;display:flex;flex-direction:column;height:100%;
+}
+.hero .cap{font-size:13px;color:var(--ink-3);letter-spacing:.02em}
+.hero .cap b{color:var(--ink-2);font-weight:600}
+.hero .big{
+  font-size:clamp(48px,13vw,76px);font-weight:800;letter-spacing:-.045em;
+  line-height:1;margin:8px 0 4px;color:var(--pink);
+}
+.hero .of{font-size:14px;color:var(--ink-3);margin-bottom:18px}
+.hero .grow{flex:1}
+.gauge{height:14px;background:var(--track);border-radius:7px;overflow:hidden}
+.gauge i{display:block;height:100%;background:var(--pink);border-radius:7px}
+.hero .left{
+  display:flex;justify-content:space-between;gap:12px;margin-top:11px;
+  font-size:13.5px;color:var(--ink-2);
+}
+.hero .left b{color:var(--ink);font-weight:700}
+/* 주인공만 색을 준다 — 나머지는 무채색으로 두어야 대비가 주장이 된다 */
+.hero.sub .big{color:var(--ink)}
+.hero.sub .gauge i{background:var(--ink-3)}
+/* 고르지 않은 채널 카드는 눌러서 넘어갈 수 있다 */
+.hero.pick{cursor:pointer}
+.hero.pick:hover{border-color:var(--track)}
+
+/* ── 01 타일 ── */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (min-width:760px){.tiles{grid-template-columns:repeat(4,1fr)}}
+.tile{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:16px 15px 13px;display:flex;flex-direction:column;gap:2px;min-width:0;
+}
+.tile .k{font-size:12px;color:var(--ink-3);letter-spacing:.01em}
+.tile .v{font-size:clamp(25px,7vw,32px);font-weight:800;letter-spacing:-.03em;line-height:1.15}
+/* 나라말마다 값의 길이가 다르다 — 「4,000원」은 짧아도 「4,000ウォン」은 칸을 넘는다.
+   글자 수가 많은 값만 한 단계 줄인다. 줄바꿈으로 넘기면 숫자가 두 줄로 갈려 못 읽는다. */
+.tile .v.long{font-size:clamp(19px,5vw,24px)}
+.tile.on .v{color:var(--pink)}
+.tile .d{font-size:12px;color:var(--ink-3);margin-top:1px}
+
+/* ── 차트 공통 ── */
+.chart{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:18px 16px 14px;position:relative;
+}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin:0 0 14px;font-size:12.5px;color:var(--ink-2)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:11px;height:11px;border-radius:3px;flex:none}
+.legend i.line{height:3px;border-radius:2px;width:16px}
+.scalenote{font-size:12px;color:var(--ink-3);margin:0 0 12px;padding-left:9px;border-left:2px solid var(--pink)}
+
+.tip{
+  position:absolute;pointer-events:none;opacity:0;transition:opacity .1s;
+  background:#0e0e0d;border:1px solid var(--track);border-radius:8px;
+  padding:7px 10px;font-size:12.5px;line-height:1.45;white-space:nowrap;z-index:5;
+  transform:translate(-50%,-115%);
+}
+.tip b{color:var(--pink)}
+.tip.show{opacity:1}
+
+/* ── 막대 목록 ── */
+.rows{display:flex;flex-direction:column;gap:2px}
+.row{
+  display:grid;grid-template-columns:auto 1fr auto;gap:11px;align-items:center;
+  padding:7px 4px;border-radius:8px;text-decoration:none;min-width:0;
+}
+.row:hover{background:#ffffff08}
+.row .rk{
+  font-size:12px;color:var(--ink-3);width:20px;text-align:right;font-weight:600;flex:none;
+}
+.row .mid{min-width:0}
+.row .nm{
+  font-size:14.5px;color:var(--ink-2);white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis;margin-bottom:5px;
+}
+.row.on .nm{color:var(--ink);font-weight:700}
+.row.on .rk{color:var(--pink)}
+.bar{height:9px;background:var(--track);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ink-3);border-radius:4px}
+.row.on .bar i{background:var(--pink)}
+.row .val{font-size:13.5px;color:var(--ink-2);white-space:nowrap;font-weight:600}
+.row.on .val{color:var(--ink)}
+.row .thumb{
+  /* 옆 글줄 높이에 맞춘다. 52x30 으로 박아 두었더니 세 줄짜리 영상 랭킹(글줄 61px) 옆에서
+     절반밖에 안 됐다. 높이를 주고 16:9 로 폭을 낸다.
+     align-self:stretch 는 쓰지 말 것 — 줄 높이가 정해져 있지 않아 그림이 제 원본 크기
+     (320x180)로 커지고, 그만큼 줄이 다시 커진다. 실제로 그렇게 터졌다. */
+  height:40px;width:auto;aspect-ratio:16/9;
+  border-radius:6px;object-fit:cover;flex:none;background:var(--track);
+}
+.row.vid .thumb{height:61px}      /* 이름 · 막대 · 메타 세 줄 */
+@media (max-width:520px){.row.vid .thumb{height:52px}}   /* 좁은 화면에서는 글자 자리를 남긴다 */
+.row.mv{grid-template-columns:auto auto 1fr auto}
+
+/* ── 06 문턱 ── */
+.club{display:flex;flex-direction:column;gap:1px}
+.club .cr{
+  display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:baseline;
+  padding:7px 8px;border-radius:7px;font-size:14.5px;
+}
+.club .cr .r{font-size:12.5px;color:var(--ink-3);text-align:right;font-weight:600}
+.club .cr .g{color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.club .cr .s{color:var(--ink-2);font-weight:600;font-size:13.5px}
+.club .cr.me{background:#fc6fcf14;border:1px solid var(--pink)}
+.club .cr.me .r,.club .cr.me .g,.club .cr.me .s{color:var(--pink)}
+.club .cr.me .g{font-weight:700}
+.threshold{
+  display:flex;align-items:center;gap:11px;margin:9px 2px;
+  font-size:12px;color:var(--ink-3);letter-spacing:.06em;
+}
+.threshold::before,.threshold::after{content:"";flex:1;border-top:1px dashed var(--track)}
+.gap{
+  text-align:center;color:var(--ink-3);font-size:12px;padding:6px 0;letter-spacing:.2em;
+}
+
+/* ── 07 낱말 ── */
+.two{display:grid;gap:14px}
+@media (min-width:700px){.two{grid-template-columns:1fr 1fr}}
+.pane{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 15px;
+}
+.pane h3{font-size:14px;margin:0 0 3px;font-weight:700;letter-spacing:-.01em}
+.pane .when{font-size:11.5px;color:var(--ink-3);margin:0 0 13px;letter-spacing:.02em}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{
+  font-size:13px;border:1px solid var(--line);background:#ffffff06;
+  border-radius:999px;padding:4px 11px;color:var(--ink-3);
+}
+.chip.on{border-color:var(--pink);color:var(--pink);background:#fc6fcf12;font-weight:600}
+.tally{
+  margin-top:14px;padding-top:12px;border-top:1px solid var(--line);
+  font-size:13px;color:var(--ink-2);
+}
+.tally b{color:var(--pink);font-weight:700}
+
+/* ── 08 카드 ── */
+.cards{display:grid;grid-template-columns:1fr;gap:10px}
+@media (min-width:620px){.cards{grid-template-columns:1fr 1fr}}
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  overflow:hidden;text-decoration:none;display:flex;flex-direction:column;
+}
+.card:hover{border-color:var(--track)}
+.card img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:var(--track)}
+.card .body{padding:13px 14px 14px;display:flex;flex-direction:column;gap:5px;flex:1}
+.card .n{font-size:11.5px;color:var(--ink-3);letter-spacing:.03em}
+.card .t{font-size:15px;font-weight:700;letter-spacing:-.015em;line-height:1.35}
+.card .c{font-size:13px;color:var(--ink-2);line-height:1.55;flex:1}
+.card .m{font-size:12.5px;color:var(--pink);font-weight:700;letter-spacing:.01em}
+.card.soon{border-style:dashed}
+.card.soon .n{color:var(--warn)}
+.card .ph{
+  aspect-ratio:16/9;display:grid;place-items:center;
+  background:repeating-linear-gradient(135deg,#2a2a28 0 8px,#232322 8px 16px);
+  color:var(--ink-3);font-size:12.5px;letter-spacing:.04em;
+}
+
+/* ── 09 표 ── */
+.tablewrap{
+  overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:560px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+td{color:var(--ink-2)}
+td:first-child{color:var(--ink);font-weight:600;white-space:normal}
+tbody tr:last-child td{border-bottom:0}
+.ok{color:var(--ink-3)}
+.bad{color:var(--warn);font-weight:600}
+
+details{margin-top:12px;font-size:13px;color:var(--ink-3)}
+summary{cursor:pointer;padding:5px 0;color:var(--ink-3)}
+summary:hover{color:var(--ink-2)}
+details table{min-width:0;font-size:12.5px;margin-top:6px}
+details td,details th{padding:5px 12px 5px 0;border-bottom:1px solid var(--line)}
+
+/* ── 채널 전환 ── */
+.chtabs{
+  position:sticky;top:0;z-index:20;display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  padding:12px 0 10px;margin-top:22px;background:var(--bg);
+  box-shadow:0 10px 18px -12px var(--bg);
+}
+.chtab{
+  font:inherit;text-align:left;cursor:pointer;color:var(--ink-3);
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:11px 14px;line-height:1.25;display:flex;flex-direction:column;gap:2px;
+  transition:border-color .12s,color .12s;
+}
+.chtab b{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.chtab small{font-size:11.5px;color:var(--ink-3);letter-spacing:.02em}
+.chtab:hover{border-color:var(--track);color:var(--ink-2)}
+/* 고른 채널만 색을 준다 — 그 대비가 「지금 무엇을 보고 있나」를 말한다 */
+.chtab[aria-pressed="true"]{border-color:var(--pink);background:#fc6fcf12;color:var(--pink)}
+.chtab[aria-pressed="true"] small{color:var(--pink)}
+
+/* ── 조작 줄 ── */
+.controls{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.seg{
+  display:flex;background:var(--surface);border:1px solid var(--line);
+  border-radius:999px;padding:3px;gap:2px;
+}
+.seg button{
+  font:inherit;font-size:13px;cursor:pointer;color:var(--ink-3);background:none;border:0;
+  border-radius:999px;padding:5px 13px;line-height:1.4;white-space:nowrap;
+}
+.seg button:hover{color:var(--ink-2)}
+.seg button.on{background:var(--pink);color:#1a1a19;font-weight:700}
+.seg button[hidden]{display:none}
+
+/* ── 라이브 아카이브 ── */
+.subhead{font-size:17px;font-weight:700;letter-spacing:-.015em;margin:34px 0 6px}
+.pane{position:relative}                 /* 툴팁이 이 안에서 자리를 잡는다 */
+.row.mem{grid-template-columns:58px 1fr auto}
+.row .who{font-size:14.5px;color:var(--ink);font-weight:700}
+/* 누적 막대 — 단독은 제 색, 함께는 무채색. 색이 곧 범례다 */
+.bar.stack{display:flex;gap:0}
+.bar.stack i{border-radius:0}
+.bar.stack i:first-child{border-radius:4px 0 0 4px}
+.bar.stack i:last-child{border-radius:0 4px 4px 0}
+.bar.stack i.solo{background:var(--pink)}
+.bar.stack i.with{background:var(--ink-3)}
+.bar.stack i.rest{background:transparent}
+.gtxt{fill:var(--ink-3);font-size:11px}
+
+/* ── 공통 구역 가름줄 ── */
+.split{
+  display:flex;align-items:center;gap:12px;margin:82px 0 0;
+  font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);
+}
+.split::before,.split::after{content:"";flex:1;border-top:1px solid var(--line)}
+.split + section{padding-top:34px}
+
+/* ── 영상 랭킹 줄 ── */
+.row.vid{grid-template-columns:auto auto 1fr auto}
+/* 좁은 화면에서는 잘라내지 말고 접는다 — 잘리면 좋아요 값이 통째로 사라진다 */
+.row .meta{font-size:11.5px;color:var(--ink-3);margin-top:5px;line-height:1.5}
+.row .meta b{color:var(--ink-2);font-weight:600}
+.empty{color:var(--ink-3);font-size:13.5px;padding:18px 4px}
+
+footer{
+  margin-top:72px;padding-top:22px;border-top:1px solid var(--line);
+  font-size:12.5px;color:var(--ink-3);line-height:1.7;
+  display:flex;flex-direction:column;gap:14px;
+}
+footer a{color:var(--ink-2)}
+footer p{max-width:60ch;margin:0}
+/* 한 줄은 60ch 를 넘기지 않는다(길면 눈이 다음 줄을 못 찾는다). 그래서 넓은 화면에서는
+   폭을 늘리는 대신 두 단으로 편다 — 안 그러면 오른쪽 절반이 통째로 빈다. */
+@media (min-width:820px){
+  footer{display:grid;grid-template-columns:1fr 1fr;gap:16px 44px;align-items:start}
+  footer p:last-child{
+    grid-column:1 / -1;max-width:none;
+    padding-top:14px;border-top:1px solid var(--line);
+  }
+}
+.err{
+  background:#2a1f1a;border:1px solid var(--warn);border-radius:var(--r);
+  padding:16px 18px;color:var(--warn);font-size:14px;margin-top:40px;
+}
+.err code{background:#00000040;padding:2px 6px;border-radius:4px;font-size:13px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<style>
+/* ── 개편 미리보기 — 탭 · 광고 (scripts/개편_스타일.css) ──────────────
+   색·글꼴·모서리는 위 스타일의 변수를 그대로 쓴다. 여기서 새로 정하지 않는다. */
+
+/* 미리보기 띠 — 실제 페이지와 헷갈리지 않게 */
+.pvband{background:#24424b;border-bottom:1px solid #4f8a9b;color:#d4ecf3;font-size:13px;padding-block:9px}
+.pvband .in{max-width:1000px;margin:0 auto;padding:0 20px;display:flex;gap:10px 16px;align-items:center;flex-wrap:wrap}
+.pvband a{color:#d4ecf3}
+
+/* 주 메뉴 */
+.tabs{position:sticky;top:0;z-index:6;background:var(--bg);margin:30px -20px 0;padding:10px 20px;border-bottom:1px solid var(--line)}
+@media (max-width:420px){.tabs{margin-inline:-16px;padding-inline:16px}}
+.tabs .row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:4px}
+.tab{border:0;background:none;cursor:pointer;border-radius:10px;padding:9px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:1px;color:var(--ink-3);min-width:0;font:inherit}
+.tab b{font-size:15px;font-weight:700;letter-spacing:-.01em;white-space:nowrap}
+.tab small{font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.tab:hover{color:var(--ink-2)}
+.tab[aria-selected="true"]{background:var(--ink);color:#1a1a19}
+.tab[aria-selected="true"] small{color:#55554f}
+@media (max-width:620px){.tab small{display:none}.tab b{font-size:14px}.tab{padding:9px 2px}}
+.tabpane[hidden]{display:none}
+.tabpane .chtabs{position:static;margin-top:22px}
+
+/* 홈 — 메뉴마다 숫자 하나 */
+.digest{display:grid;gap:10px;grid-template-columns:1fr}
+@media (min-width:640px){.digest{grid-template-columns:1fr 1fr}}
+.dg{text-align:left;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:2px;font:inherit;color:inherit}
+.dg:hover{border-color:#44443f}
+.dg .t{font-size:12px;letter-spacing:.12em;color:var(--ink-3);text-transform:uppercase}
+.dg .v{font-size:30px;font-weight:800;letter-spacing:-.03em;line-height:1.25;color:var(--ink);font-variant-numeric:tabular-nums}
+.dg .d{font-size:14px;color:var(--ink-2);line-height:1.5}
+.dg .w{font-size:12px;color:var(--ink-3);margin-top:6px}
+
+/* 홈 — 최근 바뀐 것 */
+.feed{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.feed li{display:grid;grid-template-columns:62px 1fr;gap:6px 12px;padding:11px 2px;border-bottom:1px solid var(--line);align-items:baseline}
+.feed .dt{font-size:13px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.feed .tx{font-size:15px}
+.feed .go{grid-column:2;justify-self:start;font-size:12px;color:var(--ink-2);border:1px solid var(--line);border-radius:999px;padding:1px 9px;background:none;cursor:pointer;font-family:inherit}
+.feed .go:hover{border-color:var(--ink-3)}
+
+/* 홈 — 쇼츠 줄 */
+.strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(180px,1fr);gap:10px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x proximity}
+.strip a{text-decoration:none;scroll-snap-align:start;display:flex;flex-direction:column;gap:6px}
+.strip img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;display:block;background:var(--track)}
+.strip span{font-size:13px;line-height:1.45;color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.strip small{font-size:11.5px;color:var(--ink-3)}
+.strip a:hover span{color:var(--ink)}
+
+/* 광고 카드 */
+.ads{display:grid;gap:12px;grid-template-columns:1fr;margin-top:16px}
+@media (min-width:640px){.ads{grid-template-columns:1fr 1fr}}
+@media (min-width:920px){.ads{grid-template-columns:1fr 1fr 1fr}}
+.ad{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
+.adthumb{position:relative;display:block;aspect-ratio:16/9;background:var(--track)}
+.adthumb img{width:100%;height:100%;object-fit:cover;display:block}
+.adthumb .pl{position:absolute;left:10px;bottom:10px;font-size:12px;font-weight:700;background:rgba(26,26,25,.82);color:var(--ink);border-radius:999px;padding:3px 10px 3px 8px}
+.adthumb .pl::before{content:"\25B6";color:var(--pink);margin-right:5px;font-size:10px}
+.adthumb.noimg{display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;letter-spacing:-.03em;color:var(--ink-3);text-align:center;padding:0 12px}
+.ad .more{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:4px 4px 0}
+.ad .more a{display:block;aspect-ratio:16/9;border-radius:4px;overflow:hidden}
+.ad .more img{width:100%;height:100%;object-fit:cover;display:block}
+.ad .bd{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.nmrow{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.nmrow b{font-size:19px;font-weight:800;letter-spacing:-.02em}
+.nmrow span{font-size:12.5px;color:var(--ink-3);text-align:right}
+.mem{display:flex;flex-wrap:wrap;gap:4px}
+.mem i{font-style:normal;font-size:12px;border:1px solid var(--pink-dim);color:var(--pink);border-radius:999px;padding:1px 9px}
+.mem i.all{background:var(--pink);color:#1a1a19;border-color:var(--pink);font-weight:700}
+.mem i.unk{border-color:var(--line);color:var(--ink-3)}
+.lk{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:4px}
+.lk a{font-size:13px;text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:6px 11px;color:var(--ink);background:var(--bg)}
+.lk a:hover{border-color:var(--ink-3)}
+.lk a.yt::before{content:"";display:inline-block;width:9px;height:9px;border-radius:2px;background:#e8453c;margin-right:6px;vertical-align:0}
+.lk a.shop::after{content:" \2192";color:var(--ink-3)}
+.lk .off{font-size:12.5px;color:var(--ink-3);padding:6px 2px}
+
+/* 아카이브 접기 — 홈 첫 화면이 카드 여든 장으로 길어지지 않게 */
+.cards.fold > *:nth-child(n+13){display:none}
+.morecards{display:block;width:100%;margin-top:12px;padding:11px 16px;font:inherit;font-size:14px;
+  cursor:pointer;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.morecards:hover{color:var(--ink);border-color:var(--ink-3)}
+
+</style>
+</head>
+<body>
+
+<div class="pvband">
+  <div class="in">
+    <b data-i18n="pv.band">미리보기 — 개편안입니다. 지금 쓰는 페이지는 그대로 있습니다.</b>
+    <a href="./" data-i18n="pv.live">지금 페이지 보기</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="top">
+  <div class="brandline"><i></i><span>Rescene · Data</span><span class="visits" id="visits" hidden></span>
+    <div class="langs" id="langs" role="group" data-i18n-aria="hdr.langlabel" aria-label="언어 고르기">
+      <button type="button" data-lang="ko">한국어</button><button type="button" data-lang="en">English</button><button type="button" data-lang="ja">日本語</button>
+    </div>
+  </div>
+  <h1><span data-i18n="hdr.title1">리센느, </span><em data-i18n="hdr.title2">지금</em></h1>
+  <p data-i18n="hdr.tagline">리마인 야호!</p>
+</header>
+
+<main id="main" hidden>
+
+<nav class="tabs" id="tabs" data-i18n-aria="tab.nav" aria-label="메뉴">
+  <div class="row" role="tablist">
+    <button type="button" class="tab" role="tab" data-tab="home" aria-selected="true"><b data-i18n="tab.home">홈</b><small data-i18n="tab.home.sub">한눈에</small></button>
+    <button type="button" class="tab" role="tab" data-tab="youtube" aria-selected="false" tabindex="-1"><b data-i18n="tab.youtube">유튜브</b><small data-i18n="tab.youtube.sub">채널 · 영상 · 라이브</small></button>
+    <button type="button" class="tab" role="tab" data-tab="music" aria-selected="false" tabindex="-1"><b data-i18n="tab.music">음원</b><small data-i18n="tab.music.sub">멜론 · MV</small></button>
+    <button type="button" class="tab" role="tab" data-tab="ad" aria-selected="false" tabindex="-1"><b data-i18n="tab.ad">광고</b><small data-i18n="tab.ad.sub">브랜드 · 평판</small></button>
+    <button type="button" class="tab" role="tab" data-tab="buzz" aria-selected="false" tabindex="-1"><b data-i18n="tab.buzz">화제</b><small data-i18n="tab.buzz.sub">검색 · 이모티콘</small></button>
+  </div>
+</nav>
+<div class="tabpane" data-tab="home" role="tabpanel">
+<section id="s0">
+    <div class="heroes" id="hero"></div>
+  </section>
+
+  
+<section id="s1">
+    <p class="eyebrow"><b>01</b> <span id="s1-eye">지금 이 순간</span></p>
+    <h2 id="s1-h" data-i18n="s1.h">네 개의 숫자</h2>
+    <div class="tiles" id="tiles"></div>
+    <p class="foot" id="tiles-foot"></p>
+  </section>
+
+  
+
+<section id="nh1">
+  <p class="eyebrow"><b>03</b> <span data-i18n="home.dg.eye">메뉴마다 하나씩</span></p>
+  <h2 data-i18n="home.dg.h">지금 가장 큰 숫자</h2>
+  <div class="digest" id="nh-digest"></div>
+</section>
+
+<section id="nh2">
+  <p class="eyebrow"><b>04</b> <span data-i18n="home.feed.eye">최근 바뀐 것</span></p>
+  <h2 data-i18n="home.feed.h">이 페이지가 최근에 받은 것</h2>
+  <ul class="feed" id="nh-feed"></ul>
+</section>
+
+
+<section id="s8">
+    <p class="eyebrow"><b>08</b> <span data-i18n="s8.eye">아카이브</span></p>
+    <h2 data-i18n="s8.h">우리가 세어 본 것들</h2>
+    <p class="sub" id="s8-sub"></p>
+    <div class="cards" id="s8-cards"></div>
+    <p class="foot" id="s8-hidden" hidden></p>
+    <p class="raw" data-i18n="s8.kornote" hidden></p>
+  </section>
+
+  
+</div>
+<div class="tabpane" data-tab="youtube" role="tabpanel" hidden>
+<nav class="chtabs" id="chtabs" role="group" data-i18n-aria="tab.group" aria-label="채널 고르기">
+    <!-- 순서는 아래 게이지 카드와 같아야 한다. 어긋나면 왼쪽 탭을 눌렀는데
+         오른쪽 카드가 켜지는 것처럼 읽힌다. -->
+    <button type="button" class="chtab" data-ch="안원잘부" aria-pressed="true">
+      <b data-i18n="tab.anw">안원잘부</b><small data-i18n="tab.anw.sub">원이 웹예능 · 솔파스튜디오</small>
+    </button>
+    <button type="button" class="chtab" data-ch="리센느" aria-pressed="false">
+      <b data-i18n="tab.res">RESCENE</b><small data-i18n="tab.res.sub">리센느 공식 채널 · THE MUZE</small>
+    </button>
+  </nav>
+
+  
+<section id="s3" data-ch="안원잘부">
+    <p class="eyebrow"><b>02</b> <span data-i18n="s3.eye">안원잘부 구독자 순위</span></p>
+    <h2 id="s3-h">27주 동안 한 번도 내려가지 않았다</h2>   <!-- 자리표시자 · 그리기_rank 가 다시 쓴다 -->
+    <p class="sub" id="s3-sub"></p>
+    <div class="chart">
+      <p class="scalenote" data-i18n="s3.scalenote">세로축은 한국 구독자 순위다.</p>
+      <div id="s3-chart"></div>
+    </div>
+    <p class="foot" id="s3-foot"></p>
+  </section>
+
+  
+<section id="s10" data-ch="리센느">
+    <p class="eyebrow"><b>04</b> <span data-i18n="s10.eye">라이브 아카이브</span></p>
+    <h2>2년 5개월, 207번의 라이브</h2>   <!-- 자리표시자 · 그리기_streams 가 다시 쓴다 -->
+    <p class="sub" id="s10-sub"></p>
+    <div class="tiles" id="s10-tiles"></div>
+
+    <div class="chart" style="margin-top:14px">
+      <p class="scalenote" id="s10-month-note"></p>
+      <div id="s10-month"></div>
+    </div>
+
+    <div class="two" style="margin-top:14px">
+      <div class="pane">
+        <h3 data-i18n="s10.hour.h">시작 시각 (KST)</h3>
+        <p class="when" id="s10-hour-cap"></p>
+        <div id="s10-hour"></div>
+      </div>
+      <div class="pane">
+        <h3 data-i18n="s10.dow.h">요일</h3>
+        <p class="when" id="s10-dow-cap"></p>
+        <div id="s10-dow"></div>
+      </div>
+    </div>
+
+    <div class="chart" style="margin-top:14px">
+      <p class="scalenote" id="s10-dur-note"></p>
+      <div id="s10-dur"></div>
+    </div>
+
+    <h3 class="subhead" data-i18n="s10.mem.h">누가 나오나</h3>
+    <p class="sub" id="s10-mem-sub"></p>
+    <div class="legend">
+      <span><i style="background:var(--pink)"></i><span data-i18n="s10.mem.solo">혼자 켠 방송</span></span>
+      <span><i style="background:var(--ink-3)"></i><span data-i18n="s10.mem.with">둘 이상 함께</span></span>
+    </div>
+    <div class="rows" id="s10-mem"></div>
+    <p class="foot" id="s10-mem-foot"></p>
+
+    <h3 class="subhead" data-i18n="s10.combo.h">자주 붙는 조합</h3>
+    <p class="sub" id="s10-combo-sub"></p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th data-i18n="s10.combo.th1">출연 (추정)</th><th class="num" data-i18n="s10.combo.th2">편수</th><th class="num" data-i18n="s10.combo.th3">평균 조회수</th></tr></thead>
+        <tbody id="s10-combo"></tbody>
+      </table>
+    </div>
+
+    <h3 class="subhead" data-i18n="s10.view.h">월별 평균 조회수</h3>
+    <p class="sub" id="s10-view-sub"></p>
+    <div class="chart">
+      <p class="scalenote" data-i18n-html="s10.view.note">라이브 한 편이 받는 평균 조회수다.</p>
+      <div id="s10-view"></div>
+    </div>
+    <p class="foot" id="s10-foot"></p>
+  </section>
+
+  
+<section id="sv">
+    <p class="eyebrow"><b>03</b> <span data-i18n="sv.eye">영상 랭킹</span></p>
+    <h2 id="sv-h">조회수 상위 20편</h2>
+    <p class="sub" id="sv-sub"></p>
+    <div class="controls">
+      <div class="seg" id="sv-metric" role="group" data-i18n-aria="sv.metric" aria-label="무엇으로 줄 세울까">
+        <button type="button" data-v="조회수" data-word class="on">조회수</button><button type="button" data-v="좋아요" data-word>좋아요</button>
+      </div>
+      <div class="seg" id="sv-kind" role="group" data-i18n-aria="sv.kind" aria-label="형식">
+        <button type="button" data-v="전체" data-word class="on">전체</button><button type="button" data-v="영상" data-word>영상</button><button type="button" data-v="쇼츠" data-word>쇼츠</button><button type="button" data-v="라이브" data-word>라이브</button>
+      </div>
+      <div class="seg" id="sv-n" role="group" data-i18n-aria="sv.howmany" aria-label="몇 편까지">
+        <button type="button" data-v="10">10</button><button type="button" data-v="20" class="on">20</button><button type="button" data-v="30">30</button><button type="button" data-v="50">50</button>
+      </div>
+    </div>
+    <div class="rows" id="sv-rows"></div>
+    <p class="raw" data-i18n="sv.titlenote" hidden></p>
+    <p class="foot" id="sv-foot"></p>
+  </section>
+
+  
+<section id="s6">
+    <p class="eyebrow"><b>06</b> <span data-i18n="s6.eye">걸그룹 100만 클럽</span></p>
+    <h2 id="s6-h">44팀, 리센느는 45번째</h2>
+    <p class="sub" id="s6-sub"></p>
+    <div class="chart" style="padding:14px 12px">
+      <div class="club" id="s6-club"></div>
+    </div>
+    <p class="foot" id="s6-foot"></p>
+  </section>
+
+  
+</div>
+<div class="tabpane" data-tab="music" role="tabpanel" hidden>
+<section id="s4">
+    <p class="eyebrow"><b>02</b> <span data-i18n="s4.eye">뮤직비디오</span></p>
+    <h2 data-i18n="s4.h">11편 중 절반이 최근 1년에 나왔다</h2>
+    <p class="sub" id="s4-sub"></p>
+    <div class="legend">
+      <span><i style="background:var(--pink)"></i><span data-i18n="s4.lg.new">최근 1년</span></span>
+      <span><i style="background:var(--ink-3)"></i><span data-i18n="s4.lg.old">그 이전</span></span>
+    </div>
+    <div class="rows" id="s4-rows"></div>
+    <p class="foot" id="s4-foot"></p>
+  </section>
+
+  
+<section id="sm">
+    <p class="eyebrow"><b>02</b> <span data-i18n="sm.eye">멜론 주간차트</span></p>
+    <h2 data-i18n="sm.h">주간 TOP10 안에 리센느가 3곡</h2>
+    <p class="sub" data-i18n="sm.sub">재생을 누르면 지난 12주가 한 주씩 흐른다. 슬라이더로 아무 주나
+      잡을 수 있고, 선 위에 마우스를 올리면 그 주 10곡 순위가 다 나온다. 「표로 보기」에 12주 원표가 있다.</p>
+    <iframe id="sm-frame" src="melon-chart.html" title="멜론 주간 TOP10 12주 순위 추이"
+            loading="lazy" scrolling="no"
+            style="width:100%;border:0;display:block;height:1180px;background:var(--bg)"></iframe>
+  </section>
+
+  
+</div>
+<div class="tabpane" data-tab="ad" role="tabpanel" hidden>
+
+<section id="nad">
+  <p class="eyebrow"><b>01</b> <span data-i18n="ad.eye">광고 내역</span></p>
+  <h2 id="nad-h"></h2>
+  <p class="sub" id="nad-sub"></p>
+  <div class="seg" id="nad-seg" role="group" data-i18n-aria="ad.filter.aria" aria-label="멤버로 고르기"></div>
+  <div class="ads" id="nad-ads"></div>
+  <p class="raw" data-i18n="ad.kornote" hidden></p>
+  <p class="foot" id="nad-foot"></p>
+</section>
+
+<section id="nadp">
+  <p class="eyebrow"><b>02</b> <span data-i18n="ad.perf.eye">광고와 같은 시기의 숫자</span></p>
+  <h2 data-i18n="ad.perf.h">브랜드평판</h2>
+  <p class="sub" data-i18n="ad.perf.sub">아래는 광고가 나온 시기에 함께 잰 숫자다. 시점을 나란히 둘 뿐 원인을 말하지 않는다.</p>
+</section>
+
+<section id="s5">
+    <p class="eyebrow"><b>05</b> <span data-i18n="s5.eye">개인 브랜드평판</span></p>
+    <h2 data-i18n="s5.h">TOP 10에 리센느가 다섯</h2>
+    <p class="sub" id="s5-sub"></p>
+    <div class="legend">
+      <span><i style="background:var(--pink)"></i><span data-i18n="s5.lg.res">리센느</span></span>
+      <span><i style="background:var(--ink-3)"></i><span data-i18n="s5.lg.other">그 외</span></span>
+    </div>
+    <div class="rows" id="s5-rows"></div>
+    <p class="foot" id="s5-foot"></p>
+  </section>
+
+  
+</div>
+<div class="tabpane" data-tab="buzz" role="tabpanel" hidden>
+<section id="s2">
+    <p class="eyebrow"><b>04</b> <span data-i18n="s2.eye">구글 검색 관심도</span></p>
+    <h2 data-i18n="s2.h">110주 동안 곡선은 바닥에 있었다</h2>
+    <p class="sub" id="s2-sub"></p>
+    <div class="chart">
+      <p class="scalenote" id="s2-scale"></p>
+      <div class="legend">
+        <span><i class="line" style="background:var(--pink)"></i><span data-i18n="s2.lg.line">검색 관심도</span></span>
+        <span><i style="background:var(--ink-3);border-radius:2px;width:9px;height:9px;transform:rotate(45deg)"></i><span data-i18n="s2.lg.rel">앨범 발매</span></span>
+        <span><i style="background:var(--pink-dim);width:3px;height:13px;border-radius:2px"></i><span data-i18n="s2.lg.up">안원잘부 업로드</span> <span style="color:var(--ink-3)" data-i18n="s2.lg.up2">(높을수록 많이 본 편)</span></span>
+      </div>
+      <div id="s2-chart"></div>
+    </div>
+    <p class="foot" id="s2-foot"></p>
+  </section>
+
+  
+<section id="sr">
+    <p class="eyebrow"><b>05</b> <span data-i18n="sr.eye">지역별 검색</span></p>
+    <h2 id="sr-h"></h2>
+    <p class="sub" id="sr-sub"></p>
+    <div class="controls">
+      <div class="seg" id="sr-seg" role="group" aria-label="기간"></div>
+    </div>
+    <div class="chart">
+      <p class="scalenote" id="sr-scale"></p>
+      <div class="rows" id="sr-rows"></div>
+    </div>
+    <p class="foot" id="sr-foot"></p>
+  </section>
+
+  
+<section id="s7">
+    <p class="eyebrow"><b>07</b> <span data-i18n="s7.eye">함께 검색된 말</span></p>
+    <h2 data-i18n="s7.h">2년 동안 없던 말이 생겼다</h2>
+    <p class="sub" id="s7-sub"></p>
+    <div class="two" id="s7-two"></div>
+    <p class="raw" data-i18n="s7.kornote" hidden></p>
+    <p class="foot" id="s7-foot"></p>
+  </section>
+
+  
+<section id="s11">
+    <p class="eyebrow"><b>04</b> <span data-i18n="s11.eye">카카오 이모티콘</span></p>
+    <h2 id="s11-h">여섯 탭이 전부 같은 1위</h2>
+    <p class="sub" id="s11-sub"></p>
+    <div class="tiles" id="s11-tiles"></div>
+
+    <h3 class="subhead" data-i18n="s11.rank.h">연령 탭마다 1위와 2위</h3>
+    <p class="sub" id="s11-rank-sub"></p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th data-i18n="s11.rank.th1">탭</th><th class="num" id="s11-rank-th2">리센느 X 안원잘부</th><th data-i18n="s11.rank.th3">그 탭 2위</th></tr></thead>
+        <tbody id="s11-rank"></tbody>
+      </table>
+    </div>
+    <p class="foot" id="s11-rank-foot"></p>
+
+    <h3 class="subhead" id="s11-src-h">24종은 어느 편에서 나왔나</h3>
+    <p class="sub" id="s11-src-sub"></p>
+    <div class="rows" id="s11-src"></div>
+    <details>
+      <summary id="s11-list-sum">24종 전부 보기 — 문구 · 편 · 그 장면으로 바로 가기</summary>
+      <div class="tablewrap" style="margin-top:8px">
+        <table>
+          <thead><tr><th class="num">#</th><th data-i18n="s11.list.th2">문구</th><th data-i18n="s11.list.th3">편</th><th class="num" data-i18n="s11.list.th4">장면</th></tr></thead>
+          <tbody id="s11-list"></tbody>
+        </table>
+      </div>
+    </details>
+    <p class="raw" data-i18n="s11.kornote" hidden></p>
+    <p class="foot" id="s11-foot"></p>
+  </section>
+
+  
+</div>
+<section id="s9">
+    <p class="eyebrow"><b>09</b> <span data-i18n="s9.eye">출처</span></p>
+    <h2 data-i18n="s9.h">어디서 가져왔고 언제 잰 값인가</h2>
+    <p class="sub" data-i18n="s9.sub">수집이 실패하면 화면에는 직전 값이 그대로 보이고, 이 표에 실패로 남는다.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr id="s9-th"><th>항목</th><th>출처</th><th>기준</th><th>주기</th><th>결과</th></tr></thead>
+        <tbody id="s9-rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  <!-- 멜론 주간차트 — 만들어 둔 차트를 그대로 끼운다(melon-chart.html).
+       재생·슬라이더·호버·표 보기가 그 안에서 그대로 돈다. 높이는 자식이 알려 준다. -->
+  <footer>
+    <p id="ft-when"></p>
+    <p data-i18n-html="ft.unit">구글 트렌드 값과 브랜드평판 지수는 단위 없는 상대 지표다.</p>
+    <p id="ft-gap"></p>
+    <p id="ft-visits" hidden></p>
+    <p><span data-i18n="ft.made">만든 곳 · </span><a href="https://www.youtube.com/@data-viz" data-i18n="ft.madelink">유튜브 @data-viz</a><span data-i18n="ft.disc"> · 리센느와 소속사·제작사와 아무 관계가 없는 팬 제작 페이지다.</span></p>
+  </footer>
+</main>
+
+<div class="err" id="err" hidden>
+  <b data-i18n="err.h">데이터를 불러오지 못했다.</b><br>
+  <span id="err-msg"></span><br><br>
+  <span data-i18n-html="err.help">파일을 직접 열면 브라우저가 <code>data/*.json</code> 읽기를 막는다.</span>
+</div>
+
+</div>
+
+<script>
+const 파일 = ["live","videos","streams","emoticon","trends","region","rank","club","reputation","searches","archive","milestone","status"];
+/* 화면은 채널 하나씩 보여준다. 무엇을 보고 있나가 이 한 곳에 모인다. */
+const 상태 = {채널:"리센느", 기준:"조회수", 형식:"전체", N:20};
+let D = null;   // 읽어 온 JSON 전부
+
+/* 방문 수 — GoatCounter (무료·오픈소스·쿠키 없음).
+   **과거 방문 기록은 없다.** GitHub Pages 는 접속 로그를 주지 않아 붙인 날부터만 셀 수 있다.
+   그래서 꼬리말에 「언제부터 센 값인가」를 같이 적는다 — 안 적으면 「지금까지의 방문 수」로 읽힌다.
+   코드가 비어 있으면 아무것도 부르지 않고 아무것도 안 보인다(남의 서버를 괜히 두드리지 않는다).
+   붙이는 법: goatcounter.com 에서 주소코드를 만들고 여기 그 코드만 적는다.
+   그리고 Settings → 「Allow adding visitor counts to your website」 를 켜야 총계가 열린다. */
+const GC코드 = "rescene-now";   // rescene-now.goatcounter.com
+const GC시작 = "2026-08-27";    // 세기 시작한 날
+let 방문 = null;
+
+function 방문세기(){
+  if(!GC코드) return;
+  const s = document.createElement("script");
+  s.async = true; s.src = "//gc.zgo.at/count.js";
+  s.dataset.goatcounter = `https://${GC코드}.goatcounter.com/count`;
+  document.head.append(s);
+  fetch(`https://${GC코드}.goatcounter.com/counter/TOTAL.json`)
+    .then(r => r.ok ? r.json() : Promise.reject(r.status))
+    .then(j => {
+      // count 는 열어 본 횟수, count_unique 는 사람 수. 둘은 다른 것을 재므로 둘 다 적는다.
+      const 수 = k => Number(String(j[k]).replace(/[^\d]/g, ""));
+      const n = 수("count_unique"), c = 수("count");
+      if(!Number.isFinite(n) || !Number.isFinite(c)) return;
+      // 0 도 보여준다. 총계가 안 열렸으면 여기까지 오지 못하고 403 으로 걸러진다 —
+      // 「아직 아무도 안 왔다」와 「셈이 안 열렸다」는 HTTP 상태로 이미 갈렸다.
+      방문 = {사람: n, 조회: c}; 그리기_방문();
+    })
+    .catch(()=>{});               // 못 받으면 조용히 없던 일로 한다
+}
+
+function 그리기_방문(){
+  if(방문 == null) return;
+  const v = $("#visits");
+  v.innerHTML = "";
+  v.append(t("hdr.visits", 콤마(방문.사람)),
+           el("span", "views", t("hdr.views", 콤마(방문.조회))));
+  v.title = t("hdr.visits.title", GC시작);
+  v.hidden = false;
+  const f = $("#ft-visits");
+  f.innerHTML = t("ft.visits", GC시작);      // 문구 안에 <b> 가 있다
+  f.hidden = false;
+}
+const $ = s => document.querySelector(s);
+const el = (t,c,x) => { const n=document.createElement(t); if(c)n.className=c; if(x!==undefined)n.textContent=x; return n; };
+
+/* 만()·콤마() 는 lang.js 에 있다 — 나라말마다 자리 이름이 다르기 때문이다
+   (103만 / 1.03M / 103万). 여기서 다시 정의하면 이름이 겹쳐 페이지가 죽는다. */
+const 날 = s => s ? s.slice(2).replace(/-/g,".") : "";
+
+/* ─────────────────────────────────────────── 00 게이지 */
+/* 채널 하나 = 카드 하나. 다음 백만까지 얼마나 왔는지를 같은 형태로 보여준다. */
+function 게이지카드({이름, 부제, 구독자, 기준, 주인공}){
+  // 다음 눈금은 지금 값 바로 위의 백만 자리다. 넘으면 저절로 다음 눈금으로 올라간다.
+  // ceil 이 아니라 floor+1 인 까닭 — 딱 200만인 날 「200만까지 남은 0명」이 되면 안 된다.
+  const 목표 = (Math.floor(구독자 / 1e6) + 1) * 1e6;
+  const h = el("div", "hero" + (주인공 ? "" : " sub"));
+  const cap = el("div","cap");
+  cap.append(el("b",null,이름));
+  if(부제) cap.append(" · " + 부제);
+  h.append(cap);
+
+  // 두 카드가 같은 줄에 놓이도록 큰 숫자 → 한 줄 설명 → 게이지 → 밑줄 순서를 똑같이 쓴다.
+  // 큰 숫자는 만 단위로 줄여 적는다. 「140,000명」은 자릿수를 세어야 읽힌다
+  h.append(el("div","big", 만(구독자)),
+           el("div","of", t("s0.left", 만(목표), 만(목표 - 구독자))));
+  h.append(el("div","grow"));
+
+  const 진행 = 구독자 / 목표 * 100;
+  const g = el("div","gauge"), i = el("i");
+  i.style.width = Math.min(100, 진행).toFixed(1) + "%";
+  g.append(i); h.append(g);
+
+  const l = el("div","left");
+  l.append(el("span", null, t("s0.pct", 진행.toFixed(1))));
+  const b = el("span"); b.append(t("s0.asof"), el("b", null, 날(기준)));
+  l.append(b); h.append(l);
+  return h;
+}
+
+function 그리기_hero(live, milestone){
+  const h = $("#hero"); h.innerHTML = "";
+  const 안 = live.채널.안원잘부, 리 = live.채널.리센느;
+  // 카드 순서는 고정이다 — 채널을 바꿀 때마다 자리가 바뀌면 어느 쪽을 보고 있었는지 놓친다.
+  const 카드 = [
+    ["안원잘부", 게이지카드({이름:t("s0.anw"), 부제:t("s0.anw.sub"), 구독자:안.구독자,
+                        기준:안.기준, 주인공:상태.채널==="안원잘부"})],
+    ["리센느", 게이지카드({이름:t("s0.res"), 부제:t("s0.res.sub"), 구독자:리.구독자,
+                      기준:리.기준, 주인공:상태.채널==="리센느"})],
+  ];
+  카드.forEach(([키, n])=>{
+    if(키 !== 상태.채널){
+      n.classList.add("pick"); n.tabIndex = 0; n.setAttribute("role","button");
+      n.setAttribute("aria-label", t("tab.goto", 이름(키)));
+      n.addEventListener("click", ()=>전환(키));
+      n.addEventListener("keydown", e=>{
+        if(e.key==="Enter" || e.key===" "){ e.preventDefault(); 전환(키); }
+      });
+    }
+    h.append(n);
+  });
+}
+
+/* ─────────────────────────────────────────── 01 타일 */
+/* 네 칸이 같은 모양이어야 한 줄로 읽힌다 — 한 칸에만 곡선을 넣으면 높이가 어긋난다 */
+function 타일(k,v,d,강조){
+  const t = el("div","tile"+(강조?" on":""));
+  // 8글자를 넘는 값은 한 단계 작게 — 일본어의 「4,000ウォン」·「3億 4,532万」이 여기 걸린다
+  t.append(el("div","k",k), el("div","v num" + (String(v).length > 8 ? " long" : ""), v),
+           el("div","d",d));
+  return t;
+}
+function 그리기_tiles(live, vids, milestone){
+  const 키 = 상태.채널, ch = live.채널[키], v = vids.채널[키];
+  $("#s1-eye").textContent = t("s1.eye", 키==="리센느" ? "RESCENE" : 이름("안원잘부"));
+  const c=$("#tiles"); c.innerHTML="";
+  // 최근에 넘은 눈금이 있으면 그것부터 알린다. 60일이 지나면 다시 「몇 배」로 돌아간다 —
+  // 이 페이지는 「지금」이라서, 두 달 전 돌파를 계속 머리에 이고 있을 이유가 없다.
+  const 돌파칸 = (milestone.돌파 || {})[키] || {};
+  const 최근돌파 = Object.entries(돌파칸)
+    .map(([값, 날짜]) => ({값:+값, 날짜}))
+    .filter(x => (Date.now() - Date.parse(x.날짜)) / 86400000 <= 60)
+    .sort((a,b) => b.값 - a.값)[0];
+  const 구독부제 = 최근돌파
+    ? t("s1.subs.done", 최근돌파.날짜, 만(최근돌파.값))
+    : (키==="리센느" ? t("s1.subs.left", 콤마(live.남은수)) : t("s1.subs.mul", live.배수));
+  const 편 = v.편수;
+  const 구성 = ["영상","쇼츠","라이브"].filter(f=>편[f]>0).map(f=>`${낱(f)} ${콤마(편[f])}`).join(" · ");
+  c.append(
+    타일(t("s1.subs"), 만(ch.구독자), 구독부제, true),
+    타일(t("s1.views"), 만(v.합계.조회수), t("s1.views.d", 콤마(편.전체)), false),
+    타일(t("s1.likes"), 만(v.합계.좋아요),
+        v.좋아요숨김 ? t("s1.likes.hid", 콤마(v.좋아요숨김)) : t("s1.likes.non"), false),
+    타일(t("s1.count"), 콤마(편.전체), 구성, false)
+  );
+  $("#tiles-foot").innerHTML = t("s1.foot", vids.기준, 콤마(편.전체));
+}
+
+/* ─────────────────────────────────────────── 도구 */
+const NS="http://www.w3.org/2000/svg";
+function svg(w,h){
+  const s=document.createElementNS(NS,"svg");
+  s.setAttribute("viewBox",`0 0 ${w} ${h}`); s.setAttribute("role","img");
+  return s;
+}
+function 요소(n,attrs){
+  const e=document.createElementNS(NS,n);
+  for(const k in attrs) e.setAttribute(k,attrs[k]);
+  return e;
+}
+function 툴팁(부모){
+  const t=el("div","tip"); 부모.append(t);
+  return {
+    보이기(x,y,html){ t.innerHTML=html; t.style.left=x+"px"; t.style.top=y+"px"; t.classList.add("show"); },
+    숨기기(){ t.classList.remove("show"); }
+  };
+}
+
+/* ─────────────────────────────────────────── 02 트렌드 */
+/* 이 함수만 인자 이름이 t 라 사전 t() 가 가려진다. 안에서는 t2() 로 부른다. */
+const t2 = (...a) => t(...a);
+function 그리기_trends(t){
+  const 집 = t.집계;
+  $("#s2-sub").textContent = t2("s2.sub", 집.바닥주수, 집["4이하인주"]);
+  $("#s2-scale").textContent = tj("s2.meaning", t.값의의미) + " " + t2("s2.scale");
+
+  // 위쪽 T 위 구간은 안원잘부 업로드 눈금 전용 레인이다. 곡선과 겹치지 않게 비워 둔다.
+  const W=1000,H=320,L=34,R=8,T=52,B=30,레인=34;
+  const 주 = t.주간, n = 주.length;
+  const px = i => L + i/(n-1)*(W-L-R);
+  const py = v => T + (1 - v/100)*(H-T-B);
+
+  const wrap = $("#s2-chart"); wrap.innerHTML="";
+  const s = svg(W,H);
+  s.setAttribute("aria-label", t2("s2.aria", n, 주.at(-1).값));
+
+  /* 눈금 */
+  [0,25,50,75,100].forEach(v=>{
+    s.append(요소("line",{x1:L,x2:W-R,y1:py(v),y2:py(v),stroke:"var(--line)","stroke-width":1}));
+    const lb=요소("text",{x:L-8,y:py(v)+4,fill:"var(--ink-3)","font-size":11,"text-anchor":"end"});
+    lb.textContent=v; s.append(lb);
+  });
+
+  /* 역주행 밴드 */
+  const 시작 = 주.findIndex(w=>w.주시작 === 집.역주행구간.split(" ~ ")[0]);
+  if(시작>0){
+    s.append(요소("rect",{x:px(시작),y:T,width:(W-R)-px(시작),height:H-T-B,fill:"#fc6fcf",opacity:.07}));
+    const lb=요소("text",{x:px(시작)+8,y:T+14,fill:"var(--pink)","font-size":11.5,"font-weight":600});
+    lb.textContent=t2("s2.recent", 집.역주행주수); s.append(lb);
+  }
+
+  /* 곡선 */
+  const d = 주.map((w,i)=>(i?"L":"M")+px(i).toFixed(1)+" "+py(w.값).toFixed(1)).join(" ");
+  s.append(요소("path",{d, fill:"none", stroke:"var(--pink)","stroke-width":2.4,
+    "stroke-linejoin":"round","stroke-linecap":"round"}));
+
+  /* 앨범 발매 — 마름모 */
+  t.발매.forEach(r=>{
+    const x=px(r.주인덱스), y=H-B+9;
+    s.append(요소("rect",{x:x-4,y:y-4,width:8,height:8,fill:"var(--ink-3)",
+      transform:`rotate(45 ${x} ${y})`,rx:1}));
+  });
+
+  /* 안원잘부 업로드 — 위쪽 레인에 세로 눈금. 점으로 찍으면 몰린 구간이 한 덩어리가 되어
+     몇 편인지 못 읽는다. 눈금은 겹쳐도 개수와 밀도가 보인다. 높이는 조회수 비례. */
+  const 시작일 = new Date(주[0].주시작+"T00:00:00Z");
+  const 최대조회 = Math.max(...t.영상.map(v=>v.조회));
+  const 바닥 = 레인 + 8;
+  t.영상.forEach(v=>{
+    const 주차 = Math.floor((new Date(v.업로드+"T00:00:00Z") - 시작일)/(7*864e5));
+    if(주차<0||주차>=n) return;
+    const h = 6 + Math.sqrt(v.조회/최대조회)*16;
+    s.append(요소("line",{x1:px(주차),x2:px(주차),y1:바닥-h,y2:바닥,
+      stroke:"var(--pink-dim)","stroke-width":2.5,"stroke-linecap":"round",opacity:.9}));
+  });
+  const 레인표 = 요소("text",{x:L,y:14,fill:"var(--ink-3)","font-size":11});
+  레인표.textContent = t2("s2.lane", t.영상.length);
+  s.append(레인표);
+
+  /* x 라벨 */
+  [[0,"2024.03"],[Math.round((n-1)/2),"2025.06"],[n-1,"2026.08"]].forEach(([i,txt])=>{
+    const lb=요소("text",{x:px(i),y:H-4,fill:"var(--ink-3)","font-size":11,
+      "text-anchor": i===0?"start": i===n-1?"end":"middle"});
+    lb.textContent=txt; s.append(lb);
+  });
+
+  /* 호버 */
+  const hit=요소("rect",{x:L,y:0,width:W-L-R,height:H,fill:"transparent"});
+  const 세로=요소("line",{y1:T,y2:H-B,stroke:"var(--track)","stroke-width":1,opacity:0});
+  const 점=요소("circle",{r:4.5,fill:"var(--pink)",stroke:"var(--bg)","stroke-width":2,opacity:0});
+  s.append(hit,세로,점);
+  wrap.append(s);
+  const tip = 툴팁($("#s2-chart").parentElement);
+  hit.addEventListener("pointermove", e=>{
+    const box = s.getBoundingClientRect();
+    const 비율 = (e.clientX-box.left)/box.width*W;
+    let i = Math.round((비율-L)/(W-L-R)*(n-1));
+    i = Math.max(0, Math.min(n-1, i));
+    세로.setAttribute("x1",px(i)); 세로.setAttribute("x2",px(i)); 세로.setAttribute("opacity",1);
+    점.setAttribute("cx",px(i)); 점.setAttribute("cy",py(주[i].값)); 점.setAttribute("opacity",1);
+    const 발 = t.발매.find(r=>r.주인덱스===i);
+    tip.보이기(box.left - s.parentElement.getBoundingClientRect().left + px(i)/W*box.width,
+      box.top - s.parentElement.getBoundingClientRect().top + py(주[i].값)/H*box.height,
+      t2("s2.tip", 주[i].주시작, 주[i].값, 발 ? 발.제목 : null));
+  });
+  hit.addEventListener("pointerleave", ()=>{
+    tip.숨기기(); 세로.setAttribute("opacity",0); 점.setAttribute("opacity",0);
+  });
+
+  $("#s2-foot").innerHTML = t2("s2.foot", 집.유일한예외.주시작, 집.유일한예외.값,
+    집.무발매구간.구간, 집.무발매구간.구간시작값, 집.무발매구간.구간끝값, tj("s2.caution", t.주의));
+
+  const dt = el("details");
+  dt.append(el("summary",null,t2("s2.table")));
+  const tb=el("table"); const bd=el("tbody");
+  주.forEach(w=>{ const r=el("tr"); r.append(el("td",null,w.주시작), el("td","num",String(w.값))); bd.append(r); });
+  tb.append(bd); dt.append(tb); $("#s2-chart").after(dt);
+}
+
+/* ─────────────────────────────────────────── 03 순위 계단 */
+function 그리기_rank(r){
+  const 집=r.집계;
+  // 제목을 붙박이로 두면 주가 늘 때마다 조용히 틀린다 — 실제로 26주인데 27주라고 적혀 있었다.
+  $("#s3-h").textContent = t("s3.h", 집.측정수, 집.내려간주);
+  $("#s3-sub").textContent =
+    t("s3.sub", 집.구간, 콤마(집.첫한국순위), 콤마(집.끝한국순위), 집.내려간주);
+
+  const W=1000,H=300,L=52,R=10,T=20,B=30;
+  const 주=r.주간, n=주.length;
+  const 날짜 = 주.map(w=>new Date(w.날짜+"T00:00:00Z").getTime());
+  const t0=날짜[0], t1=날짜.at(-1);
+  const px = t => L + (t-t0)/(t1-t0)*(W-L-R);
+  const 최악 = Math.max(...주.map(w=>w.한국)), 최고 = Math.min(...주.map(w=>w.한국));
+  const ly = v => Math.log10(v);
+  const py = v => T + (ly(v)-ly(최고))/(ly(최악)-ly(최고))*(H-T-B);
+
+  const wrap=$("#s3-chart"); wrap.innerHTML="";
+  const s=svg(W,H);
+  s.setAttribute("aria-label", t("s3.aria", 콤마(집.첫한국순위), 콤마(집.끝한국순위)));
+
+  [100000,10000,1000,100].forEach(v=>{
+    if(v>최악||v<최고) return;
+    s.append(요소("line",{x1:L,x2:W-R,y1:py(v),y2:py(v),stroke:"var(--line)","stroke-width":1}));
+    const lb=요소("text",{x:L-8,y:py(v)+4,fill:"var(--ink-3)","font-size":11,"text-anchor":"end"});
+    lb.textContent=t("s3.rank", 콤마(v)); s.append(lb);
+  });
+
+  /* 계단 — 값이 유지되다 뛰므로 step-after 로 그린다 */
+  let d="";
+  주.forEach((w,i)=>{
+    const x=px(날짜[i]), y=py(w.한국);
+    d += i===0 ? `M${x.toFixed(1)} ${y.toFixed(1)}` : `L${x.toFixed(1)} ${py(주[i-1].한국).toFixed(1)}L${x.toFixed(1)} ${y.toFixed(1)}`;
+  });
+  s.append(요소("path",{d,fill:"none",stroke:"var(--pink)","stroke-width":2.4,
+    "stroke-linejoin":"round","stroke-linecap":"round"}));
+
+  /* 깃발 */
+  [[집.백만돌파,t("s3.flag1")],[집.천위진입,t("s3.flag2")]].forEach(([m,txt])=>{
+    if(!m) return;
+    const x=px(new Date(m.날짜+"T00:00:00Z").getTime()), y=py(m.순위);
+    s.append(요소("circle",{cx:x,cy:y,r:4.5,fill:"var(--pink)",stroke:"var(--bg)","stroke-width":2}));
+    const lb=요소("text",{x:x-8,y:y-11,fill:"var(--ink-2)","font-size":11.5,"text-anchor":"end"});
+    lb.textContent=txt; s.append(lb);
+  });
+
+  [[0,주[0].날짜.slice(0,7).replace("-",".")],[n-1,주.at(-1).날짜.slice(0,7).replace("-",".")]].forEach(([i,txt])=>{
+    const lb=요소("text",{x:px(날짜[i]),y:H-4,fill:"var(--ink-3)","font-size":11,
+      "text-anchor":i===0?"start":"end"});
+    lb.textContent=txt; s.append(lb);
+  });
+
+  const hit=요소("rect",{x:L,y:0,width:W-L-R,height:H,fill:"transparent"});
+  const 점=요소("circle",{r:4.5,fill:"var(--pink)",stroke:"var(--bg)","stroke-width":2,opacity:0});
+  s.append(hit,점); wrap.append(s);
+  const tip=툴팁(wrap.parentElement);
+  hit.addEventListener("pointermove", e=>{
+    const box=s.getBoundingClientRect();
+    const vx=(e.clientX-box.left)/box.width*W;
+    let best=0, bd=1e9;
+    날짜.forEach((t,i)=>{ const dd=Math.abs(px(t)-vx); if(dd<bd){bd=dd;best=i;} });
+    const w=주[best];
+    점.setAttribute("cx",px(날짜[best])); 점.setAttribute("cy",py(w.한국)); 점.setAttribute("opacity",1);
+    const pbox=wrap.parentElement.getBoundingClientRect();
+    tip.보이기(box.left-pbox.left+px(날짜[best])/W*box.width,
+      box.top-pbox.top+py(w.한국)/H*box.height,
+      t("s3.tip", w.날짜, 콤마(w.한국), 만(w.구독)));
+  });
+  hit.addEventListener("pointerleave", ()=>{ tip.숨기기(); 점.setAttribute("opacity",0); });
+
+  $("#s3-foot").innerHTML = t("s3.foot", 집.구간.split(" ~ ")[0], 콤마(집.오른계단),
+    콤마(집.일별평균증가), tj("s3.src", r.출처));
+}
+
+/* ─────────────────────────────────────────── 04 MV */
+function 그리기_mv(live){
+  const M=live.MV, 최대=Math.max(...M.목록.map(m=>m.조회수));
+  $("#s4-sub").textContent =
+    t("s4.sub", M.목록.length, 만(M.합계), M.최근1년편수, M.최근1년비중);
+  const c=$("#s4-rows"); c.innerHTML="";
+  M.목록.forEach(m=>{
+    const a=el("a","row mv"+(m.최근1년?" on":""));
+    a.href=`https://www.youtube.com/watch?v=${m.id}`;
+    a.target="_blank"; a.rel="noopener";
+    a.setAttribute("aria-label", t("s4.aria", m.곡, 만(m.조회수), m.공개일));
+    a.append(el("span","rk",String(m.순위)));
+    const img=el("img","thumb");
+    img.src=`https://i.ytimg.com/vi/${m.id}/mqdefault.jpg`;
+    img.alt=""; img.loading="lazy"; img.width=96; img.height=54;
+    a.append(img);
+    const mid=el("div","mid");
+    mid.append(el("div","nm", `${m.곡}  ·  ${m.공개일.slice(2).replace(/-/g,".")}`));
+    const bar=el("div","bar"); const i=el("i");
+    i.style.width=(m.조회수/최대*100).toFixed(1)+"%"; bar.append(i); mid.append(bar);
+    a.append(mid, el("span","val num", 만(m.조회수)));
+    c.append(a);
+  });
+  $("#s4-foot").innerHTML = t("s4.foot", M.목록.length);
+}
+
+/* ─────────────────────────────────────────── 03 영상 랭킹 */
+/* 저장소에는 채널마다 조회수·좋아요 상위 150편(형식마다 80편)만 있다.
+   화면이 고를 수 있는 가장 큰 N 이 50 인 이유다. 합계는 전편을 재서 낸 값이라 따로 온다. */
+function 칠하기(그룹, 값){
+  [...그룹.children].forEach(b=>b.classList.toggle("on", b.dataset.v === String(값)));
+}
+function 초시각(초){
+  if(!초) return "";
+  const m = Math.floor(초/60), s2 = 초%60;
+  return m >= 60 ? t("u.hour", Math.floor(m/60), m%60) : (m ? t("u.min", m, s2) : t("u.sec", s2));
+}
+function 그리기_videos(vids){
+  const v = vids.채널[상태.채널];
+  const 기준 = 상태.기준;
+
+  // 그 채널에 없는 형식(안원잘부는 라이브가 없다)은 단추 자체를 숨긴다
+  [...$("#sv-kind").children].forEach(b=>{
+    b.hidden = b.dataset.v !== "전체" && !(v.편수[b.dataset.v] > 0);
+  });
+  if(상태.형식 !== "전체" && !(v.편수[상태.형식] > 0)) 상태.형식 = "전체";
+  칠하기($("#sv-metric"), 상태.기준);
+  칠하기($("#sv-kind"), 상태.형식);
+  칠하기($("#sv-n"), 상태.N);
+
+  const 뽑 = v.목록
+    .filter(x => 상태.형식 === "전체" || x.형식 === 상태.형식)
+    .filter(x => x[기준] !== null && x[기준] !== undefined)
+    .sort((a,b) => b[기준] - a[기준])
+    .slice(0, 상태.N);
+
+  const 채널이름 = 상태.채널 === "리센느" ? t("sv.ch.res") : t("sv.ch.anw");
+  const 몇편 = 상태.형식 === "전체" ? v.편수.전체 : v.편수[상태.형식];
+  const 단위 = 기준 === "조회수" ? t("sv.unit.view") : t("sv.unit.like");
+  $("#sv-h").textContent = t("sv.h", 낱(기준), 뽑.length);
+  $("#sv-sub").textContent = t("sv.sub", 채널이름,
+    상태.형식 === "전체" ? "" : 낱(상태.형식) + " ", 콤마(몇편), 낱(기준),
+    (기준 === "좋아요" && v.좋아요숨김)
+      ? t("sv.sub.hid", 콤마(v.좋아요숨김))
+      : t("sv.sub.top", 만(뽑.length ? 뽑[0][기준] : 0), 단위));
+
+  const c = $("#sv-rows"); c.innerHTML = "";
+  if(!뽑.length){
+    c.append(el("p","empty",t("sv.empty")));
+  }
+  const 최대 = 뽑.length ? 뽑[0][기준] : 1;
+  뽑.forEach((x,i)=>{
+    const a = el("a","row vid" + (i === 0 ? " on" : ""));
+    a.href = (x.형식 === "쇼츠" ? "https://www.youtube.com/shorts/" : "https://www.youtube.com/watch?v=") + x.id;
+    a.target = "_blank"; a.rel = "noopener";
+    a.setAttribute("aria-label", t("sv.aria", i+1, x.제목, 낱(기준), 만(x[기준])));
+    a.append(el("span","rk",String(i+1)));
+    const img = el("img","thumb");
+    img.src = `https://i.ytimg.com/vi/${x.id}/mqdefault.jpg`;
+    img.alt = ""; img.loading = "lazy"; img.width = 96; img.height = 54;
+    a.append(img);
+    const mid = el("div","mid");
+    mid.append(el("div","nm", x.제목));
+    const bar = el("div","bar"), i2 = el("i");
+    i2.style.width = (x[기준] / 최대 * 100).toFixed(1) + "%";
+    bar.append(i2); mid.append(bar);
+    const 메타 = el("div","meta");
+    메타.append(날(x.공개일) + "  ·  ");
+    메타.append(el("b", null, 상태.형식 === "전체" ? 낱(x.형식) : 초시각(x.길이)));
+    // 오른쪽 큰 값이 이미 기준 값이다. 여기에는 반대쪽 값만 적어 같은 수를 두 번 적지 않는다.
+    메타.append(기준 === "조회수"
+      ? t("sv.meta.like", x.좋아요 === null ? t("sv.likehid") : 만(x.좋아요))
+      : t("sv.meta.view", 만(x.조회수)));
+    mid.append(메타);
+    a.append(mid, el("span","val num", 만(x[기준])));
+    c.append(a);
+  });
+
+  $("#sv-foot").innerHTML = t("sv.foot", vids.기준, vids.수단, 콤마(v.편수.전체),
+    콤마(vids.보관.채널상위), vids.보관.형식상위,
+    v.못받은편수 ? t("sv.foot.miss", 콤마(v.못받은편수)) : "");
+}
+
+/* ─────────────────────────────────────────── 04 라이브 아카이브 */
+/* 조회수 상위 편 목록은 여기에 두지 않는다 — 03 영상 랭킹에서 형식을 「라이브」로
+   고르면 같은 것이 나오고, 그쪽은 매주 자동으로 갱신된다. 두 곳에 두면 값이 어긋난다. */
+function 세로막대(자리, 값들, 라벨들, 옵션){
+  옵션 = 옵션 || {};
+  // 2단 안에 들어가는 작은 차트는 폭을 좁게 잡는다 — viewBox 를 1000 으로 두면
+  // 절반 폭에 눌려 축 글자가 절반 크기로 보인다
+  const W = 옵션.폭 || 1000, H = 옵션.높이 || 230, L = 46, R = 8, T = 12, B = 30;
+  const 최대 = Math.max(...값들, 1) * 1.08;
+  const iw = W - L - R, ih = H - T - B, 칸 = iw / 값들.length;
+  const s = svg(W, H);
+  s.setAttribute("aria-label", 옵션.설명 || "");
+  const 눈금수 = 옵션.눈금 || 4;
+  for(let i = 0; i <= 눈금수; i++){
+    const y = T + ih - ih * i / 눈금수;
+    s.append(요소("line", {x1:L, x2:W-R, y1:y, y2:y, stroke:"var(--line)", "stroke-width":1}));
+    const t = 요소("text", {x:L-8, y:y+4, "text-anchor":"end", class:"gtxt"});
+    t.textContent = (옵션.눈금글 || (v=>Math.round(v)))(최대 * i / 눈금수);
+    s.append(t);
+  }
+  자리.innerHTML = "";
+  자리.append(s);
+  const tip = 툴팁(자리.closest(".chart") || 자리.closest(".pane") || 자리);
+  값들.forEach((v, i)=>{
+    const h = v > 0 ? Math.max(2, ih * v / 최대) : 0;
+    const x = L + i * 칸 + 1, w = Math.max(1, 칸 - 3);
+    const g = 요소("g", {});
+    // 한 화면에서 색을 받는 막대는 주장을 지고 있는 것뿐이다. 나머지는 무채색으로 둔다
+    const 짙 = 옵션.짚기 ? 옵션.짚기(i, v) : false;
+    g.append(요소("rect", {x, y:T+ih-h, width:w, height:h,
+                         rx:Math.min(3, w/2.6), fill:짙 ? "var(--pink)" : "var(--track)"}));
+    const 판 = 요소("rect", {x:L+i*칸, y:T, width:칸, height:ih, fill:"transparent"});
+    g.append(판);
+    g.addEventListener("pointerenter", ()=>{
+      const 부모 = (자리.closest(".chart") || 자리.closest(".pane") || 자리).getBoundingClientRect();
+      const 내것 = 판.getBoundingClientRect();
+      tip.보이기(내것.left + 내것.width/2 - 부모.left, 내것.bottom - 부모.top - ih * v / 최대 * (내것.height/ih),
+                (옵션.툴팁 || ((j,val)=>`<b>${라벨들[j]}</b> · ${val}`))(i, v));
+    });
+    g.addEventListener("pointerleave", ()=>tip.숨기기());
+    s.append(g);
+    if(!옵션.라벨간격 || i % 옵션.라벨간격 === 0){
+      const t = 요소("text", {x:x+w/2, y:H-10, "text-anchor":"middle", class:"gtxt"});
+      t.textContent = 라벨들[i];
+      s.append(t);
+    }
+  });
+}
+
+function 그리기_streams(st){
+  const 요 = st.요약;
+  // 머리글도 데이터에서 쓴다 — 「207번」을 박아 두면 다음 방송 하나에 거짓이 된다.
+  const 달 = Math.round(요.기간일 / 30.44);
+  $("#s10 h2").textContent = t("s10.h", Math.floor(달 / 12), 달 % 12, 요.전체편수);
+  $("#s10-sub").textContent = t("s10.sub", 요.전체편수, Math.round(요.평균길이분));
+
+  const c = $("#s10-tiles"); c.innerHTML = "";
+  c.append(
+    타일(t("s10.t1"), 콤마(요.전체편수), t("s10.t1d", st.구간.slice(0,10)), true),
+    타일(t("s10.t2"), t("s10.t2v", 요.중앙간격일), t("s10.t2d", 요.평균간격일), false),
+    타일(t("s10.t3"), t("s10.t3v", Math.round(요.평균길이분)), t("s10.t3d", 요["1시간이상비율%"]), false),
+    타일(t("s10.t4"), t("s10.t4v", Math.round(요.총방송시간h)), t("s10.t4d"), false)
+  );
+
+  // 월별 편수
+  const m = st.월별;
+  $("#s10-month-note").innerHTML =
+    t("s10.monthnote", st.연도별[0].편수, st.연도별[1].편수, st.연도별[2].편수);
+  const 최다달 = m.reduce((a,b)=>b.편수 > a.편수 ? b : a);
+  세로막대($("#s10-month"), m.map(r=>r.편수), m.map(r=>r.연월.slice(2).replace("-", ".")),
+    {라벨간격:2, 설명:t("s10.month.aria"), 짚기:i=>m[i].연월 === 최다달.연월,
+     툴팁:(i,v)=>t("s10.month.tip", m[i].연월, v, Math.round(m[i].평균분), 만(Math.round(m[i].평균조회수)))});
+
+  // 시각 · 요일
+  const 시값 = [], 시라 = [];
+  for(let h = 0; h < 24; h++){ 시값.push(st.시각[h] || 0); 시라.push(h); }
+  $("#s10-hour-cap").textContent = t("s10.hour.cap", st.시각[22], (st.시각[0]||0)+(st.시각[1]||0)+(st.시각[2]||0));
+  const 최다시 = 시값.indexOf(Math.max(...시값));
+  세로막대($("#s10-hour"), 시값, 시라, {폭:500, 높이:200, 눈금:3, 라벨간격:3, 설명:t("s10.hour.aria"),
+    짚기:i=>i === 최다시,
+    툴팁:(i,v)=>t("s10.hour.tip", i, v)});
+
+  const 요일 = ["월","화","수","목","금","토","일"];
+  // 요일은 짚는 막대가 없다 — 「쏠림이 없다」가 이 화면의 주장이라 한 칸만 밝히면 거짓이 된다
+  $("#s10-dow-cap").textContent = t("s10.dow.cap");
+  세로막대($("#s10-dow"), 요일.map(d=>st.요일[d] || 0), 요일.map(낱), {폭:500, 높이:200, 눈금:3, 설명:t("s10.dow.aria"),
+    툴팁:(i,v)=>t("s10.dow.tip", 낱(요일[i]), v)});
+
+  // 러닝타임
+  const 구간 = Object.keys(st.히스);
+  $("#s10-dur-note").innerHTML = t("s10.durnote", Math.round(요.최장분));
+  const 최다구간 = 구간.reduce((a,b)=>st.히스[b] > st.히스[a] ? b : a);
+  세로막대($("#s10-dur"), 구간.map(k=>st.히스[k]), 구간.map(분구간), {높이:210, 설명:t("s10.dur.aria"),
+    짚기:i=>구간[i] === 최다구간,
+    툴팁:(i,v)=>t("s10.dur.tip", 분구간(구간[i]), v)});
+
+  // 멤버별 단독 vs 함께
+  const 멤 = [...st.멤버].sort((a,b)=>b.출연편수-a.출연편수);
+  const 최대출연 = 멤[0].출연편수;
+  const 단독1위 = [...st.멤버].sort((a,b)=>b.단독편수-a.단독편수)[0];
+  // **편수·시간은 매일 다시 재지만 얼굴 판별은 그날 것이 아니다.** 모델과 사람 검수가 필요해
+  // 손으로 돌린 마지막 값을 그대로 둔다. 몇 편까지 본 것인지를 화면이 직접 말하게 한다.
+  const 기준편수 = st.멤버기준편수 || 요.전체편수;
+  $("#s10-mem-sub").textContent = t("s10.mem.sub", 기준편수, 요.멤버판별된편수,
+    이름(멤[0].멤버), 멤[0].출연편수, 이름(단독1위.멤버), 단독1위.단독편수)
+    + (요.전체편수 > 기준편수
+       ? " " + t("s10.mem.stale", st.멤버기준 || "", 요.전체편수 - 기준편수) : "");
+  const mc = $("#s10-mem"); mc.innerHTML = "";
+  멤.forEach(x=>{
+    const row = el("div", "row mem");
+    row.append(el("span", "who", 이름(x.멤버)));
+    const mid = el("div", "mid");
+    mid.append(el("div", "nm", t("s10.mem.row", x.단독편수, x.출연편수 - x.단독편수, Math.round(x.출연총시간h))));
+    const bar = el("div", "bar stack");
+    const 단 = el("i"), 함 = el("i"), 남 = el("i");
+    단.className = "solo"; 함.className = "with"; 남.className = "rest";
+    단.style.width = (x.단독편수 / 최대출연 * 100).toFixed(1) + "%";
+    함.style.width = ((x.출연편수 - x.단독편수) / 최대출연 * 100).toFixed(1) + "%";
+    남.style.width = ((최대출연 - x.출연편수) / 최대출연 * 100).toFixed(1) + "%";
+    bar.append(단, 함, 남); mid.append(bar);
+    row.append(mid, el("span", "val num", t("s10.mem.val", x.출연편수)));
+    mc.append(row);
+  });
+  $("#s10-mem-foot").innerHTML = t("s10.mem.foot", tj("s10.judge", st.판별), tj("s10.limit", st.한계));
+
+  // 조합
+  const 조 = st.조합;
+  $("#s10-combo-sub").textContent = t("s10.combo.sub",
+    st.인원별.find(x=>x.출연수===1).편수, st.인원별.find(x=>x.출연수===2).편수,
+    st.인원별.find(x=>x.출연수===5).편수);
+  const tb = $("#s10-combo"); tb.innerHTML = "";
+  조.forEach(x=>{
+    const 이름 = x["출연(추정)"];
+    const 수 = 이름.split(",").length;
+    const tr = el("tr");
+    const 옮긴 = 이름.split(",").map(z=>이름표옮김(z.trim())).join(" · ");
+    const td1 = el("td", null, 수 === 5 ? t("s10.combo.all")
+                             : 수 === 1 ? t("s10.combo.solo", 옮긴)
+                             : 옮긴);
+    tr.append(td1, el("td", "num", t("s10.mem.val", 콤마(x.편수))), el("td", "num", 만(Math.round(x.평균조회수))));
+    tb.append(tr);
+  });
+
+  // 월별 평균 조회수
+  $("#s10-view-sub").textContent =
+    t("s10.view.sub", 만(요.총조회수), 만(요.총좋아요), 만(요.중앙조회수));
+  세로막대($("#s10-view"), m.map(r=>Math.round(r.평균조회수)), m.map(r=>r.연월.slice(2).replace("-", ".")),
+    {라벨간격:2, 높이:240, 설명:t("s10.view.aria"), 눈금글:v=>만(Math.round(v)),
+     짚기:i=>m[i].연월 >= "2026-03",
+     툴팁:(i,v)=>t("s10.view.tip", m[i].연월, 만(v), m[i].편수, m[i].평균좋아요율)});
+
+  $("#s10-foot").innerHTML = t("s10.foot",
+    Math.min(...st.멤버.map(m=>m.상대조회배수중앙)), Math.max(...st.멤버.map(m=>m.상대조회배수중앙)));
+}
+
+/* ─────────────────────────────────────────── 04 카카오 이모티콘 (안원잘부) */
+/* 순위는 실시간으로 바뀐다. 「전 탭 1위」를 화면에 적어 두지 않고 받아 온 값으로
+   문장을 만든다 — 2위로 내려가면 화면도 2위라고 말해야 한다. */
+function 그리기_emoticon(e){
+  const 탭 = e.순위.탭, 상 = e.상품, 가 = e.가격;
+  const 든것 = 탭.filter(t => t.리센느순위);
+  const 일위 = 탭.filter(t => t.리센느순위 === 1).length;
+  const 최고 = 든것.length ? Math.min(...든것.map(t => t.리센느순위)) : null;
+  // 「그 탭 1위」를 보여준다 — 리센느가 모든 탭 1위가 아닐 때는 2위보다 이쪽이 말이 된다
+  const 일위종류 = new Set(탭.map(t => t["1위"])).size;
+
+  // 제목에 쓰는 작은 수는 한글로 적는다 — 「6개 탭」보다 「여섯 탭」이 읽힌다
+  const 한글수 = n => (LANG === "ko"
+    ? (["","한","두","세","네","다섯","여섯","일곱","여덟","아홉","열"][n] || String(n))
+    : String(n));
+  $("#s11-h").textContent =
+    일위 === 탭.length ? t("s11.h.all", 한글수(탭.length))
+    : 일위 ? t("s11.h.some", 한글수(탭.length), 한글수(일위))
+    : 최고 ? t("s11.h.best", 최고) : t("s11.h.out");
+
+  $("#s11-sub").textContent = t("s11.sub", 상.이름, 상.종수,
+    (일위 === 탭.length
+      ? t("s11.sub.all", 한글수(탭.length), 한글수(일위종류))
+      : t("s11.sub.some", 든것.map(x => 낱(x.탭) + " " + t("s11.t2v", x.리센느순위)).join(" · "))));
+
+  const c = $("#s11-tiles"); c.innerHTML = "";
+  c.append(
+    타일(t("s11.t1"), t("s11.t1v", 상.종수), t("s11.t1d", 상.출시), false),
+    타일(일위 === 탭.length ? t("s11.t2.all") : t("s11.t2.best"),
+        최고 ? t("s11.t2v", 최고) : "—", t("s11.t2d", 한글수(탭.length)), true),
+    타일(t("s11.t3"), t("s11.t3v", 일위종류), t("s11.t3d", 일위종류), false),
+    타일(t("s11.t4"), t("s11.t4v", 콤마(가.판매가)),
+        가.할인율 ? t("s11.t4d", 콤마(가.정가),
+                     LANG === "ko" ? 가.문구 : t("s11.sale", 가.할인율)) : t("s11.t4d0"), false)
+  );
+
+  $("#s11-rank-sub").textContent = t("s11.rank.sub", e.순위.수집시각);
+  $("#s11-rank-th2").textContent = 상.이름;
+  $("#s11-src-h").textContent = t("s11.src.h", 상.종수);
+  $("#s11-list-sum").textContent = t("s11.list.sum", 상.종수);
+  const tb = $("#s11-rank"); tb.innerHTML = "";
+  탭.forEach(t=>{
+    const tr = el("tr");
+    tr.append(el("td", null, 낱(t.탭)));
+    const 자리 = el("td", "num");
+    const b = el("b", null, t.리센느순위 ? t2("s11.t2v", t.리센느순위) : t2("s11.rank.out"));
+    if(t.리센느순위 === 1) b.style.color = "var(--pink)";
+    자리.append(b);
+    // 그 탭 1위가 리센느 자신이면 색을 준다 — 어디서 이겼는지 한눈에 보인다
+    const 일 = el("td", null, t["1위"]);
+    if(t.리센느순위 === 1) 일.style.color = "var(--pink)";
+    tr.append(자리, 일);
+    tb.append(tr);
+  });
+  $("#s11-rank-foot").innerHTML = t("s11.rank.foot", tj("s11.src", e.순위.출처), 가.기준일);
+
+  // 편별 분포
+  const 편 = e.원본.편별, 최대 = Math.max(...편.map(x=>x.종수));
+  $("#s11-src-sub").textContent = t("s11.src.sub", 상.종수, 편.length,
+    편.slice(0,4).reduce((a,b)=>a+b.종수,0));
+  const sc = $("#s11-src"); sc.innerHTML = "";
+  편.forEach((x,i)=>{
+    const row = el("div", "row" + (i === 0 ? " on" : ""));
+    row.append(el("span","rk", String(i+1)));
+    const mid = el("div","mid");
+    mid.append(el("div","nm", x.편));
+    const bar = el("div","bar"), b = el("i");
+    b.style.width = (x.종수/최대*100).toFixed(1) + "%";
+    bar.append(b); mid.append(bar);
+    row.append(mid, el("span","val num", t("s11.src.val", x.종수)));
+    sc.append(row);
+  });
+
+  // 24종 목록
+  const lb = $("#s11-list"); lb.innerHTML = "";
+  e.원본.목록.forEach(x=>{
+    const tr = el("tr");
+    tr.append(el("td","num", String(x.번호)), el("td", null, x.문구), el("td", null, x.편전체));
+    const td = el("td","num");
+    const a = el("a", null, x.시각);
+    a.href = `https://www.youtube.com/watch?v=${x.id}&t=${x.초}s`;
+    a.target = "_blank"; a.rel = "noopener";
+    a.style.color = "var(--pink)";
+    td.append(a); tr.append(td);
+    lb.append(tr);
+  });
+
+  $("#s11-foot").innerHTML = t("s11.foot", tj("s11.how", e.원본.찾은법)) +
+    `<a href="${상.링크}" target="_blank" rel="noopener" style="color:var(--pink)">${t("s11.foot.link")}</a>`;
+}
+
+/* ─────────────────────────────────────────── 채널 전환 */
+function 전환(키){
+  상태.채널 = 키;
+  if(typeof 해시쓰기 === "function") 해시쓰기();
+  else history.replaceState(null, "", 키 === "리센느" ? "#rescene" : "#anwonjalbu");
+  [...$("#chtabs").children].forEach(b=>
+    b.setAttribute("aria-pressed", String(b.dataset.ch === 키)));
+  document.querySelectorAll("section[data-ch]").forEach(n=>{
+    n.hidden = n.dataset.ch !== 키;
+  });
+  // 번호는 지금 보이는 순서대로 다시 매긴다. 채널마다 딸린 화면 수가 달라
+  // (리센느에는 라이브 아카이브가 있다) 붙박이 번호를 쓰면 02 다음이 04 가 된다.
+  let 번 = 0;
+  document.querySelectorAll(".tabpane:not([hidden]) section").forEach(n=>{
+    if(n.hidden || n.id === "s0") return;
+    const b = n.querySelector(".eyebrow b");
+    if(b) b.textContent = String(++번).padStart(2, "0");
+  });
+  그리기_hero(D.live, D.milestone);
+  그리기_tiles(D.live, D.videos, D.milestone);
+  그리기_videos(D.videos);
+}
+
+function 조작붙이기(){
+  $("#chtabs").addEventListener("click", e=>{
+    const b = e.target.closest(".chtab"); if(b) 전환(b.dataset.ch);
+  });
+  const 세그 = (선택, 키, 숫자)=> $(선택).addEventListener("click", e=>{
+    const b = e.target.closest("button"); if(!b) return;
+    상태[키] = 숫자 ? +b.dataset.v : b.dataset.v;
+    그리기_videos(D.videos);
+  });
+  // 주소창에서 해시를 바꾸거나 뒤로 가기로 돌아왔을 때도 화면이 따라가야 한다
+  /* 해시는 탭 라우터가 맡는다 (개편_탭.js) — 여기서 또 다루면 탭을 옮길 때 채널이 튄다 */
+  $("#sr-seg").addEventListener("click", e=>{
+    const b = e.target.closest("button");
+    if(b){ 지역구간 = +b.dataset.v; 그리기_region(D.region); }
+  });
+  세그("#sv-metric", "기준");
+  세그("#sv-kind", "형식");
+  세그("#sv-n", "N", true);
+}
+
+/* ─────────────────────────────────────────── 05 지역별 검색 */
+/* 주인공을 코드에 박지 않는다. 지금 1위인 지역을 값에서 찾아 네 구간에서 따라간다 —
+   경남이 아닌 다른 곳이 1위가 되는 날에도 화면이 저절로 맞는다. */
+// 처음에는 마지막 구간(가장 좁은 기간)을 보여준다 — 제목이 말하는 결론이 그 구간이다.
+let 지역구간 = null;
+function 그리기_region(r){
+  const 구간 = r.구간 || [];
+  if(!구간.length) return;
+  if(지역구간 === null) 지역구간 = 구간.length - 1;
+  const 마지막 = 구간.at(-1), 첫구간 = 구간[0];
+  // 주인공은 「지금 1위」가 아니라 「첫 구간보다 가장 많이 올라온 곳」이다.
+  // 1위를 따라가게 했더니 조회할 때마다 주인공이 바뀌었다 — 앞자리가 1점 차 접전이라
+  // 로컬에서는 경남, 같은 날 Actions 에서는 부산이 1위였다. 이 화면의 주장은
+  // 「누가 1위인가」가 아니라 「기간을 좁힐수록 올라오는 곳이 있다」이다.
+  const 오른것 = 마지막.지역
+    .map(x => ({...x, 옛순: (첫구간.지역.find(y=>y.지역===x.지역) || {}).순위}))
+    .filter(x => x.옛순)
+    .sort((a,b) => (b.옛순 - b.순위) - (a.옛순 - a.순위) || a.순위 - b.순위)[0];
+  const 주인공 = 오른것.지역;
+
+  $("#sr-h").textContent = t("sr.h", 이름표옮김(주인공), 오른것.옛순, 오른것.순위);
+  $("#sr-sub").textContent = t("sr.sub", 이름표옮김(주인공), 첫구간.이름, 마지막.이름);
+
+  const seg = $("#sr-seg"); seg.innerHTML = "";
+  구간.forEach((g, i)=>{
+    const b = el("button", i === 지역구간 ? "on" : "", g.이름);
+    b.type = "button"; b.dataset.v = String(i);
+    seg.append(b);
+  });
+
+  const g = 구간[지역구간] || 마지막;
+  $("#sr-scale").textContent = `${g.기간} · ${r.값의의미}`;
+  const c = $("#sr-rows"); c.innerHTML = "";
+  g.지역.forEach(x=>{
+    const 나 = x.지역 === 주인공;
+    const row = el("div", "row" + (나 ? " on" : ""));
+    row.append(el("span","rk", String(x.순위)));
+    const mid = el("div","mid");
+    mid.append(el("div","nm", 이름표옮김(x.지역)));
+    const bar = el("div","bar"), i = el("i");
+    i.style.width = x.값 + "%";
+    bar.append(i); mid.append(bar);
+    row.append(mid, el("span","val num", String(x.값)));
+    c.append(row);
+  });
+
+  $("#sr-foot").innerHTML =
+    `${r.지역수주의} <b>${t("sr.rank", (g.지역.find(x=>x.지역===주인공)||{}).순위, g.지역.length)}</b> · ` +
+    `${t("sr.wobble")} ${r.미확인}`;
+}
+
+/* ─────────────────────────────────────────── 05 브랜드평판 */
+function 그리기_rep(r){
+  const 최대=Math.max(...r.TOP10.map(t=>t.지수));
+  $("#s5-sub").textContent = t("s5.sub", t("s5.base", r.기준), tj("s5.index", r.지표), r.리센느수);
+  const c=$("#s5-rows"); c.innerHTML="";
+  r.TOP10.forEach(t=>{
+    const 리 = t.그룹==="리센느";
+    const row=el("div","row"+(리?" on":""));
+    row.append(el("span","rk",String(t.순위)));
+    const mid=el("div","mid");
+    mid.append(el("div","nm", `${이름(t.이름)}  ·  ${이름(t.그룹)}`));
+    const bar=el("div","bar"); const i=el("i");
+    i.style.width=(t.지수/최대*100).toFixed(1)+"%"; bar.append(i); mid.append(bar);
+    row.append(mid, el("span","val num", 만(t.지수)));
+    c.append(row);
+  });
+  $("#s5-foot").innerHTML = t("s5.foot", tj("s5.clue", r.단서),
+    콤마(r.TOP10[0].지수), 만(r.TOP10[0].지수), tj("s5.org", r.기관));
+}
+
+/* ─────────────────────────────────────────── 06 100만 클럽 */
+function 그리기_club(c, live, milestone){
+  const 돌파 = !!milestone.백만돌파;
+  const 리 = live.채널.리센느.구독자;
+
+  // 리센느를 목록에 넣고 다시 정렬한다. 따로 맨 밑에 붙이면 103만이 101만보다
+  // 아래에 놓이고 순위도 겹친다 — 실제로 그렇게 보였다.
+  const 목록 = (돌파 ? [...c.전체, {그룹:"리센느", 구독자:리, 나:true}] : [...c.전체])
+    .sort((a,b)=> b.구독자 - a.구독자)
+    .map((x,i)=> ({...x, 순위:i+1}));
+  const 나자리 = 목록.findIndex(x=>x.나);
+  const 꼴찌 = 목록.at(-1);
+
+  $("#s6-h").textContent = 돌파
+    ? t("s6.h.in", 목록.length, 나자리+1)
+    : t("s6.h.out", c.총팀수, c.리센느자리);
+  $("#s6-sub").textContent = t("s6.sub", 만(목록[0].구독자), 만(꼴찌.구독자),
+    꼴찌.순위, Math.round(목록[0].구독자/꼴찌.구독자));
+
+  const box=$("#s6-club"); box.innerHTML="";
+  const 줄 = x => {
+    const r=el("div","cr"+(x.나?" me":""));
+    r.append(el("span","r", String(x.순위)),
+             el("span","g", 이름(x.그룹)),
+             el("span","s num", 만(x.구독자)));
+    return r;
+  };
+
+  const 앞 = 목록.slice(0, 3);
+  // 뒤 구간은 리센느가 가운데 오도록 잡는다. 리센느가 위로 올라가도 늘 보인다.
+  const 시작 = 돌파 ? Math.max(3, 나자리 - 2) : Math.max(3, 목록.length - 4);
+  const 끝 = 돌파 ? Math.min(목록.length, 나자리 + 2) : 목록.length;   // 안 세는 자리
+  const 뒤 = 목록.slice(시작, 끝);
+
+  앞.forEach(x=>box.append(줄(x)));
+  if(시작 > 3) box.append(el("div","gap","· · ·"));
+  뒤.forEach(x=>box.append(줄(x)));
+  if(!돌파){
+    box.append(el("div","threshold",t("s6.threshold")));
+    box.append(줄({순위:c.리센느자리, 그룹:"리센느", 구독자:리, 나:true}));
+  }else if(끝 < 목록.length){
+    // 아래가 잘렸으면 잘렸다고 말한다 — 문턱 줄이 곧 목록 끝인 것처럼 보이면 안 된다.
+    // **다만 한 줄도 안 가려졌으면 「· · ·」 를 넣지 않는다.** 리센느가 43위로 올라오자
+    // 44위와 45위 사이에 가려진 것이 없는데도 틈이 벌어져 둘이 멀어 보였다.
+    // 틈은 「여기 뭔가 생략됐다」는 말이다 — 생략된 게 없으면 거짓말이 된다.
+    if(끝 < 목록.length - 1) box.append(el("div","gap","· · ·"));
+    box.append(줄(꼴찌));
+  }
+  box.append(el("div","threshold",t("s6.threshold")));
+
+  $("#s6-foot").innerHTML = t("s6.foot", c.기준, 만(c.안원잘부.구독자),
+    이름(c.안원잘부.위), 이름(c.안원잘부.아래), c.안원잘부.끼는자리, tj("s6.exclude", c.제외));
+}
+
+/* ─────────────────────────────────────────── 07 검색어 */
+function 그리기_search(s){
+  $("#s7-sub").textContent = tj("s7.meaning", s.값의의미);
+  const two=$("#s7-two"); two.innerHTML="";
+
+  const 왼=el("div","pane");
+  왼.append(el("h3",null,t("s7.left.h")), el("p","when", 기간표(s.비교기간)));
+  const c1=el("div","chips");
+  s.데뷔후2년.forEach(x=> c1.append(el("span","chip", x.검색어)));
+  왼.append(c1);
+  const 셈1=el("div","tally");
+  셈1.innerHTML = t("s7.tally", s.데뷔후2년팬검색);
+  왼.append(셈1);
+
+  const 오=el("div","pane");
+  오.append(el("h3",null,t("s7.right.h")), el("p","when", 기간표(s.기간)));
+  const c2=el("div","chips");
+  s.급상승.forEach(x=>{
+    const ch=el("span","chip"+(x.분류==="팬"?" on":""), x.검색어);
+    ch.title = x.분류; c2.append(ch);
+  });
+  오.append(c2);
+  const 셈2=el("div","tally");
+  셈2.innerHTML = t("s7.tally2", s.집계.팬, (s.팬검색어 || []).join(" · "));
+  오.append(셈2);
+
+  two.append(왼,오);
+  const 제 = s.제외 || {};
+  $("#s7-foot").innerHTML = t("s7.foot",
+    t("s7.excl", 제.원본수, 제.우측신체, 제.우측논란, 제.남은수, 제.좌측논란), s.집계.오타 || 0);
+}
+
+/* ─────────────────────────────────────────── 08 카드 */
+function 그리기_archive(a){
+  // **전체 공개인 편만 낸다.** 올렸다가 일부공개로 돌린 편은 링크로는 열려도
+  // 채널 목록에 없다 — 채널을 소개하는 화면에 두면 맞지 않는다.
+  // 아직 안 올린 「공개 예정」 카드도 여기서는 빼고, 몇 장을 뺐는지는 밑에 적는다.
+  const 다 = a.카드 || [];
+  const 카드 = 다.filter(k => k.링크 && k.공개 !== false);
+  // 뺀 까닭이 둘이라 따로 센다 — 「올렸다가 내린 것」과 「아직 안 올린 것」은 다른 이야기다
+  const 내린것 = 다.filter(k => k.링크 && k.공개 === false).length;
+  const 안올린것 = 다.filter(k => !k.링크).length;
+  $("#s8-sub").textContent = tj("s8.desc", a.설명);
+  const c=$("#s8-cards"); c.innerHTML="";
+  카드.forEach(k=>{
+    const node = k.링크 ? el("a","card") : el("div","card soon");
+    if(k.링크){ node.href=k.링크; node.target="_blank"; node.rel="noopener"; }
+    if(k.썸네일){
+      const img=el("img"); img.src=k.썸네일; img.alt=""; img.loading="lazy";
+      node.append(img);
+    }else{
+      node.append(el("div","ph",t("s8.noimg")));  // 자리를 비우면 옆 카드와 어긋난다
+    }
+    const b=el("div","body");
+    b.append(el("div","n", k.공개예정 ? t("s8.soon") : 날(k.날짜)));
+    b.append(el("div","t", k.제목));
+    b.append(el("div","c", k.주장));
+    // 수치는 사람이 붙이는 한마디다. 자동으로 실린 카드는 비어 있으니 그 줄을 아예 만들지 않는다
+    if(k.수치) b.append(el("div","m", k.수치));
+    node.append(b); c.append(node);
+  });
+  // 뺀 게 있으면 말한다 — 조용히 줄이면 화면이 「이게 전부」라고 거짓말한다
+  const h = $("#s8-hidden");
+  const 말 = [내린것 ? t("s8.hidden", 내린것) : "",
+             안올린것 ? t("s8.notyet", 안올린것) : ""].filter(Boolean).join(" ");
+  h.textContent = 말;
+  h.hidden = !말;
+}
+
+/* ─────────────────────────────────────────── 09 출처 */
+function 그리기_status(st){
+  const b=$("#s9-rows"); b.innerHTML="";
+  st.항목.forEach(x=>{
+    const r=el("tr");
+    r.append(el("td",null,출처이름옮김(x.키, x.이름)), el("td",null,출처값옮김(x.키, x.출처)),
+             el("td","num",x.기준), el("td",null,낱(x.주기)));
+    const 결=el("td", x.결과==="OK"?"ok":"bad", x.결과==="OK"?t("s9.ok"):t("s9.bad"));
+    r.append(결); b.append(r);
+  });
+  const th = $("#s9-th");
+  if(th) t("s9.th").forEach((v,i)=>{ if(th.children[i]) th.children[i].textContent = v; });
+  $("#ft-when").innerHTML = t("ft.when", st.갱신, tj("ft.memo", st.메모));
+}
+
+/* 항목마다 잰 날이 다르면 그 사실을 숨기지 않는다 */
+function 그리기_기준일차이(live){
+  const 리 = live.채널.리센느.기준, 안 = live.채널.안원잘부.기준;
+  $("#ft-gap").innerHTML = 리 === 안
+    ? t("ft.same", 리)
+    : t("ft.gap", 리, 안, live.배수);
+}
+
+/* 나라말을 바꾸면 값이 든 문장은 전부 다시 만들어야 한다.
+   틀(고정 문구)은 나라말칠하기() 가, 값이 든 문장은 여기가 맡는다. */
+function 모두그리기(){
+  const d = D; if(!d) return;
+  document.querySelectorAll("#s2-chart ~ details").forEach(x=>x.remove());
+  그리기_trends(d.trends);
+  그리기_rank(d.rank);
+  그리기_mv(d.live);
+  그리기_region(d.region);
+  그리기_rep(d.reputation);
+  그리기_club(d.club, d.live, d.milestone);
+  그리기_search(d.searches);
+  그리기_archive(d.archive);
+  그리기_streams(d.streams);
+  그리기_emoticon(d.emoticon);
+  그리기_status(d.status);
+  그리기_기준일차이(d.live);
+  그리기_방문();
+  전환(상태.채널);
+}
+
+/* ─────────────────────────────────────────── 시작 */
+(async ()=>{
+  try{
+    const 결과 = await Promise.all(파일.map(async f=>{
+      const r = await fetch(`data/${f}.json`, {cache:"no-cache"});
+      if(!r.ok) throw new Error(`data/${f}.json — HTTP ${r.status}`);
+      return r.json();
+    }));
+    D = Object.fromEntries(파일.map((f,i)=>[f, 결과[i]]));
+    const d = D;
+    LANG = 첫나라말();
+    // 기본은 안원잘부다. #rescene 로 들어온 사람만 공식 채널 화면으로 연다.
+    상태.채널 = (location.hash === "#rescene" || location.hash.endsWith("/res")) ? "리센느" : "안원잘부";
+    조작붙이기();
+    그리기_trends(d.trends);
+    그리기_rank(d.rank);
+    그리기_mv(d.live);
+    그리기_region(d.region);
+    그리기_rep(d.reputation);
+    그리기_club(d.club, d.live, d.milestone);
+    그리기_search(d.searches);
+    그리기_archive(d.archive);
+    그리기_streams(d.streams);
+    그리기_emoticon(d.emoticon);
+    그리기_status(d.status);
+    그리기_기준일차이(d.live);
+    전환(상태.채널);          // 채널에 딸린 세 화면은 여기서 한꺼번에 그린다
+    if(typeof 그리기_개편 === "function") 그리기_개편();
+    나라말칠하기();
+    $("#langs").addEventListener("click", e=>{
+      const b = e.target.closest("button[data-lang]");
+      if(b) 나라말바꾸기(b.dataset.lang, 모두그리기);
+    });
+    $("#main").hidden = false;
+    방문세기();          // 화면이 다 뜬 뒤에 — 이것 때문에 수치가 늦어질 이유가 없다
+  }catch(e){
+    $("#err-msg").textContent = e.message;
+    $("#err").hidden = false;
+    console.error(e);
+  }
+})();
+</script>
+<script>
+/* ═══════════════════════════════════════════════════════════════════════
+   개편 미리보기 — 다섯 탭(홈 · 유튜브 · 음원 · 광고 · 화제)과 광고 구역.
+   scripts/개편미리보기.py 가 index.html 에 얹어 preview.html 을 만든다.
+
+   위 스크립트의 것을 그대로 쓴다 — $ · el · 날 · D · 상태 · 전환 · t · 이름 · 낱 · 만 · 콤마.
+   여기서 다시 정의하면 이름이 겹쳐 페이지가 죽는다.
+   ═══════════════════════════════════════════════════════════════════════ */
+const 탭목록 = ["home", "youtube", "music", "ad", "buzz"];
+const 광고멤버들 = ["원이", "리브", "미나미", "메이", "제나"];
+let 지금탭 = "home", 광고 = null, 광고멤버 = "전체";
+
+/* ── 주소 ── 탭과 채널을 한 해시에 담는다. 옛 #rescene · #anwonjalbu 도 그대로 받는다 */
+function 탭해시(){
+  return 지금탭 === "youtube" ? "#youtube/" + (상태.채널 === "리센느" ? "res" : "anw") : "#" + 지금탭;
+}
+function 해시쓰기(){ history.replaceState(null, "", 탭해시()); }
+function 해시읽기(){
+  const h = location.hash;
+  if(h === "#rescene")    return {탭:"youtube", 채널:"리센느"};
+  if(h === "#anwonjalbu") return {탭:"youtube", 채널:"안원잘부"};
+  const 쪽 = h.replace(/^#/, "").split("/");
+  return {탭: 탭목록.includes(쪽[0]) ? 쪽[0] : "home",
+          채널: 쪽[1] === "res" ? "리센느" : (쪽[1] === "anw" ? "안원잘부" : null)};
+}
+
+/* 구역 번호는 지금 열린 탭 안에서만 센다 — 탭마다 화면 수가 다르다 */
+function 번호매기기(){
+  let 번 = 0;
+  document.querySelectorAll(".tabpane:not([hidden]) section").forEach(n=>{
+    if(n.hidden || n.id === "s0") return;
+    const b = n.querySelector(".eyebrow b");
+    if(b) b.textContent = String(++번).padStart(2, "0");
+  });
+}
+
+function 탭보이기(키){
+  지금탭 = 탭목록.includes(키) ? 키 : "home";
+  document.querySelectorAll(".tabpane").forEach(p=>{ p.hidden = p.dataset.tab !== 지금탭; });
+  document.querySelectorAll(".tab").forEach(b=>{
+    const 켬 = b.dataset.tab === 지금탭;
+    b.setAttribute("aria-selected", String(켬));
+    b.tabIndex = 켬 ? 0 : -1;
+  });
+  번호매기기();
+  해시쓰기();
+}
+
+function 탭으로(키){
+  탭보이기(키);
+  const 줄 = $("#tabs");
+  if(줄) window.scrollTo({top: Math.max(0, 줄.offsetTop - 4)});
+}
+
+/* ── 광고 ───────────────────────────────────────────────────────────── */
+const 썸 = id => "https://i.ytimg.com/vi/" + id + "/mqdefault.jpg";
+const 유튜브주소 = (id, 쇼츠) =>
+  "https://www.youtube.com/" + (쇼츠 ? "shorts/" + id : "watch?v=" + id);
+const 전원인가 = a => a.모델.some(m => /전원/.test(m)) || 광고멤버들.every(m => a.모델.includes(m));
+const 멤버미확인 = a => a.모델.some(m => /확인/.test(m));
+
+function 바깥고리(부모, 주소, 반){
+  const a = el("a", 반 || null);
+  a.href = 주소; a.target = "_blank"; a.rel = "noopener";
+  부모.append(a);
+  return a;
+}
+
+function 광고카드(a){
+  const 카 = el("article", "ad");
+  const 주 = a.영상[0];
+  if(주){
+    const 링 = 바깥고리(카, 유튜브주소(주.id, 주.쇼츠), "adthumb");
+    링.setAttribute("aria-label", t("ad.thumb.aria", 이름(a.브랜드), 1));
+    const im = el("img"); im.src = 썸(주.id); im.alt = ""; im.loading = "lazy";
+    링.append(im, el("span", "pl", a.영상.length > 1 ? t("ad.vids", a.영상.length) : t("ad.vid1")));
+    if(a.영상.length > 1){
+      const 더 = el("div", "more");
+      a.영상.slice(1, 5).forEach((v, i)=>{
+        const l = 바깥고리(더, 유튜브주소(v.id, v.쇼츠));
+        l.setAttribute("aria-label", t("ad.thumb.aria", 이름(a.브랜드), i + 2));
+        const g = el("img"); g.src = 썸(v.id); g.alt = ""; g.loading = "lazy";
+        l.append(g);
+      });
+      카.append(더);
+    }
+  }else{
+    카.append(el("div", "adthumb noimg", 이름(a.브랜드)));
+  }
+
+  const 몸 = el("div", "bd");
+  const 줄 = el("div", "nmrow");
+  줄.append(el("b", null, 이름(a.브랜드)));
+  줄.append(el("span", null, [낱(a.분야), a.시작 ? t("ad.since", a.시작.replace("-", ".")) : null]
+                            .filter(Boolean).join(" · ")));
+  몸.append(줄);
+
+  const 멤 = el("div", "mem");
+  // 기사에 그룹 이름만 있는 곳은 멤버를 추측하지 않는다 — 멤버 딱지처럼 보이면 안 된다
+  if(멤버미확인(a))      멤.append(el("i", "unk", t("ad.mem.unk")));
+  else if(전원인가(a))   멤.append(el("i", "all", t("ad.mem.all")));
+  else a.모델.forEach(m => 멤.append(el("i", null, 이름(m))));
+  몸.append(멤);
+
+  const 고리 = el("div", "lk");
+  if(a.채널 && a.채널.url){
+    바깥고리(고리, a.채널.url, "yt").append(t("ad.ch"));
+  }else{
+    고리.append(el("span", "off", t("ad.ch.none")));
+  }
+  // 단추 글자는 종류(기획전·상품·캠페인…)로 — 상품 이름은 한국어 원문이라 툴팁에 둔다
+  (a.링크 || []).slice(0, 2).forEach(p=>{
+    const l = 바깥고리(고리, p.url, "shop");
+    l.append(낱(p.종류)); l.title = p.이름;
+  });
+  몸.append(고리);
+  카.append(몸);
+  return 카;
+}
+
+function 그리기_ads(){
+  const 통 = $("#nad-ads");
+  if(!통) return;
+  if(!광고){ 통.innerHTML = ""; return; }
+  const 전부 = 광고.브랜드;
+  const 보임 = 전부.filter(a => 광고멤버 === "전체" || 전원인가(a) || a.모델.includes(광고멤버));
+  const 영상수 = 전부.reduce((n, a) => n + a.영상.length, 0);
+
+  $("#nad-h").textContent = 광고멤버 === "전체"
+    ? t("ad.h", 전부.length) : t("ad.h.mem", 이름(광고멤버), 보임.length);
+  $("#nad-sub").textContent = t("ad.sub", 영상수);
+  $("#nad-foot").textContent = t("ad.foot", 날(광고.기준));
+
+  const 고르기 = $("#nad-seg"); 고르기.innerHTML = "";
+  [["전체", t("ad.all")]].concat(광고멤버들.map(m => [m, 이름(m)])).forEach(짝=>{
+    const b = el("button", null, 짝[1]);
+    b.type = "button"; b.dataset.m = 짝[0];
+    b.setAttribute("aria-pressed", String(짝[0] === 광고멤버));
+    고르기.append(b);
+  });
+
+  통.innerHTML = "";
+  보임.forEach(a => 통.append(광고카드(a)));
+}
+
+/* ── 홈 ─────────────────────────────────────────────────────────────── */
+function 요약칸(탭, 이름글, 값, 설명){
+  const b = el("button", "dg");
+  b.type = "button"; b.dataset.go = 탭;
+  b.append(el("span", "t", 이름글), el("span", "v", 값), el("span", "d", 설명),
+           el("span", "w", t("home.dg.go", 이름글)));
+  return b;
+}
+
+function 그리기_digest(){
+  const d = D, 통 = $("#nh-digest");
+  if(!d || !통) return;
+  const 주 = d.rank.주간, 끝 = 주[주.length - 1], 첫 = 주[0];
+  const mv = d.live.MV, 지 = d.region.구간[d.region.구간.length - 1];
+  통.innerHTML = "";
+  통.append(
+    요약칸("youtube", t("tab.youtube"), t("home.dg.v.rank", 콤마(끝.한국)),
+          t("home.dg.youtube", 주.length, 콤마(첫.한국))),
+    요약칸("music", t("tab.music"), 만(mv.합계), t("home.dg.music", mv.목록.length)),
+    요약칸("ad", t("tab.ad"),
+          광고 ? t("home.dg.v.brands", 광고.브랜드.length) : "—",
+          광고 ? t("home.dg.ad", 광고.브랜드.reduce((n, a) => n + a.영상.length, 0)) : ""),
+    요약칸("buzz", t("tab.buzz"), 이름표옮김(지.지역[0].지역), t("home.dg.buzz", 기간표(지.이름))));
+}
+
+function 그리기_feed(){
+  const d = D, 통 = $("#nh-feed");
+  if(!d || !통) return;
+  const 줄 = [];
+  if(광고) 광고.브랜드.forEach(a=>{
+    const 날짜 = a.영상.length ? a.영상[0].공개일 : null;
+    if(!날짜) return;
+    줄.push({날짜: 날짜, 탭: "ad",
+            글: t("home.feed.ad", 이름(a.브랜드), a.영상.filter(v => v.공개일 === 날짜).length)});
+  });
+  const 돌 = (d.milestone && d.milestone.돌파) || {};
+  Object.keys(돌).forEach(채널=>{
+    Object.keys(돌[채널]).forEach(눈금=>{
+      줄.push({날짜: 돌[채널][눈금], 탭: "youtube", 글: t("home.feed.ms", 이름(채널), 만(+눈금))});
+    });
+  });
+  줄.sort((a, b) => a.날짜 < b.날짜 ? 1 : -1);
+  통.innerHTML = "";
+  줄.slice(0, 6).forEach(x=>{
+    const li = el("li");
+    li.append(el("span", "dt", 날(x.날짜)), el("span", "tx", x.글));
+    const 탭이름 = t(x.탭 === "ad" ? "tab.ad" : "tab.youtube");
+    const g = el("button", "go", t("home.dg.go", 탭이름));
+    g.type = "button"; g.dataset.go = x.탭;
+    li.append(g);
+    통.append(li);
+  });
+}
+
+/* 아카이브는 카드가 여든 장이 넘는다 — 홈 첫 화면이 길어지지 않게 열두 장만 펴 둔다 */
+const 아카이브펼침 = 12;
+function 접기_아카이브(){
+  const 통 = $("#s8-cards");
+  if(!통) return;
+  const 전부 = 통.children.length;
+  let 단추 = $("#s8-more");
+  if(전부 <= 아카이브펼침){ if(단추) 단추.hidden = true; return; }
+  통.classList.add("fold");
+  if(!단추){
+    단추 = el("button", "morecards");
+    단추.type = "button"; 단추.id = "s8-more";
+    단추.addEventListener("click", ()=>{ 통.classList.remove("fold"); 단추.hidden = true; });
+    통.after(단추);
+  }
+  단추.hidden = false;
+  단추.textContent = t("s8.more", 전부 - 아카이브펼침);
+}
+
+function 그리기_개편(){
+  그리기_ads();
+  그리기_digest();
+  그리기_feed();
+  접기_아카이브();
+  번호매기기();
+}
+
+/* ── 붙이기 ─────────────────────────────────────────────────────────── */
+(function 개편시작(){
+  const 처음 = 해시읽기();
+  지금탭 = 처음.탭;
+
+  document.addEventListener("click", e=>{
+    const 탭 = e.target.closest(".tab");
+    if(탭){ 탭으로(탭.dataset.tab); return; }
+    const 감 = e.target.closest("[data-go]");
+    if(감){ 탭으로(감.dataset.go); return; }
+    const 멤 = e.target.closest("#nad-seg button");
+    if(멤){ 광고멤버 = 멤.dataset.m; 그리기_ads(); }
+  });
+
+  // 탭 줄에서 좌우 화살표로 옮긴다
+  document.addEventListener("keydown", e=>{
+    if(!e.target.closest || !e.target.closest("#tabs")) return;
+    const 방향 = e.key === "ArrowLeft" ? -1 : e.key === "ArrowRight" ? 1 : 0;
+    if(!방향) return;
+    e.preventDefault();
+    const 다음 = 탭목록[(탭목록.indexOf(지금탭) + 방향 + 탭목록.length) % 탭목록.length];
+    탭보이기(다음);
+    const b = document.querySelector(".tab[data-tab=" + JSON.stringify(다음) + "]");
+    if(b) b.focus();
+  });
+
+  addEventListener("hashchange", ()=>{
+    const 새 = 해시읽기();
+    if(새.채널 && 새.채널 !== 상태.채널 && typeof 전환 === "function") 전환(새.채널);
+    if(새.탭 !== 지금탭) 탭보이기(새.탭);
+  });
+
+  탭보이기(처음.탭);
+
+  /* 광고는 따로 받는다 — 이 파일이 없거나 늦어도 나머지 화면은 그대로 뜬다 */
+  fetch("data/ads.json", {cache:"no-cache"})
+    .then(r => r.ok ? r.json() : Promise.reject(r.status))
+    .then(j => { 광고 = j; 그리기_ads(); 그리기_digest(); 그리기_feed(); 번호매기기(); })
+    .catch(()=>{ 광고 = null; 그리기_ads(); });
+})();
+
+/* 나라말을 바꾸면 값이 든 문장은 전부 다시 만든다 — 새 화면도 그 줄에 끼운다 */
+모두그리기 = (function(옛){
+  return function(){ 옛(); 그리기_개편(); };
+})(모두그리기);
+
+</script>
+<script>
+/* melon-chart.html 이 제 높이를 postMessage 로 알려 준다 — 창 폭에 따라 달라진다 */
+addEventListener("message", function (e) {
+  var h = e.data && e.data["멜론차트높이"];
+  var fr = document.getElementById("sm-frame");
+  if (fr && typeof h === "number" && h > 200 && h < 6000) fr.style.height = h + "px";
+});
+</script>
+</body>
+</html>

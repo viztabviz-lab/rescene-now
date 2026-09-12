@@ -1,0 +1,55 @@
+<!-- 개편 미리보기가 index.html 에 얹는 조각들. 개편미리보기.py 가 읽는다. -->
+
+<!-- @미리보기띠 -->
+<div class="pvband">
+  <div class="in">
+    <b data-i18n="pv.band">미리보기 — 개편안입니다. 지금 쓰는 페이지는 그대로 있습니다.</b>
+    <a href="./" data-i18n="pv.live">지금 페이지 보기</a>
+  </div>
+</div>
+<!-- /@미리보기띠 -->
+
+<!-- @탭줄 -->
+<nav class="tabs" id="tabs" data-i18n-aria="tab.nav" aria-label="메뉴">
+  <div class="row" role="tablist">
+    <button type="button" class="tab" role="tab" data-tab="home" aria-selected="true"><b data-i18n="tab.home">홈</b><small data-i18n="tab.home.sub">한눈에</small></button>
+    <button type="button" class="tab" role="tab" data-tab="youtube" aria-selected="false" tabindex="-1"><b data-i18n="tab.youtube">유튜브</b><small data-i18n="tab.youtube.sub">채널 · 영상 · 라이브</small></button>
+    <button type="button" class="tab" role="tab" data-tab="music" aria-selected="false" tabindex="-1"><b data-i18n="tab.music">음원</b><small data-i18n="tab.music.sub">멜론 · MV</small></button>
+    <button type="button" class="tab" role="tab" data-tab="ad" aria-selected="false" tabindex="-1"><b data-i18n="tab.ad">광고</b><small data-i18n="tab.ad.sub">브랜드 · 평판</small></button>
+    <button type="button" class="tab" role="tab" data-tab="buzz" aria-selected="false" tabindex="-1"><b data-i18n="tab.buzz">화제</b><small data-i18n="tab.buzz.sub">검색 · 이모티콘</small></button>
+  </div>
+</nav>
+<!-- /@탭줄 -->
+
+<!-- @홈요약 -->
+<section id="nh1">
+  <p class="eyebrow"><b>03</b> <span data-i18n="home.dg.eye">메뉴마다 하나씩</span></p>
+  <h2 data-i18n="home.dg.h">지금 가장 큰 숫자</h2>
+  <div class="digest" id="nh-digest"></div>
+</section>
+
+<section id="nh2">
+  <p class="eyebrow"><b>04</b> <span data-i18n="home.feed.eye">최근 바뀐 것</span></p>
+  <h2 data-i18n="home.feed.h">이 페이지가 최근에 받은 것</h2>
+  <ul class="feed" id="nh-feed"></ul>
+</section>
+
+<!-- /@홈요약 -->
+
+<!-- @광고 -->
+<section id="nad">
+  <p class="eyebrow"><b>01</b> <span data-i18n="ad.eye">광고 내역</span></p>
+  <h2 id="nad-h"></h2>
+  <p class="sub" id="nad-sub"></p>
+  <div class="seg" id="nad-seg" role="group" data-i18n-aria="ad.filter.aria" aria-label="멤버로 고르기"></div>
+  <div class="ads" id="nad-ads"></div>
+  <p class="raw" data-i18n="ad.kornote" hidden></p>
+  <p class="foot" id="nad-foot"></p>
+</section>
+
+<section id="nadp">
+  <p class="eyebrow"><b>02</b> <span data-i18n="ad.perf.eye">광고와 같은 시기의 숫자</span></p>
+  <h2 data-i18n="ad.perf.h">브랜드평판</h2>
+  <p class="sub" data-i18n="ad.perf.sub">아래는 광고가 나온 시기에 함께 잰 숫자다. 시점을 나란히 둘 뿐 원인을 말하지 않는다.</p>
+</section>
+<!-- /@광고 -->
