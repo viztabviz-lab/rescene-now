@@ -106,9 +106,9 @@ const STR = {
 
 /* 머리 · 공통 */
 "doc.title":   {ko:"리센느, 지금", en:"RESCENE, Now", ja:"RESCENE、いま"},
-"doc.desc":    {ko:"리센느(RESCENE) 유튜브 채널 분석 페이지입니다.",
-                en:"A data page about RESCENE's YouTube channels.",
-                ja:"RESCENE のYouTubeチャンネルをデータで見るページです。"},
+"doc.desc":    {ko:"리센느(RESCENE)의 유튜브·음원·광고·검색 수치를 매일 모아 보여주는 팬 제작 페이지입니다.",
+                en:"A fan-made data page on RESCENE — YouTube, music charts, ad campaigns and search.",
+                ja:"RESCENE の YouTube・音源・広告・検索をデータで見るファン制作ページです。"},
 "hdr.title1":  {ko:"리센느, ", en:"RESCENE, ", ja:"RESCENE、"},
 "hdr.title2":  {ko:"지금", en:"Now", ja:"いま"},
 "hdr.tagline": {ko:"리마인 야호!", en:"Rimine, yaho!", ja:"リマイン やっほー！"},

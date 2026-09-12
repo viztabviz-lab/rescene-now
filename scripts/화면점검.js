@@ -1,10 +1,11 @@
-// 개편 미리보기 점검 — 탭 5개 × 나라말 3개, 콘솔 오류와 폭 넘침을 같이 본다.
-//   node scripts/개편_캡처.js            (http://127.0.0.1:8765/preview.html 을 띄워 둔 상태에서)
+// 화면 점검 — 탭 5개 × 나라말 3개, 콘솔 오류와 폭 넘침을 같이 본다.
+//   python -m http.server 8765  를 띄워 두고
+//   node scripts/화면점검.js
 const puppeteer = require("puppeteer-core");
 const fs = require("fs");
 const path = require("path");
 
-const 주소 = process.env.PV_URL || "http://127.0.0.1:8765/preview.html";
+const 주소 = process.env.PV_URL || "http://127.0.0.1:8765/index.html";
 const 저장 = process.env.PV_OUT || path.join(require("os").tmpdir(), "개편캡처");
 const 크롬 = ["C:/Program Files/Google/Chrome/Application/chrome.exe",
   "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe"].find(p => fs.existsSync(p));
@@ -52,6 +53,20 @@ const 크롬 = ["C:/Program Files/Google/Chrome/Application/chrome.exe",
   const 폰넘침 = await p.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
   await p.screenshot({ path: path.join(저장, "pv_phone_ad.png"), fullPage: true });
 
-  console.log(JSON.stringify({ 저장, 폰넘침, 오류: [...new Set(오류)], 결과 }, null, 1));
+  // 옛 링크 — 개편 전 주소로 들어와도 같은 자리로 열려야 한다
+  const 옛링크 = [];
+  await p.setViewport({ width: 1100, height: 900 });
+  for (const h of ["#rescene", "#anwonjalbu", "#없는탭"]) {
+    await p.goto(주소 + h, { waitUntil: "networkidle0" });
+    await new Promise(r => setTimeout(r, 300));
+    옛링크.push(await p.evaluate(들어온것 => ({
+      들어온것: 들어온것,
+      탭: [...document.querySelectorAll(".tabpane")].filter(t => !t.hidden).map(t => t.dataset.tab)[0],
+      해시: location.hash,
+      라이브보임: !document.querySelector("#s10").hidden
+    }), h));
+  }
+
+  console.log(JSON.stringify({ 저장, 폰넘침, 옛링크, 오류: [...new Set(오류)], 결과 }, null, 1));
   await b.close();
 })();

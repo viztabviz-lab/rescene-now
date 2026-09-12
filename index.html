@@ -6,11 +6,11 @@
 <title>리센느, 지금</title>
 <!-- 링크로 공유될 때 보이는 카드. 주장을 적으면 무슨 페이지인지 모른다 —
      무엇을 보는 곳인지부터 적는다. -->
-<meta name="description" content="리센느(RESCENE) 유튜브 채널 분석 페이지입니다.">
+<meta name="description" content="리센느(RESCENE)의 유튜브·음원·광고·검색 수치를 매일 모아 보여주는 팬 제작 페이지입니다.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://viztabviz-lab.github.io/rescene-now/">
 <meta property="og:title" content="리센느, 지금">
-<meta property="og:description" content="리센느(RESCENE) 유튜브 채널 분석 페이지입니다.">
+<meta property="og:description" content="리센느(RESCENE)의 유튜브·음원·광고·검색 수치를 매일 모아 보여주는 팬 제작 페이지입니다.">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231a1a19'/%3E%3Ccircle cx='16' cy='16' r='8' fill='%23fc6fcf'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
@@ -379,6 +379,87 @@ footer p{max-width:60ch;margin:0}
 .err code{background:#00000040;padding:2px 6px;border-radius:4px;font-size:13px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
+<style>
+/* ── 개편 미리보기 — 탭 · 광고 (scripts/개편_스타일.css) ──────────────
+   색·글꼴·모서리는 위 스타일의 변수를 그대로 쓴다. 여기서 새로 정하지 않는다. */
+
+/* 미리보기 띠 — 실제 페이지와 헷갈리지 않게 */
+
+/* 주 메뉴 */
+.tabs{position:sticky;top:0;z-index:6;background:var(--bg);margin:30px -20px 0;padding:10px 20px;border-bottom:1px solid var(--line)}
+@media (max-width:420px){.tabs{margin-inline:-16px;padding-inline:16px}}
+.tabs .row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:4px}
+.tab{border:0;background:none;cursor:pointer;border-radius:10px;padding:9px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:1px;color:var(--ink-3);min-width:0;font:inherit}
+.tab b{font-size:15px;font-weight:700;letter-spacing:-.01em;white-space:nowrap}
+.tab small{font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.tab:hover{color:var(--ink-2)}
+.tab[aria-selected="true"]{background:var(--ink);color:#1a1a19}
+.tab[aria-selected="true"] small{color:#55554f}
+@media (max-width:620px){.tab small{display:none}.tab b{font-size:14px}.tab{padding:9px 2px}}
+.tabpane[hidden]{display:none}
+.tabpane .chtabs{position:static;margin-top:22px}
+
+/* 홈 — 메뉴마다 숫자 하나 */
+.digest{display:grid;gap:10px;grid-template-columns:1fr}
+@media (min-width:640px){.digest{grid-template-columns:1fr 1fr}}
+.dg{text-align:left;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:2px;font:inherit;color:inherit}
+.dg:hover{border-color:#44443f}
+.dg .t{font-size:12px;letter-spacing:.12em;color:var(--ink-3);text-transform:uppercase}
+.dg .v{font-size:30px;font-weight:800;letter-spacing:-.03em;line-height:1.25;color:var(--ink);font-variant-numeric:tabular-nums}
+.dg .d{font-size:14px;color:var(--ink-2);line-height:1.5}
+.dg .w{font-size:12px;color:var(--ink-3);margin-top:6px}
+
+/* 홈 — 최근 바뀐 것 */
+.feed{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.feed li{display:grid;grid-template-columns:62px 1fr;gap:6px 12px;padding:11px 2px;border-bottom:1px solid var(--line);align-items:baseline}
+.feed .dt{font-size:13px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.feed .tx{font-size:15px}
+.feed .go{grid-column:2;justify-self:start;font-size:12px;color:var(--ink-2);border:1px solid var(--line);border-radius:999px;padding:1px 9px;background:none;cursor:pointer;font-family:inherit}
+.feed .go:hover{border-color:var(--ink-3)}
+
+/* 홈 — 쇼츠 줄 */
+.strip{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(180px,1fr);gap:10px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x proximity}
+.strip a{text-decoration:none;scroll-snap-align:start;display:flex;flex-direction:column;gap:6px}
+.strip img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;display:block;background:var(--track)}
+.strip span{font-size:13px;line-height:1.45;color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.strip small{font-size:11.5px;color:var(--ink-3)}
+.strip a:hover span{color:var(--ink)}
+
+/* 광고 카드 */
+.ads{display:grid;gap:12px;grid-template-columns:1fr;margin-top:16px}
+@media (min-width:640px){.ads{grid-template-columns:1fr 1fr}}
+@media (min-width:920px){.ads{grid-template-columns:1fr 1fr 1fr}}
+.ad{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
+.adthumb{position:relative;display:block;aspect-ratio:16/9;background:var(--track)}
+.adthumb img{width:100%;height:100%;object-fit:cover;display:block}
+.adthumb .pl{position:absolute;left:10px;bottom:10px;font-size:12px;font-weight:700;background:rgba(26,26,25,.82);color:var(--ink);border-radius:999px;padding:3px 10px 3px 8px}
+.adthumb .pl::before{content:"\25B6";color:var(--pink);margin-right:5px;font-size:10px}
+.adthumb.noimg{display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;letter-spacing:-.03em;color:var(--ink-3);text-align:center;padding:0 12px}
+.ad .more{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:4px 4px 0}
+.ad .more a{display:block;aspect-ratio:16/9;border-radius:4px;overflow:hidden}
+.ad .more img{width:100%;height:100%;object-fit:cover;display:block}
+.ad .bd{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.nmrow{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.nmrow b{font-size:19px;font-weight:800;letter-spacing:-.02em}
+.nmrow span{font-size:12.5px;color:var(--ink-3);text-align:right}
+.mem{display:flex;flex-wrap:wrap;gap:4px}
+.mem i{font-style:normal;font-size:12px;border:1px solid var(--pink-dim);color:var(--pink);border-radius:999px;padding:1px 9px}
+.mem i.all{background:var(--pink);color:#1a1a19;border-color:var(--pink);font-weight:700}
+.mem i.unk{border-color:var(--line);color:var(--ink-3)}
+.lk{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:4px}
+.lk a{font-size:13px;text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:6px 11px;color:var(--ink);background:var(--bg)}
+.lk a:hover{border-color:var(--ink-3)}
+.lk a.yt::before{content:"";display:inline-block;width:9px;height:9px;border-radius:2px;background:#e8453c;margin-right:6px;vertical-align:0}
+.lk a.shop::after{content:" \2192";color:var(--ink-3)}
+.lk .off{font-size:12.5px;color:var(--ink-3);padding:6px 2px}
+
+/* 아카이브 접기 — 홈 첫 화면이 카드 여든 장으로 길어지지 않게 */
+.cards.fold > *:nth-child(n+13){display:none}
+.morecards{display:block;width:100%;margin-top:12px;padding:11px 16px;font:inherit;font-size:14px;
+  cursor:pointer;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.morecards:hover{color:var(--ink);border-color:var(--ink-3)}
+
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -395,17 +476,56 @@ footer p{max-width:60ch;margin:0}
 
 <main id="main" hidden>
 
+<nav class="tabs" id="tabs" data-i18n-aria="tab.nav" aria-label="메뉴">
+  <div class="row" role="tablist">
+    <button type="button" class="tab" role="tab" data-tab="home" aria-selected="true"><b data-i18n="tab.home">홈</b><small data-i18n="tab.home.sub">한눈에</small></button>
+    <button type="button" class="tab" role="tab" data-tab="youtube" aria-selected="false" tabindex="-1"><b data-i18n="tab.youtube">유튜브</b><small data-i18n="tab.youtube.sub">채널 · 영상 · 라이브</small></button>
+    <button type="button" class="tab" role="tab" data-tab="music" aria-selected="false" tabindex="-1"><b data-i18n="tab.music">음원</b><small data-i18n="tab.music.sub">멜론 · MV</small></button>
+    <button type="button" class="tab" role="tab" data-tab="ad" aria-selected="false" tabindex="-1"><b data-i18n="tab.ad">광고</b><small data-i18n="tab.ad.sub">브랜드 · 평판</small></button>
+    <button type="button" class="tab" role="tab" data-tab="buzz" aria-selected="false" tabindex="-1"><b data-i18n="tab.buzz">화제</b><small data-i18n="tab.buzz.sub">검색 · 이모티콘</small></button>
+  </div>
+</nav>
+<div class="tabpane" data-tab="home" role="tabpanel">
+<section id="s0">
+    <div class="heroes" id="hero"></div>
+  </section>
+
+  
+<section id="s1">
+    <p class="eyebrow"><b>01</b> <span id="s1-eye">지금 이 순간</span></p>
+    <h2 id="s1-h" data-i18n="s1.h">네 개의 숫자</h2>
+    <div class="tiles" id="tiles"></div>
+    <p class="foot" id="tiles-foot"></p>
+  </section>
+
+  
+
+<section id="nh1">
+  <p class="eyebrow"><b>03</b> <span data-i18n="home.dg.eye">메뉴마다 하나씩</span></p>
+  <h2 data-i18n="home.dg.h">지금 가장 큰 숫자</h2>
+  <div class="digest" id="nh-digest"></div>
+</section>
+
+<section id="nh2">
+  <p class="eyebrow"><b>04</b> <span data-i18n="home.feed.eye">최근 바뀐 것</span></p>
+  <h2 data-i18n="home.feed.h">이 페이지가 최근에 받은 것</h2>
+  <ul class="feed" id="nh-feed"></ul>
+</section>
 
 
+<section id="s8">
+    <p class="eyebrow"><b>08</b> <span data-i18n="s8.eye">아카이브</span></p>
+    <h2 data-i18n="s8.h">우리가 세어 본 것들</h2>
+    <p class="sub" id="s8-sub"></p>
+    <div class="cards" id="s8-cards"></div>
+    <p class="foot" id="s8-hidden" hidden></p>
+    <p class="raw" data-i18n="s8.kornote" hidden></p>
+  </section>
 
-
-
-
-
-
-
-
-  <nav class="chtabs" id="chtabs" role="group" data-i18n-aria="tab.group" aria-label="채널 고르기">
+  
+</div>
+<div class="tabpane" data-tab="youtube" role="tabpanel" hidden>
+<nav class="chtabs" id="chtabs" role="group" data-i18n-aria="tab.group" aria-label="채널 고르기">
     <!-- 순서는 아래 게이지 카드와 같아야 한다. 어긋나면 왼쪽 탭을 눌렀는데
          오른쪽 카드가 켜지는 것처럼 읽힌다. -->
     <button type="button" class="chtab" data-ch="안원잘부" aria-pressed="true">
@@ -416,18 +536,8 @@ footer p{max-width:60ch;margin:0}
     </button>
   </nav>
 
-  <section id="s0">
-    <div class="heroes" id="hero"></div>
-  </section>
-
-  <section id="s1">
-    <p class="eyebrow"><b>01</b> <span id="s1-eye">지금 이 순간</span></p>
-    <h2 id="s1-h" data-i18n="s1.h">네 개의 숫자</h2>
-    <div class="tiles" id="tiles"></div>
-    <p class="foot" id="tiles-foot"></p>
-  </section>
-
-  <section id="s3" data-ch="안원잘부">
+  
+<section id="s3" data-ch="안원잘부">
     <p class="eyebrow"><b>02</b> <span data-i18n="s3.eye">안원잘부 구독자 순위</span></p>
     <h2 id="s3-h">27주 동안 한 번도 내려가지 않았다</h2>   <!-- 자리표시자 · 그리기_rank 가 다시 쓴다 -->
     <p class="sub" id="s3-sub"></p>
@@ -438,51 +548,8 @@ footer p{max-width:60ch;margin:0}
     <p class="foot" id="s3-foot"></p>
   </section>
 
-  <section id="s4" data-ch="리센느">
-    <p class="eyebrow"><b>02</b> <span data-i18n="s4.eye">뮤직비디오</span></p>
-    <h2 data-i18n="s4.h">11편 중 절반이 최근 1년에 나왔다</h2>
-    <p class="sub" id="s4-sub"></p>
-    <div class="legend">
-      <span><i style="background:var(--pink)"></i><span data-i18n="s4.lg.new">최근 1년</span></span>
-      <span><i style="background:var(--ink-3)"></i><span data-i18n="s4.lg.old">그 이전</span></span>
-    </div>
-    <div class="rows" id="s4-rows"></div>
-    <p class="foot" id="s4-foot"></p>
-  </section>
-
-  <!-- 멜론 주간차트 — 만들어 둔 차트를 그대로 끼운다(melon-chart.html).
-       재생·슬라이더·호버·표 보기가 그 안에서 그대로 돈다. 높이는 자식이 알려 준다. -->
-  <section id="sm" data-ch="리센느">
-    <p class="eyebrow"><b>02</b> <span data-i18n="sm.eye">멜론 주간차트</span></p>
-    <h2 data-i18n="sm.h">주간 TOP10 안에 리센느가 3곡</h2>
-    <p class="sub" data-i18n="sm.sub">재생을 누르면 지난 12주가 한 주씩 흐른다. 슬라이더로 아무 주나
-      잡을 수 있고, 선 위에 마우스를 올리면 그 주 10곡 순위가 다 나온다. 「표로 보기」에 12주 원표가 있다.</p>
-    <iframe id="sm-frame" src="melon-chart.html" title="멜론 주간 TOP10 12주 순위 추이"
-            loading="lazy" scrolling="no"
-            style="width:100%;border:0;display:block;height:1180px;background:var(--bg)"></iframe>
-  </section>
-
-  <section id="sv">
-    <p class="eyebrow"><b>03</b> <span data-i18n="sv.eye">영상 랭킹</span></p>
-    <h2 id="sv-h">조회수 상위 20편</h2>
-    <p class="sub" id="sv-sub"></p>
-    <div class="controls">
-      <div class="seg" id="sv-metric" role="group" data-i18n-aria="sv.metric" aria-label="무엇으로 줄 세울까">
-        <button type="button" data-v="조회수" data-word class="on">조회수</button><button type="button" data-v="좋아요" data-word>좋아요</button>
-      </div>
-      <div class="seg" id="sv-kind" role="group" data-i18n-aria="sv.kind" aria-label="형식">
-        <button type="button" data-v="전체" data-word class="on">전체</button><button type="button" data-v="영상" data-word>영상</button><button type="button" data-v="쇼츠" data-word>쇼츠</button><button type="button" data-v="라이브" data-word>라이브</button>
-      </div>
-      <div class="seg" id="sv-n" role="group" data-i18n-aria="sv.howmany" aria-label="몇 편까지">
-        <button type="button" data-v="10">10</button><button type="button" data-v="20" class="on">20</button><button type="button" data-v="30">30</button><button type="button" data-v="50">50</button>
-      </div>
-    </div>
-    <div class="rows" id="sv-rows"></div>
-    <p class="raw" data-i18n="sv.titlenote" hidden></p>
-    <p class="foot" id="sv-foot"></p>
-  </section>
-
-  <section id="s10" data-ch="리센느">
+  
+<section id="s10" data-ch="리센느">
     <p class="eyebrow"><b>04</b> <span data-i18n="s10.eye">라이브 아카이브</span></p>
     <h2>2년 5개월, 207번의 라이브</h2>   <!-- 자리표시자 · 그리기_streams 가 다시 쓴다 -->
     <p class="sub" id="s10-sub"></p>
@@ -538,7 +605,142 @@ footer p{max-width:60ch;margin:0}
     <p class="foot" id="s10-foot"></p>
   </section>
 
-  <section id="s11" data-ch="안원잘부">
+  
+<section id="sv">
+    <p class="eyebrow"><b>03</b> <span data-i18n="sv.eye">영상 랭킹</span></p>
+    <h2 id="sv-h">조회수 상위 20편</h2>
+    <p class="sub" id="sv-sub"></p>
+    <div class="controls">
+      <div class="seg" id="sv-metric" role="group" data-i18n-aria="sv.metric" aria-label="무엇으로 줄 세울까">
+        <button type="button" data-v="조회수" data-word class="on">조회수</button><button type="button" data-v="좋아요" data-word>좋아요</button>
+      </div>
+      <div class="seg" id="sv-kind" role="group" data-i18n-aria="sv.kind" aria-label="형식">
+        <button type="button" data-v="전체" data-word class="on">전체</button><button type="button" data-v="영상" data-word>영상</button><button type="button" data-v="쇼츠" data-word>쇼츠</button><button type="button" data-v="라이브" data-word>라이브</button>
+      </div>
+      <div class="seg" id="sv-n" role="group" data-i18n-aria="sv.howmany" aria-label="몇 편까지">
+        <button type="button" data-v="10">10</button><button type="button" data-v="20" class="on">20</button><button type="button" data-v="30">30</button><button type="button" data-v="50">50</button>
+      </div>
+    </div>
+    <div class="rows" id="sv-rows"></div>
+    <p class="raw" data-i18n="sv.titlenote" hidden></p>
+    <p class="foot" id="sv-foot"></p>
+  </section>
+
+  
+<section id="s6">
+    <p class="eyebrow"><b>06</b> <span data-i18n="s6.eye">걸그룹 100만 클럽</span></p>
+    <h2 id="s6-h">44팀, 리센느는 45번째</h2>
+    <p class="sub" id="s6-sub"></p>
+    <div class="chart" style="padding:14px 12px">
+      <div class="club" id="s6-club"></div>
+    </div>
+    <p class="foot" id="s6-foot"></p>
+  </section>
+
+  
+</div>
+<div class="tabpane" data-tab="music" role="tabpanel" hidden>
+<section id="s4">
+    <p class="eyebrow"><b>02</b> <span data-i18n="s4.eye">뮤직비디오</span></p>
+    <h2 data-i18n="s4.h">11편 중 절반이 최근 1년에 나왔다</h2>
+    <p class="sub" id="s4-sub"></p>
+    <div class="legend">
+      <span><i style="background:var(--pink)"></i><span data-i18n="s4.lg.new">최근 1년</span></span>
+      <span><i style="background:var(--ink-3)"></i><span data-i18n="s4.lg.old">그 이전</span></span>
+    </div>
+    <div class="rows" id="s4-rows"></div>
+    <p class="foot" id="s4-foot"></p>
+  </section>
+
+  
+<section id="sm">
+    <p class="eyebrow"><b>02</b> <span data-i18n="sm.eye">멜론 주간차트</span></p>
+    <h2 data-i18n="sm.h">주간 TOP10 안에 리센느가 3곡</h2>
+    <p class="sub" data-i18n="sm.sub">재생을 누르면 지난 12주가 한 주씩 흐른다. 슬라이더로 아무 주나
+      잡을 수 있고, 선 위에 마우스를 올리면 그 주 10곡 순위가 다 나온다. 「표로 보기」에 12주 원표가 있다.</p>
+    <iframe id="sm-frame" src="melon-chart.html" title="멜론 주간 TOP10 12주 순위 추이"
+            loading="lazy" scrolling="no"
+            style="width:100%;border:0;display:block;height:1180px;background:var(--bg)"></iframe>
+  </section>
+
+  
+</div>
+<div class="tabpane" data-tab="ad" role="tabpanel" hidden>
+
+<section id="nad">
+  <p class="eyebrow"><b>01</b> <span data-i18n="ad.eye">광고 내역</span></p>
+  <h2 id="nad-h"></h2>
+  <p class="sub" id="nad-sub"></p>
+  <div class="seg" id="nad-seg" role="group" data-i18n-aria="ad.filter.aria" aria-label="멤버로 고르기"></div>
+  <div class="ads" id="nad-ads"></div>
+  <p class="raw" data-i18n="ad.kornote" hidden></p>
+  <p class="foot" id="nad-foot"></p>
+</section>
+
+<section id="nadp">
+  <p class="eyebrow"><b>02</b> <span data-i18n="ad.perf.eye">광고와 같은 시기의 숫자</span></p>
+  <h2 data-i18n="ad.perf.h">브랜드평판</h2>
+  <p class="sub" data-i18n="ad.perf.sub">아래는 광고가 나온 시기에 함께 잰 숫자다. 시점을 나란히 둘 뿐 원인을 말하지 않는다.</p>
+</section>
+
+<section id="s5">
+    <p class="eyebrow"><b>05</b> <span data-i18n="s5.eye">개인 브랜드평판</span></p>
+    <h2 data-i18n="s5.h">TOP 10에 리센느가 다섯</h2>
+    <p class="sub" id="s5-sub"></p>
+    <div class="legend">
+      <span><i style="background:var(--pink)"></i><span data-i18n="s5.lg.res">리센느</span></span>
+      <span><i style="background:var(--ink-3)"></i><span data-i18n="s5.lg.other">그 외</span></span>
+    </div>
+    <div class="rows" id="s5-rows"></div>
+    <p class="foot" id="s5-foot"></p>
+  </section>
+
+  
+</div>
+<div class="tabpane" data-tab="buzz" role="tabpanel" hidden>
+<section id="s2">
+    <p class="eyebrow"><b>04</b> <span data-i18n="s2.eye">구글 검색 관심도</span></p>
+    <h2 data-i18n="s2.h">110주 동안 곡선은 바닥에 있었다</h2>
+    <p class="sub" id="s2-sub"></p>
+    <div class="chart">
+      <p class="scalenote" id="s2-scale"></p>
+      <div class="legend">
+        <span><i class="line" style="background:var(--pink)"></i><span data-i18n="s2.lg.line">검색 관심도</span></span>
+        <span><i style="background:var(--ink-3);border-radius:2px;width:9px;height:9px;transform:rotate(45deg)"></i><span data-i18n="s2.lg.rel">앨범 발매</span></span>
+        <span><i style="background:var(--pink-dim);width:3px;height:13px;border-radius:2px"></i><span data-i18n="s2.lg.up">안원잘부 업로드</span> <span style="color:var(--ink-3)" data-i18n="s2.lg.up2">(높을수록 많이 본 편)</span></span>
+      </div>
+      <div id="s2-chart"></div>
+    </div>
+    <p class="foot" id="s2-foot"></p>
+  </section>
+
+  
+<section id="sr">
+    <p class="eyebrow"><b>05</b> <span data-i18n="sr.eye">지역별 검색</span></p>
+    <h2 id="sr-h"></h2>
+    <p class="sub" id="sr-sub"></p>
+    <div class="controls">
+      <div class="seg" id="sr-seg" role="group" aria-label="기간"></div>
+    </div>
+    <div class="chart">
+      <p class="scalenote" id="sr-scale"></p>
+      <div class="rows" id="sr-rows"></div>
+    </div>
+    <p class="foot" id="sr-foot"></p>
+  </section>
+
+  
+<section id="s7">
+    <p class="eyebrow"><b>07</b> <span data-i18n="s7.eye">함께 검색된 말</span></p>
+    <h2 data-i18n="s7.h">2년 동안 없던 말이 생겼다</h2>
+    <p class="sub" id="s7-sub"></p>
+    <div class="two" id="s7-two"></div>
+    <p class="raw" data-i18n="s7.kornote" hidden></p>
+    <p class="foot" id="s7-foot"></p>
+  </section>
+
+  
+<section id="s11">
     <p class="eyebrow"><b>04</b> <span data-i18n="s11.eye">카카오 이모티콘</span></p>
     <h2 id="s11-h">여섯 탭이 전부 같은 1위</h2>
     <p class="sub" id="s11-sub"></p>
@@ -570,79 +772,9 @@ footer p{max-width:60ch;margin:0}
     <p class="foot" id="s11-foot"></p>
   </section>
 
-  <div class="split" data-i18n="split">두 채널 공통 · 리센느라는 그룹</div>
-
-  <section id="s2">
-    <p class="eyebrow"><b>04</b> <span data-i18n="s2.eye">구글 검색 관심도</span></p>
-    <h2 data-i18n="s2.h">110주 동안 곡선은 바닥에 있었다</h2>
-    <p class="sub" id="s2-sub"></p>
-    <div class="chart">
-      <p class="scalenote" id="s2-scale"></p>
-      <div class="legend">
-        <span><i class="line" style="background:var(--pink)"></i><span data-i18n="s2.lg.line">검색 관심도</span></span>
-        <span><i style="background:var(--ink-3);border-radius:2px;width:9px;height:9px;transform:rotate(45deg)"></i><span data-i18n="s2.lg.rel">앨범 발매</span></span>
-        <span><i style="background:var(--pink-dim);width:3px;height:13px;border-radius:2px"></i><span data-i18n="s2.lg.up">안원잘부 업로드</span> <span style="color:var(--ink-3)" data-i18n="s2.lg.up2">(높을수록 많이 본 편)</span></span>
-      </div>
-      <div id="s2-chart"></div>
-    </div>
-    <p class="foot" id="s2-foot"></p>
-  </section>
-
-  <section id="sr">
-    <p class="eyebrow"><b>05</b> <span data-i18n="sr.eye">지역별 검색</span></p>
-    <h2 id="sr-h"></h2>
-    <p class="sub" id="sr-sub"></p>
-    <div class="controls">
-      <div class="seg" id="sr-seg" role="group" aria-label="기간"></div>
-    </div>
-    <div class="chart">
-      <p class="scalenote" id="sr-scale"></p>
-      <div class="rows" id="sr-rows"></div>
-    </div>
-    <p class="foot" id="sr-foot"></p>
-  </section>
-
-  <section id="s5">
-    <p class="eyebrow"><b>05</b> <span data-i18n="s5.eye">개인 브랜드평판</span></p>
-    <h2 data-i18n="s5.h">TOP 10에 리센느가 다섯</h2>
-    <p class="sub" id="s5-sub"></p>
-    <div class="legend">
-      <span><i style="background:var(--pink)"></i><span data-i18n="s5.lg.res">리센느</span></span>
-      <span><i style="background:var(--ink-3)"></i><span data-i18n="s5.lg.other">그 외</span></span>
-    </div>
-    <div class="rows" id="s5-rows"></div>
-    <p class="foot" id="s5-foot"></p>
-  </section>
-
-  <section id="s6">
-    <p class="eyebrow"><b>06</b> <span data-i18n="s6.eye">걸그룹 100만 클럽</span></p>
-    <h2 id="s6-h">44팀, 리센느는 45번째</h2>
-    <p class="sub" id="s6-sub"></p>
-    <div class="chart" style="padding:14px 12px">
-      <div class="club" id="s6-club"></div>
-    </div>
-    <p class="foot" id="s6-foot"></p>
-  </section>
-
-  <section id="s7">
-    <p class="eyebrow"><b>07</b> <span data-i18n="s7.eye">함께 검색된 말</span></p>
-    <h2 data-i18n="s7.h">2년 동안 없던 말이 생겼다</h2>
-    <p class="sub" id="s7-sub"></p>
-    <div class="two" id="s7-two"></div>
-    <p class="raw" data-i18n="s7.kornote" hidden></p>
-    <p class="foot" id="s7-foot"></p>
-  </section>
-
-  <section id="s8">
-    <p class="eyebrow"><b>08</b> <span data-i18n="s8.eye">아카이브</span></p>
-    <h2 data-i18n="s8.h">우리가 세어 본 것들</h2>
-    <p class="sub" id="s8-sub"></p>
-    <div class="cards" id="s8-cards"></div>
-    <p class="foot" id="s8-hidden" hidden></p>
-    <p class="raw" data-i18n="s8.kornote" hidden></p>
-  </section>
-
-  <section id="s9">
+  
+</div>
+<section id="s9">
     <p class="eyebrow"><b>09</b> <span data-i18n="s9.eye">출처</span></p>
     <h2 data-i18n="s9.h">어디서 가져왔고 언제 잰 값인가</h2>
     <p class="sub" data-i18n="s9.sub">수집이 실패하면 화면에는 직전 값이 그대로 보이고, 이 표에 실패로 남는다.</p>
@@ -654,6 +786,20 @@ footer p{max-width:60ch;margin:0}
     </div>
   </section>
 
+  
+
+
+
+
+
+
+
+
+
+
+
+  <!-- 멜론 주간차트 — 만들어 둔 차트를 그대로 끼운다(melon-chart.html).
+       재생·슬라이더·호버·표 보기가 그 안에서 그대로 돈다. 높이는 자식이 알려 준다. -->
   <footer>
     <p id="ft-when"></p>
     <p data-i18n-html="ft.unit">구글 트렌드 값과 브랜드평판 지수는 단위 없는 상대 지표다.</p>
@@ -1361,7 +1507,8 @@ function 그리기_emoticon(e){
 /* ─────────────────────────────────────────── 채널 전환 */
 function 전환(키){
   상태.채널 = 키;
-  history.replaceState(null, "", 키 === "리센느" ? "#rescene" : "#anwonjalbu");
+  if(typeof 해시쓰기 === "function") 해시쓰기();
+  else history.replaceState(null, "", 키 === "리센느" ? "#rescene" : "#anwonjalbu");
   [...$("#chtabs").children].forEach(b=>
     b.setAttribute("aria-pressed", String(b.dataset.ch === 키)));
   document.querySelectorAll("section[data-ch]").forEach(n=>{
@@ -1370,7 +1517,7 @@ function 전환(키){
   // 번호는 지금 보이는 순서대로 다시 매긴다. 채널마다 딸린 화면 수가 달라
   // (리센느에는 라이브 아카이브가 있다) 붙박이 번호를 쓰면 02 다음이 04 가 된다.
   let 번 = 0;
-  document.querySelectorAll("main section").forEach(n=>{
+  document.querySelectorAll(".tabpane:not([hidden]) section").forEach(n=>{
     if(n.hidden || n.id === "s0") return;
     const b = n.querySelector(".eyebrow b");
     if(b) b.textContent = String(++번).padStart(2, "0");
@@ -1390,10 +1537,7 @@ function 조작붙이기(){
     그리기_videos(D.videos);
   });
   // 주소창에서 해시를 바꾸거나 뒤로 가기로 돌아왔을 때도 화면이 따라가야 한다
-  addEventListener("hashchange", ()=>{
-    const 키 = location.hash === "#rescene" ? "리센느" : "안원잘부";
-    if(키 !== 상태.채널) 전환(키);
-  });
+  /* 해시는 탭 라우터가 맡는다 (개편_탭.js) — 여기서 또 다루면 탭을 옮길 때 채널이 튄다 */
   $("#sr-seg").addEventListener("click", e=>{
     const b = e.target.closest("button");
     if(b){ 지역구간 = +b.dataset.v; 그리기_region(D.region); }
@@ -1653,7 +1797,7 @@ function 모두그리기(){
     const d = D;
     LANG = 첫나라말();
     // 기본은 안원잘부다. #rescene 로 들어온 사람만 공식 채널 화면으로 연다.
-    상태.채널 = location.hash === "#rescene" ? "리센느" : "안원잘부";
+    상태.채널 = (location.hash === "#rescene" || location.hash.endsWith("/res")) ? "리센느" : "안원잘부";
     조작붙이기();
     그리기_trends(d.trends);
     그리기_rank(d.rank);
@@ -1668,6 +1812,7 @@ function 모두그리기(){
     그리기_status(d.status);
     그리기_기준일차이(d.live);
     전환(상태.채널);          // 채널에 딸린 세 화면은 여기서 한꺼번에 그린다
+    if(typeof 그리기_개편 === "function") 그리기_개편();
     나라말칠하기();
     $("#langs").addEventListener("click", e=>{
       const b = e.target.closest("button[data-lang]");
@@ -1681,6 +1826,279 @@ function 모두그리기(){
     console.error(e);
   }
 })();
+</script>
+<script>
+/* ═══════════════════════════════════════════════════════════════════════
+   개편 미리보기 — 다섯 탭(홈 · 유튜브 · 음원 · 광고 · 화제)과 광고 구역.
+   scripts/개편미리보기.py 가 index.html 에 얹어 preview.html 을 만든다.
+
+   위 스크립트의 것을 그대로 쓴다 — $ · el · 날 · D · 상태 · 전환 · t · 이름 · 낱 · 만 · 콤마.
+   여기서 다시 정의하면 이름이 겹쳐 페이지가 죽는다.
+   ═══════════════════════════════════════════════════════════════════════ */
+const 탭목록 = ["home", "youtube", "music", "ad", "buzz"];
+const 광고멤버들 = ["원이", "리브", "미나미", "메이", "제나"];
+let 지금탭 = "home", 광고 = null, 광고멤버 = "전체";
+
+/* ── 주소 ── 탭과 채널을 한 해시에 담는다. 옛 #rescene · #anwonjalbu 도 그대로 받는다 */
+function 탭해시(){
+  return 지금탭 === "youtube" ? "#youtube/" + (상태.채널 === "리센느" ? "res" : "anw") : "#" + 지금탭;
+}
+function 해시쓰기(){ history.replaceState(null, "", 탭해시()); }
+function 해시읽기(){
+  const h = location.hash;
+  if(h === "#rescene")    return {탭:"youtube", 채널:"리센느"};
+  if(h === "#anwonjalbu") return {탭:"youtube", 채널:"안원잘부"};
+  const 쪽 = h.replace(/^#/, "").split("/");
+  return {탭: 탭목록.includes(쪽[0]) ? 쪽[0] : "home",
+          채널: 쪽[1] === "res" ? "리센느" : (쪽[1] === "anw" ? "안원잘부" : null)};
+}
+
+/* 구역 번호는 지금 열린 탭 안에서만 센다 — 탭마다 화면 수가 다르다 */
+function 번호매기기(){
+  let 번 = 0;
+  document.querySelectorAll(".tabpane:not([hidden]) section").forEach(n=>{
+    if(n.hidden || n.id === "s0") return;
+    const b = n.querySelector(".eyebrow b");
+    if(b) b.textContent = String(++번).padStart(2, "0");
+  });
+}
+
+function 탭보이기(키){
+  지금탭 = 탭목록.includes(키) ? 키 : "home";
+  document.querySelectorAll(".tabpane").forEach(p=>{ p.hidden = p.dataset.tab !== 지금탭; });
+  document.querySelectorAll(".tab").forEach(b=>{
+    const 켬 = b.dataset.tab === 지금탭;
+    b.setAttribute("aria-selected", String(켬));
+    b.tabIndex = 켬 ? 0 : -1;
+  });
+  번호매기기();
+  해시쓰기();
+}
+
+function 탭으로(키){
+  탭보이기(키);
+  const 줄 = $("#tabs");
+  if(줄) window.scrollTo({top: Math.max(0, 줄.offsetTop - 4)});
+}
+
+/* ── 광고 ───────────────────────────────────────────────────────────── */
+const 썸 = id => "https://i.ytimg.com/vi/" + id + "/mqdefault.jpg";
+const 유튜브주소 = (id, 쇼츠) =>
+  "https://www.youtube.com/" + (쇼츠 ? "shorts/" + id : "watch?v=" + id);
+const 전원인가 = a => a.모델.some(m => /전원/.test(m)) || 광고멤버들.every(m => a.모델.includes(m));
+const 멤버미확인 = a => a.모델.some(m => /확인/.test(m));
+
+function 바깥고리(부모, 주소, 반){
+  const a = el("a", 반 || null);
+  a.href = 주소; a.target = "_blank"; a.rel = "noopener";
+  부모.append(a);
+  return a;
+}
+
+function 광고카드(a){
+  const 카 = el("article", "ad");
+  const 주 = a.영상[0];
+  if(주){
+    const 링 = 바깥고리(카, 유튜브주소(주.id, 주.쇼츠), "adthumb");
+    링.setAttribute("aria-label", t("ad.thumb.aria", 이름(a.브랜드), 1));
+    const im = el("img"); im.src = 썸(주.id); im.alt = ""; im.loading = "lazy";
+    링.append(im, el("span", "pl", a.영상.length > 1 ? t("ad.vids", a.영상.length) : t("ad.vid1")));
+    if(a.영상.length > 1){
+      const 더 = el("div", "more");
+      a.영상.slice(1, 5).forEach((v, i)=>{
+        const l = 바깥고리(더, 유튜브주소(v.id, v.쇼츠));
+        l.setAttribute("aria-label", t("ad.thumb.aria", 이름(a.브랜드), i + 2));
+        const g = el("img"); g.src = 썸(v.id); g.alt = ""; g.loading = "lazy";
+        l.append(g);
+      });
+      카.append(더);
+    }
+  }else{
+    카.append(el("div", "adthumb noimg", 이름(a.브랜드)));
+  }
+
+  const 몸 = el("div", "bd");
+  const 줄 = el("div", "nmrow");
+  줄.append(el("b", null, 이름(a.브랜드)));
+  줄.append(el("span", null, [낱(a.분야), a.시작 ? t("ad.since", a.시작.replace("-", ".")) : null]
+                            .filter(Boolean).join(" · ")));
+  몸.append(줄);
+
+  const 멤 = el("div", "mem");
+  // 기사에 그룹 이름만 있는 곳은 멤버를 추측하지 않는다 — 멤버 딱지처럼 보이면 안 된다
+  if(멤버미확인(a))      멤.append(el("i", "unk", t("ad.mem.unk")));
+  else if(전원인가(a))   멤.append(el("i", "all", t("ad.mem.all")));
+  else a.모델.forEach(m => 멤.append(el("i", null, 이름(m))));
+  몸.append(멤);
+
+  const 고리 = el("div", "lk");
+  if(a.채널 && a.채널.url){
+    바깥고리(고리, a.채널.url, "yt").append(t("ad.ch"));
+  }else{
+    고리.append(el("span", "off", t("ad.ch.none")));
+  }
+  // 단추 글자는 종류(기획전·상품·캠페인…)로 — 상품 이름은 한국어 원문이라 툴팁에 둔다
+  (a.링크 || []).slice(0, 2).forEach(p=>{
+    const l = 바깥고리(고리, p.url, "shop");
+    l.append(낱(p.종류)); l.title = p.이름;
+  });
+  몸.append(고리);
+  카.append(몸);
+  return 카;
+}
+
+function 그리기_ads(){
+  const 통 = $("#nad-ads");
+  if(!통) return;
+  if(!광고){ 통.innerHTML = ""; return; }
+  const 전부 = 광고.브랜드;
+  const 보임 = 전부.filter(a => 광고멤버 === "전체" || 전원인가(a) || a.모델.includes(광고멤버));
+  const 영상수 = 전부.reduce((n, a) => n + a.영상.length, 0);
+
+  $("#nad-h").textContent = 광고멤버 === "전체"
+    ? t("ad.h", 전부.length) : t("ad.h.mem", 이름(광고멤버), 보임.length);
+  $("#nad-sub").textContent = t("ad.sub", 영상수);
+  $("#nad-foot").textContent = t("ad.foot", 날(광고.기준));
+
+  const 고르기 = $("#nad-seg"); 고르기.innerHTML = "";
+  [["전체", t("ad.all")]].concat(광고멤버들.map(m => [m, 이름(m)])).forEach(짝=>{
+    const b = el("button", null, 짝[1]);
+    b.type = "button"; b.dataset.m = 짝[0];
+    b.setAttribute("aria-pressed", String(짝[0] === 광고멤버));
+    고르기.append(b);
+  });
+
+  통.innerHTML = "";
+  보임.forEach(a => 통.append(광고카드(a)));
+}
+
+/* ── 홈 ─────────────────────────────────────────────────────────────── */
+function 요약칸(탭, 이름글, 값, 설명){
+  const b = el("button", "dg");
+  b.type = "button"; b.dataset.go = 탭;
+  b.append(el("span", "t", 이름글), el("span", "v", 값), el("span", "d", 설명),
+           el("span", "w", t("home.dg.go", 이름글)));
+  return b;
+}
+
+function 그리기_digest(){
+  const d = D, 통 = $("#nh-digest");
+  if(!d || !통) return;
+  const 주 = d.rank.주간, 끝 = 주[주.length - 1], 첫 = 주[0];
+  const mv = d.live.MV, 지 = d.region.구간[d.region.구간.length - 1];
+  통.innerHTML = "";
+  통.append(
+    요약칸("youtube", t("tab.youtube"), t("home.dg.v.rank", 콤마(끝.한국)),
+          t("home.dg.youtube", 주.length, 콤마(첫.한국))),
+    요약칸("music", t("tab.music"), 만(mv.합계), t("home.dg.music", mv.목록.length)),
+    요약칸("ad", t("tab.ad"),
+          광고 ? t("home.dg.v.brands", 광고.브랜드.length) : "—",
+          광고 ? t("home.dg.ad", 광고.브랜드.reduce((n, a) => n + a.영상.length, 0)) : ""),
+    요약칸("buzz", t("tab.buzz"), 이름표옮김(지.지역[0].지역), t("home.dg.buzz", 기간표(지.이름))));
+}
+
+function 그리기_feed(){
+  const d = D, 통 = $("#nh-feed");
+  if(!d || !통) return;
+  const 줄 = [];
+  if(광고) 광고.브랜드.forEach(a=>{
+    const 날짜 = a.영상.length ? a.영상[0].공개일 : null;
+    if(!날짜) return;
+    줄.push({날짜: 날짜, 탭: "ad",
+            글: t("home.feed.ad", 이름(a.브랜드), a.영상.filter(v => v.공개일 === 날짜).length)});
+  });
+  const 돌 = (d.milestone && d.milestone.돌파) || {};
+  Object.keys(돌).forEach(채널=>{
+    Object.keys(돌[채널]).forEach(눈금=>{
+      줄.push({날짜: 돌[채널][눈금], 탭: "youtube", 글: t("home.feed.ms", 이름(채널), 만(+눈금))});
+    });
+  });
+  줄.sort((a, b) => a.날짜 < b.날짜 ? 1 : -1);
+  통.innerHTML = "";
+  줄.slice(0, 6).forEach(x=>{
+    const li = el("li");
+    li.append(el("span", "dt", 날(x.날짜)), el("span", "tx", x.글));
+    const 탭이름 = t(x.탭 === "ad" ? "tab.ad" : "tab.youtube");
+    const g = el("button", "go", t("home.dg.go", 탭이름));
+    g.type = "button"; g.dataset.go = x.탭;
+    li.append(g);
+    통.append(li);
+  });
+}
+
+/* 아카이브는 카드가 여든 장이 넘는다 — 홈 첫 화면이 길어지지 않게 열두 장만 펴 둔다 */
+const 아카이브펼침 = 12;
+function 접기_아카이브(){
+  const 통 = $("#s8-cards");
+  if(!통) return;
+  const 전부 = 통.children.length;
+  let 단추 = $("#s8-more");
+  if(전부 <= 아카이브펼침){ if(단추) 단추.hidden = true; return; }
+  통.classList.add("fold");
+  if(!단추){
+    단추 = el("button", "morecards");
+    단추.type = "button"; 단추.id = "s8-more";
+    단추.addEventListener("click", ()=>{ 통.classList.remove("fold"); 단추.hidden = true; });
+    통.after(단추);
+  }
+  단추.hidden = false;
+  단추.textContent = t("s8.more", 전부 - 아카이브펼침);
+}
+
+function 그리기_개편(){
+  그리기_ads();
+  그리기_digest();
+  그리기_feed();
+  접기_아카이브();
+  번호매기기();
+}
+
+/* ── 붙이기 ─────────────────────────────────────────────────────────── */
+(function 개편시작(){
+  const 처음 = 해시읽기();
+  지금탭 = 처음.탭;
+
+  document.addEventListener("click", e=>{
+    const 탭 = e.target.closest(".tab");
+    if(탭){ 탭으로(탭.dataset.tab); return; }
+    const 감 = e.target.closest("[data-go]");
+    if(감){ 탭으로(감.dataset.go); return; }
+    const 멤 = e.target.closest("#nad-seg button");
+    if(멤){ 광고멤버 = 멤.dataset.m; 그리기_ads(); }
+  });
+
+  // 탭 줄에서 좌우 화살표로 옮긴다
+  document.addEventListener("keydown", e=>{
+    if(!e.target.closest || !e.target.closest("#tabs")) return;
+    const 방향 = e.key === "ArrowLeft" ? -1 : e.key === "ArrowRight" ? 1 : 0;
+    if(!방향) return;
+    e.preventDefault();
+    const 다음 = 탭목록[(탭목록.indexOf(지금탭) + 방향 + 탭목록.length) % 탭목록.length];
+    탭보이기(다음);
+    const b = document.querySelector(".tab[data-tab=" + JSON.stringify(다음) + "]");
+    if(b) b.focus();
+  });
+
+  addEventListener("hashchange", ()=>{
+    const 새 = 해시읽기();
+    if(새.채널 && 새.채널 !== 상태.채널 && typeof 전환 === "function") 전환(새.채널);
+    if(새.탭 !== 지금탭) 탭보이기(새.탭);
+  });
+
+  탭보이기(처음.탭);
+
+  /* 광고는 따로 받는다 — 이 파일이 없거나 늦어도 나머지 화면은 그대로 뜬다 */
+  fetch("data/ads.json", {cache:"no-cache"})
+    .then(r => r.ok ? r.json() : Promise.reject(r.status))
+    .then(j => { 광고 = j; 그리기_ads(); 그리기_digest(); 그리기_feed(); 번호매기기(); })
+    .catch(()=>{ 광고 = null; 그리기_ads(); });
+})();
+
+/* 나라말을 바꾸면 값이 든 문장은 전부 다시 만든다 — 새 화면도 그 줄에 끼운다 */
+모두그리기 = (function(옛){
+  return function(){ 옛(); 그리기_개편(); };
+})(모두그리기);
+
 </script>
 <script>
 /* melon-chart.html 이 제 높이를 postMessage 로 알려 준다 — 창 폭에 따라 달라진다 */
