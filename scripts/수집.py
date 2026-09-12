@@ -11,6 +11,7 @@ data/*.json 을 다시 채운다. GitHub Actions 가 이 스크립트만 돌린�
   python -X utf8 scripts/수집.py emoticon  카카오 이모티콘 인기 순위 여섯 탭
   python -X utf8 scripts/수집.py club      걸그룹 100만 클럽 44팀 구독자
   python -X utf8 scripts/수집.py region    구글 트렌드 지역별 관심도 네 구간
+  python -X utf8 scripts/수집.py ads       광고 내역의 채널 구독자·영상 조회수·링크 생사
   python -X utf8 scripts/수집.py --확인    아무것도 쓰지 않고 조회만 해 본다
 
 원칙 셋 — 셋 다 이 파일 안에서 강제된다.
@@ -1082,6 +1083,72 @@ def 지역():
 
 
 # ────────────────────────────────────────────────────────── 실행
+# ────────────────────────────────────────────────────────── 광고 내역
+def _느슨히(받기, 목록):
+    """남의 채널·영상이라 하나가 사라질 수 있다. 통째로 실패시키지 말고
+    받은 것만 쓰고 못 받은 것은 직전 값을 그대로 둔다."""
+    try:
+        return 받기(목록)
+    except Exception:
+        모은것 = {}
+        for 하나 in 목록:
+            try:
+                모은것.update(받기([하나]))
+            except Exception as e:
+                print(f"    못 받음: {하나} ({type(e).__name__})")
+        return 모은것
+
+
+def _링크살았나(u):
+    """공식 상품·기획전 페이지가 아직 열리는지 본다 — 이벤트 페이지는 끝나면 사라진다.
+    막는 곳(403·429)은 「죽었다」가 아니다. 사람이 눈으로 볼 수 있게 표시만 남긴다."""
+    req = urllib.request.Request(u, headers={"User-Agent": UA, "Accept-Language": "ko-KR,ko;q=0.9"})
+    try:
+        with urllib.request.urlopen(req, timeout=20) as r:
+            return "열림" if r.status < 400 else f"코드 {r.status}"
+    except urllib.error.HTTPError as e:
+        return (f"막힘 {e.code}" if e.code in (403, 429, 405) else f"코드 {e.code}")
+    except Exception as e:
+        return f"확인못함({type(e).__name__})"
+
+
+def ads():
+    """광고 내역의 **숫자만** 갱신한다.
+    브랜드·모델·링크·근거는 사람이 고치는 편집본이라 여기서 건드리지 않는다 —
+    모델 계약은 기사로 확인하는 것이지 API 로 알 수 있는 것이 아니다."""
+    d = 읽기("ads.json")
+    채널들 = [b["채널"]["ID"] for b in d["브랜드"] if b.get("채널") and b["채널"].get("ID")]
+    영상들 = [v["id"] for b in d["브랜드"] for v in b["영상"]]
+    구독 = _느슨히(채널구독자, 채널들) if 채널들 else {}
+    조회 = _느슨히(영상조회수, 영상들) if 영상들 else {}
+
+    for b in d["브랜드"]:
+        ch = b.get("채널")
+        if ch and 구독.get(ch.get("ID")):
+            ch["구독자"] = 구독[ch["ID"]]
+            ch["기준"] = 오늘
+        for v in b["영상"]:
+            if 조회.get(v["id"]):
+                v["조회수"] = 조회[v["id"]]
+        for l in b.get("링크", []):
+            l["확인"] = _링크살았나(l["url"])
+            l["확인일"] = 오늘
+
+    닫힌링크 = [(b["브랜드"], l["url"], l["확인"])
+             for b in d["브랜드"] for l in b.get("링크", []) if l["확인"].startswith("코드")]
+    총조회 = sum(v.get("조회수") or 0 for b in d["브랜드"] for v in b["영상"])
+    d["기준"] = 오늘
+    쓰기("ads.json", d)
+
+    메시지 = f"브랜드 {len(d['브랜드'])}곳 · 광고 영상 {len(영상들)}편 {총조회:,}회"
+    if 닫힌링크:
+        메시지 += f" · 열리지 않는 링크 {len(닫힌링크)}개"
+        for 브랜드, u, 왜 in 닫힌링크:
+            print(f"    링크 확인 필요 — {브랜드}: {u} ({왜})")
+    상태기록("ads", "확인 필요" if 닫힌링크 else "OK", 오늘, 메시지, 주기="월 1회")
+    return 메시지
+
+
 작업 = {
     # daily 는 **매시** 돈다. 라이브 전수(210편)를 여기 붙이면 매시 210번을 두드리게 된다 —
     # streams 는 하루 한 번짜리 워크플로(streams.yml)로 따로 뺐다.
@@ -1099,6 +1166,7 @@ def 지역():
     "emoticon": [("emoticon", 이모티콘)],
     "club": [("club", 클럽)],
     "region": [("region", 지역)],
+    "ads": [("ads", ads)],
 }
 
 

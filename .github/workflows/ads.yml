@@ -1,0 +1,61 @@
+name: 광고 내역 갱신
+
+# 달에 한 번, 매월 2일 05:00 KST.
+#
+# 이 워크플로가 고치는 것은 **숫자와 링크 생사뿐**이다 —
+# 브랜드·모델·시작·근거·상품 링크는 사람이 고치는 편집본이고, 모델 계약은
+# 기사로 확인하는 것이지 API 로 알 수 있는 것이 아니다.
+#
+# 링크 점검이 중요한 까닭: 광고 이벤트·기획전 페이지는 끝나면 사라진다.
+# 죽은 링크를 걸어 두면 팬이 눌렀을 때 빈 화면을 본다. 403·429 로 막는 곳
+# (올리브영·네이버)은 「죽었다」가 아니라 「막힘」으로 남는다.
+on:
+  schedule:
+    - cron: "0 20 1 * *"      # 매월 1일 20:00 UTC = 2일 05:00 KST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-write          # daily · weekly 와 같은 파일(status.json)을 건드린다
+  cancel-in-progress: false
+
+jobs:
+  ads:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: yt-dlp 설치 (API 키가 없을 때의 대비책)
+        run: pip install --quiet yt-dlp
+
+      - name: 수집
+        id: collect
+        continue-on-error: true       # 실패도 status.json 에 남겨 화면에 보여야 한다
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: python -X utf8 scripts/수집.py ads
+
+      - name: 커밋
+        run: |
+          git config user.name  "rescene-now bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet data/; then
+            echo "쓸 것이 없다"
+            exit 0
+          fi
+          git add data/
+          git commit -m "data: 광고 내역 ($(date -u +%m-%d))"
+          git push
+
+      - name: 실패했으면 워크플로도 실패로 표시
+        if: steps.collect.outcome == 'failure'
+        run: |
+          echo "광고 수집 실패 — status.json 에 남겨 커밋했고 화면 출처표에 실패로 보인다"
+          exit 1

@@ -96,6 +96,7 @@ const 출처이름 = {
   searches:   {ko:"급상승 관련검색어", en:"Rising related searches", ja:"急上昇の関連検索"},
   archive:    {ko:"쇼츠 카드", en:"Shorts cards", ja:"ショートカード"},
   emoticon:   {ko:"카카오 이모티콘 인기 순위", en:"KakaoTalk emoticon ranking", ja:"カカオ絵文字の人気順位"},
+  ads:        {ko:"광고 내역", en:"Ad campaigns", ja:"広告一覧"},
   milestone:  {ko:"100만 돌파일", en:"1M milestone date", ja:"100万到達日"},
   status:     {ko:"수집 상태", en:"Collection status", ja:"収集状況"},
 };
