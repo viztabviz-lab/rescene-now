@@ -687,7 +687,7 @@ footer p{max-width:60ch;margin:0}
 
 <section id="s5">
     <p class="eyebrow"><b>05</b> <span data-i18n="s5.eye">개인 브랜드평판</span></p>
-    <h2 data-i18n="s5.h">TOP 10에 리센느가 다섯</h2>
+    <h2 id="s5-h">TOP 11 안에 리센느가 5명</h2>   <!-- 자리표시자 · 그리기_rep 가 다시 쓴다 -->
     <p class="sub" id="s5-sub"></p>
     <div class="legend">
       <span><i style="background:var(--pink)"></i><span data-i18n="s5.lg.res">리센느</span></span>
@@ -1602,10 +1602,14 @@ function 그리기_region(r){
 
 /* ─────────────────────────────────────────── 05 브랜드평판 */
 function 그리기_rep(r){
-  const 최대=Math.max(...r.TOP10.map(t=>t.지수));
-  $("#s5-sub").textContent = t("s5.sub", t("s5.base", r.기준), tj("s5.index", r.지표), r.리센느수);
+  // 컷은 달마다 바뀐다(리센느 막내가 10위 밖이면 11위까지 그린다). 목록 길이에서 읽는다.
+  const 표 = r.TOP || r.TOP10 || [];
+  const 컷 = r.컷 || 표.length;
+  const 최대=Math.max(...표.map(t=>t.지수));
+  $("#s5-h").textContent = t("s5.h", 컷, r.리센느수);
+  $("#s5-sub").textContent = t("s5.sub", t("s5.base", r.기준), tj("s5.index", r.지표), 컷, r.리센느수);
   const c=$("#s5-rows"); c.innerHTML="";
-  r.TOP10.forEach(t=>{
+  표.forEach(t=>{
     const 리 = t.그룹==="리센느";
     const row=el("div","row"+(리?" on":""));
     row.append(el("span","rk",String(t.순위)));
@@ -1616,8 +1620,11 @@ function 그리기_rep(r){
     row.append(mid, el("span","val num", 만(t.지수)));
     c.append(row);
   });
+  // 컷을 10 이 아닌 자리에 두었으면 왜 그랬는지를 화면이 스스로 말한다.
+  const 컷말 = (r.컷사유 && r.컷 > 10)
+    ? t("s5.cut", 이름(r.컷사유.이름), r.컷사유.순위, r.컷) : "";
   $("#s5-foot").innerHTML = t("s5.foot", tj("s5.clue", r.단서),
-    콤마(r.TOP10[0].지수), 만(r.TOP10[0].지수), tj("s5.org", r.기관));
+    콤마(표[0].지수), 만(표[0].지수), tj("s5.org", r.기관), 컷말);
 }
 
 /* ─────────────────────────────────────────── 06 100만 클럽 */
