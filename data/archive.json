@@ -1,9 +1,31 @@
 {
- "기준": "2026-09-22",
+ "기준": "2026-09-23",
  "설명": "갱신되지 않는 일회성 집계는 전부 여기 모은다. 카드 하나가 쇼츠 한 편이다.",
  "채널": "https://www.youtube.com/@data-viz",
  "썸네일주의": "i.ytimg.com 을 참조만 한다. 파일을 저장소에 복사하지 않고, 카드 전체가 영상 링크가 된다.",
  "카드": [
+  {
+   "id": "l_qDYyZMIwI",
+   "날짜": "2026-09-22",
+   "제목": "리센느 리브 × 미나미, 리마인도 헷갈리는 06즈 닮은꼴 AI 유사도는? #shorts",
+   "주장": "2026 TMA 「LOVE ATTACK」 무대에서 리브가 댄서 뒤로 사라지고, 그 자리에 미나미가 나왔습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/l_qDYyZMIwI",
+   "썸네일": "https://i.ytimg.com/vi/l_qDYyZMIwI/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "taidqjVq3_M",
+   "날짜": "2026-09-22",
+   "제목": "안원잘부 살과의 전쟁 11일 만에 1000만 달성",
+   "주장": "안원잘부에서 조회수 1000만을 넘은 영상 8편(롱폼 5 · 쇼츠 3)을 「1000만까지 걸린 기간」으로 줄 세웠습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/taidqjVq3_M",
+   "썸네일": "https://i.ytimg.com/vi/taidqjVq3_M/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
   {
    "id": "MVYfD8Cyyj4",
    "날짜": "2026-09-22",
