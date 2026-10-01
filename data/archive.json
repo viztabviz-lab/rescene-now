@@ -1,9 +1,42 @@
 {
- "기준": "2026-10-01",
+ "기준": "2026-10-02",
  "설명": "갱신되지 않는 일회성 집계는 전부 여기 모은다. 카드 하나가 쇼츠 한 편이다.",
  "채널": "https://www.youtube.com/@data-viz",
  "썸네일주의": "i.ytimg.com 을 참조만 한다. 파일을 저장소에 복사하지 않고, 카드 전체가 영상 링크가 된다.",
  "카드": [
+  {
+   "id": "XV0OfyWNzHo",
+   "날짜": "2026-10-01",
+   "제목": "리센느, 10월 신인 아이돌그룹 브랜드평판 1위",
+   "주장": "한국기업평판연구소 신인 아이돌그룹 브랜드평판 2026년 10월을 10위부터 하나씩 열었습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/XV0OfyWNzHo",
+   "썸네일": "https://i.ytimg.com/vi/XV0OfyWNzHo/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "QzLybm5US-E",
+   "날짜": "2026-10-01",
+   "제목": "리센느 제나 생애 첫 시구, 원이는 시타 #shorts",
+   "주장": "2026년 10월 1일 대구 삼성 라이온즈 파크, 삼성 대 한화 경기에서 리센느 제나가 시구, 원이가 시타를 맡았습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/QzLybm5US-E",
+   "썸네일": "https://i.ytimg.com/vi/QzLybm5US-E/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "P0sD3Xk0uHA",
+   "날짜": "2026-10-01",
+   "제목": "리센느, 멜론 9월 TOP 10 몇 곡?",
+   "주장": "멜론 월간 차트 2026년 9월을 10위부터 하나씩 열고, 8월 월간 차트와 견준 순위 변화를 붙였습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/P0sD3Xk0uHA",
+   "썸네일": "https://i.ytimg.com/vi/P0sD3Xk0uHA/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
   {
    "id": "nplMEFKbz3I",
    "날짜": "2026-10-01",
