@@ -1,0 +1,71 @@
+name: 조회수 돌파 추적
+
+# 영상 한 편의 조회수를 1분 간격으로 적립한다 — 「n시간 만에 500만」의 돌파 시각을 재기 위한 것.
+# PC 쪽 추적기는 PC 가 잠들면 같이 죽어서 여기로 옮겼다(2026-10-05).
+#
+# · 10분마다 깨우지만 한 번 실행이 50분 동안 1분마다 잰다. concurrency 로 하나만 돌고
+#   다음 실행은 대기하다가 앞 실행이 끝나면 바로 잇는다 → 사실상 끊김 없는 1분 간격.
+# · 결과는 main 이 아니라 **track 브랜치**의 track/<영상ID>.csv 에 쌓는다
+#   (main 에 쌓으면 5분마다 Pages 빌드가 돌고 data 커밋 이력이 묻힌다).
+# · 목표를 넘고 30분이 더 지나거나 DEADLINE 이 지나면 .done 을 남기고 이 워크플로를 스스로 끈다.
+#
+# 다른 편을 재려면 VIDEO_ID · TARGET · DEADLINE 을 바꾸고 Actions 탭에서 워크플로를 다시 켠다.
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: track-views
+  cancel-in-progress: false
+
+env:
+  VIDEO_ID: 8tmaJYDMp5w            # 안원잘부 「오사카에서 생긴 일」 (2026-10-04 19:00:07 KST 공개)
+  TARGET: "5000000"
+  DEADLINE: "2026-10-07T00:00:00+09:00"
+  RUN_MIN: "50"
+  AFTER_MIN: "30"
+  OUT_DIR: out
+
+jobs:
+  track:
+    runs-on: ubuntu-latest
+    timeout-minutes: 58
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: track 브랜치를 out/ 에 연다 (없으면 만든다)
+        run: |
+          git config user.name  "rescene-now bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git fetch origin track 2>/dev/null; then
+            git worktree add out FETCH_HEAD
+          else
+            git worktree add --detach out
+            cd out
+            git checkout --orphan track
+            git rm -rfq .
+            mkdir track
+            echo "조회수 돌파 추적 CSV (scripts/track_views.py)" > README.md
+            git add README.md
+            git commit -q -m "track: 브랜치 시작"
+            git push -q origin HEAD:track
+          fi
+
+      - name: 추적
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: python3 -X utf8 scripts/track_views.py
+
+      - name: 끝났으면 이 워크플로를 끈다
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -f "out/track/${VIDEO_ID}.done" ]; then
+            cat "out/track/${VIDEO_ID}.done"
+            gh workflow disable track.yml -R "$GITHUB_REPOSITORY" || true
+          fi
