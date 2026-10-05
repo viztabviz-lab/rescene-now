@@ -61,11 +61,16 @@ jobs:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: python3 -X utf8 scripts/track_views.py
 
-      - name: 끝났으면 이 워크플로를 끈다
+      - name: 끝났으면 끄고, 아니면 다음 실행을 부른다
+        if: always()
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           if [ -f "out/track/${VIDEO_ID}.done" ]; then
             cat "out/track/${VIDEO_ID}.done"
             gh workflow disable track.yml -R "$GITHUB_REPOSITORY" || true
+          else
+            # cron 을 믿지 않는다 — 2026-10-05 에 */10 예약이 2시간 반 동안 한 번도 안 떴다(10:36~13:21 공백).
+            # 끝나지 않았으면 다음 실행을 스스로 부른다. cron 은 이 사슬이 끊겼을 때의 보험이다.
+            gh workflow run track.yml -R "$GITHUB_REPOSITORY" || true
           fi
