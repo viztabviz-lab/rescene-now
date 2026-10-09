@@ -738,6 +738,7 @@ Object.assign(이름표, {
   "한스킨":     {en:"Hanskin", ja:"ハンスキン"},                          // 채널 「한스킨 hanskin」
   "프리티스킨":  {en:"PRETTYSKIN", ja:"プリティスキン"},                    // 채널 「프리티스킨 PRETTYSKIN.」
   "바이오던스":  {en:"Biodance", ja:"バイオダンス"},                        // 채널 「Biodance 바이오던스」
+  "더마비":     {en:"Derma:B"},                                          // 채널 「더마비 Derma:B」
   "와키윌리":    {en:"Wacky WiLLy"},                                      // 채널 「와키윌리-Wacky WiLLy」
   "티오더":     {en:"Torder"},                                           // torder.com
 });
