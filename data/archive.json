@@ -1,9 +1,31 @@
 {
- "기준": "2026-10-09",
+ "기준": "2026-10-10",
  "설명": "갱신되지 않는 일회성 집계는 전부 여기 모은다. 카드 하나가 쇼츠 한 편이다.",
  "채널": "https://www.youtube.com/@data-viz",
  "썸네일주의": "i.ytimg.com 을 참조만 한다. 파일을 저장소에 복사하지 않고, 카드 전체가 영상 링크가 된다.",
  "카드": [
+  {
+   "id": "keEEmLuw6zY",
+   "날짜": "2026-10-10",
+   "제목": "안원잘부 제나 트로트 1700만, 시청자가 가장 많이 다시 본 노래 장면 TOP 7 #shorts",
+   "주장": "안원잘부 「제나의 트로트 메들리」가 1700만을 넘었습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/keEEmLuw6zY",
+   "썸네일": "https://i.ytimg.com/vi/keEEmLuw6zY/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "19D2Jk_aB3A",
+   "날짜": "2026-10-10",
+   "제목": "리센느 Pinball 가사에 Pinball은 몇 번 나올까? 노래 따라 같이 세기",
+   "주장": "리센느(RESCENE) 「Pinball」에 'Pinball'이 몇 번 나오는지 노래에 맞춰 세어 봤습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/19D2Jk_aB3A",
+   "썸네일": "https://i.ytimg.com/vi/19D2Jk_aB3A/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
   {
    "id": "4P7C_q2SYtY",
    "날짜": "2026-10-09",
