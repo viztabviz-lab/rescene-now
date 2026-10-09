@@ -859,7 +859,7 @@ const _달이름 = ["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oc
 Object.assign(STR, {
 "rm.sub":         {ko:(base,n)=>`${base}에 발표된 표 ${n}개에서 리센느와 리센느가 모델인 브랜드의 자리다. 줄을 누르면 발표 기사로 간다.`,
                    en:(base,n)=>`Where RESCENE and the brands it models for stand in ${n} tables published for ${base}. Each row opens the announcement.`,
-                   ja:(base,n)=>`${base}に発表された${n}つの表での、RESCENEとRESCENEがモデルを務めるブランドの順位です。行を押すと発表記事が開きます。`},
+                   ja:(base,n)=>`${base.replace("년 ","年").replace("월","月")}に発表された${n}つの表での、RESCENEとRESCENEがモデルを務めるブランドの順位です。行を押すと発表記事が開きます。`},
 "rm.cat.newgroup":{ko:"신인 아이돌그룹", en:"Rookie idol groups", ja:"新人アイドルグループ"},
 "rm.cat.newsolo": {ko:"신인 아이돌 개인", en:"Rookie idols (individual)", ja:"新人アイドル個人"},
 "rm.cat.admodel": {ko:"광고모델", en:"Advertising models", ja:"広告モデル"},
