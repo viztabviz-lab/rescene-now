@@ -25,10 +25,10 @@ concurrency:
 
 env:
   VIDEO_ID: 8tmaJYDMp5w            # 안원잘부 「오사카에서 생긴 일」 (2026-10-04 19:00:07 KST 공개)
-  TARGET: "5000000"
-  DEADLINE: "2026-10-07T00:00:00+09:00"
+  TARGET: "10000000"
+  DEADLINE: "2026-10-11T12:00:00+09:00"
   RUN_MIN: "50"
-  AFTER_MIN: "30"
+  AFTER_MIN: "60"
   OUT_DIR: out
 
 jobs:
