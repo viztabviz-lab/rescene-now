@@ -853,3 +853,29 @@ Object.assign(STR, {
                    en:n=>"Show " + n + " more shorts",
                    ja:n=>"ショートをあと" + n + "本見る"},
 });
+
+/* ── 광고 탭 02 · 이달 발표된 브랜드평판 (reputation.json 의 「이달」) ── */
+const _달이름 = ["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+Object.assign(STR, {
+"rm.sub":         {ko:(base,n)=>`${base}에 발표된 표 ${n}개에서 리센느와 리센느가 모델인 브랜드의 자리다. 줄을 누르면 발표 기사로 간다.`,
+                   en:(base,n)=>`Where RESCENE and the brands it models for stand in ${n} tables published for ${base}. Each row opens the announcement.`,
+                   ja:(base,n)=>`${base}に発表された${n}つの表での、RESCENEとRESCENEがモデルを務めるブランドの順位です。行を押すと発表記事が開きます。`},
+"rm.cat.newgroup":{ko:"신인 아이돌그룹", en:"Rookie idol groups", ja:"新人アイドルグループ"},
+"rm.cat.newsolo": {ko:"신인 아이돌 개인", en:"Rookie idols (individual)", ja:"新人アイドル個人"},
+"rm.cat.admodel": {ko:"광고모델", en:"Advertising models", ja:"広告モデル"},
+"rm.cat.cvs":     {ko:"편의점", en:"Convenience stores", ja:"コンビニ"},
+"rm.cat.coffee":  {ko:"커피전문점", en:"Coffee chains", ja:"コーヒーチェーン"},
+"rm.cat.girlsolo":{ko:"걸그룹 개인", en:"Girl group members", ja:"ガールズグループ個人"},
+"rm.move":        {ko:(pm,a,m,b)=>`${pm}월 ${a}위 → ${m}월 ${b}위`,
+                   en:(pm,a,m,b)=>`${_달이름[pm]} #${a} → ${_달이름[m]} #${b}`,
+                   ja:(pm,a,m,b)=>`${pm}月 ${a}位 → ${m}月 ${b}位`},
+"rm.model":       {ko:"리센느가 모델인 브랜드", en:"a brand RESCENE models for", ja:"RESCENEがモデルのブランド"},
+"rm.all":         {ko:n=>`1~${n}위가 모두 리센느`, en:n=>`#1 to #${n} are all RESCENE`, ja:n=>`1〜${n}位がすべてRESCENE`},
+"rm.date":        {ko:(m,d)=>`${m}/${d} 발표`, en:(m,d)=>`published ${m}/${d}`, ja:(m,d)=>`${m}/${d} 発表`},
+"rm.foot":        {ko:"오른쪽 숫자는 그 표의 브랜드평판지수다. <b>표마다 따로 매긴 값이라 표끼리 견줄 수 없고</b>, 단위도 없다. 한국기업평판연구소 발표.",
+                   en:"The number on the right is that table's brand reputation index. <b>Each table is scored on its own, so the values cannot be compared across tables</b>, and they have no unit. Published by the Korea Institute of Corporate Reputation.",
+                   ja:"右の数字はその表のブランド評判指数です。<b>表ごとに別々に算出した値なので、表同士では比べられず</b>、単位もありません。韓国企業評判研究所の発表。"},
+"rm.wait":        {ko:(cat,m,d,pm)=>`${cat} 표는 ${m}월 ${d}일 무렵 나온다 — 아래 순위표는 그때까지 ${pm}월 표다.`,
+                   en:(cat,m,d,pm)=>`The ${cat} table is expected around ${m}/${d} — until then the ranking below is the ${_달이름[pm]} table.`,
+                   ja:(cat,m,d,pm)=>`${cat}の表は${m}月${d}日ごろに出ます。それまで下の順位表は${pm}月の表です。`},
+});

@@ -683,6 +683,12 @@ footer p{max-width:60ch;margin:0}
   <p class="eyebrow"><b>02</b> <span data-i18n="ad.perf.eye">광고와 같은 시기의 숫자</span></p>
   <h2 data-i18n="ad.perf.h">브랜드평판</h2>
   <p class="sub" data-i18n="ad.perf.sub">아래는 광고가 나온 시기에 함께 잰 숫자다. 시점을 나란히 둘 뿐 원인을 말하지 않는다.</p>
+  <!-- 이달 발표분 — reputation.json 의 「이달」을 그리기_rep 가 그린다. 없으면 통째로 숨는다 -->
+  <div id="nadp-month" hidden>
+    <p class="sub" id="nadp-sub" style="margin-top:14px"></p>
+    <div class="rows" id="nadp-rows"></div>
+    <p class="foot" id="nadp-foot"></p>
+  </div>
 </section>
 
 <section id="s5">
@@ -1625,6 +1631,37 @@ function 그리기_rep(r){
     ? t("s5.cut", 이름(r.컷사유.이름), r.컷사유.순위, r.컷) : "";
   $("#s5-foot").innerHTML = t("s5.foot", tj("s5.clue", r.단서),
     콤마(표[0].지수), 만(표[0].지수), tj("s5.org", r.기관), 컷말);
+  그리기_이달평판(r);
+}
+
+/* 이달에 발표된 다른 표들 — 리센느와 리센느가 모델인 브랜드의 제 순위만 적는다.
+   지수는 표마다 따로 매긴 값이라 **막대를 그리지 않는다**(표끼리 길이를 견주게 된다).
+   다른 팀·브랜드 이름도 싣지 않는다. */
+function 그리기_이달평판(r){
+  const m = r.이달, box = $("#nadp-month");
+  if(!m || !(m.항목||[]).length){ box.hidden = true; return; }
+  box.hidden = false;
+  const 달 = s => +s.split("년 ")[1].replace("월","");
+  const 이번 = 달(m.기준), 지난 = 이번 === 1 ? 12 : 이번 - 1;
+  $("#nadp-sub").textContent = t("rm.sub", t("s5.base", m.기준), m.항목.length);
+  const c = $("#nadp-rows"); c.innerHTML = "";
+  m.항목.forEach(x=>{
+    const row = el("a","row on");
+    row.href = x.기사; row.target = "_blank"; row.rel = "noopener";
+    row.append(el("span","rk", String(x.순위)));
+    const mid = el("div","mid");
+    mid.append(el("div","nm", `${t("rm.cat."+x.키)}  ·  ${이름(x.대상)}`));
+    const 덧 = [t("rm.move", 지난, x.전월순위, 이번, x.순위)];
+    if(x.모델) 덧.push(t("rm.model"));
+    if(x.전원) 덧.push(t("rm.all", x.전원));
+    덧.push(t("rm.date", +x.발표.slice(5,7), +x.발표.slice(8,10)));
+    const meta = el("div","meta", 덧.join(" · ")); meta.style.marginTop = "0";
+    mid.append(meta);
+    row.append(mid, el("span","val num", 만(x.지수)));
+    c.append(row);
+  });
+  const 대기 = (m.대기||[]).map(w=> t("rm.wait", t("rm.cat."+w.키), +w.예정.slice(5,7), +w.예정.slice(8,10), 지난)).join(" ");
+  $("#nadp-foot").innerHTML = t("rm.foot") + (대기 ? " " + 대기 : "");
 }
 
 /* ─────────────────────────────────────────── 06 100만 클럽 */
