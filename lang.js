@@ -94,6 +94,7 @@ const 출처이름 = {
   club:       {ko:"걸그룹 100만 클럽", en:"Girl-group 1M club", ja:"ガールグループ100万クラブ"},
   // 숫자는 reputation.json 의 「컷」을 따른다 — 컷을 바꿀 때 이 줄과 status.json 의 「이름」도 같이 바꾼다
   reputation: {ko:"개인 브랜드평판 TOP 11", en:"Member brand reputation TOP 11", ja:"個人ブランド評判TOP11"},
+  city:       {ko:"도시 브랜드평판", en:"City brand reputation", ja:"都市ブランド評判"},
   searches:   {ko:"급상승 관련검색어", en:"Rising related searches", ja:"急上昇の関連検索"},
   archive:    {ko:"쇼츠 카드", en:"Shorts cards", ja:"ショートカード"},
   emoticon:   {ko:"카카오 이모티콘 인기 순위", en:"KakaoTalk emoticon ranking", ja:"カカオ絵文字の人気順位"},
@@ -426,28 +427,6 @@ const STR = {
                 ja:"絵文字のセリフと回のタイトルは元の韓国語のまま表示しています。"},
 
 /* 05 개인 브랜드평판 */
-/* ── 지역별 관심도 ── */
-"sr.eye":      {ko:"지역별 검색", en:"Search by region", ja:"地域別の検索"},
-"sr.h":        {ko:(지,옛순,새순)=>`${지}, ${옛순}위에서 ${새순}위로`,
-                en:(지,옛순,새순)=>`${지}: ${옛순}th to ${새순}${새순===1?"st":"th"}`,
-                ja:(지,옛순,새순)=>`${지}、${옛순}位から${새순}位へ`},
-/* 기간 이름은 「110주」·「30일」처럼 받침이 제각각이라 조사를 붙이면 「110주과」가 된다.
-   화살표로 잇는다 — 조사도 없고 「좁혀 간다」는 뜻도 그대로 보인다.
-   지역 이름은 모두 「도」·「시」로 끝나 받침이 없으므로 「가」로 고정해도 안전하다. */
-"sr.sub":      {ko:(지,옛기,새기)=>`${옛기} → ${새기}. 기간을 좁힐수록 ${지}가 올라온다.`,
-                en:(지,옛기,새기)=>`${옛기} → ${새기}: the shorter the window, the higher ${지} climbs.`,
-                ja:(지,옛기,새기)=>`${옛기} → ${새기}。期間を狭めるほど${지}が上がってきます。`},
-"sr.scale":    {ko:null, en:null, ja:null},
-"sr.rank":     {ko:(n,전)=>`${전}개 지역 중 ${n}위`,
-                en:(n,전)=>`${n} of ${전} regions`,
-                ja:(n,전)=>`${전}地域中 ${n}位`},
-"sr.foot":     {ko:(뜻,수,미)=>`${뜻} ${수} ${미}`,
-                en:(뜻,수,미)=>`${뜻} ${수} ${미}`,
-                ja:(뜻,수,미)=>`${뜻} ${수} ${미}`},
-"sr.wobble":   {ko:"같은 날 같은 기간을 다시 받으면 값이 그대로다. 다만 며칠 뒤에 받으면 구글이 표본을 다시 뽑아 1~2점씩 움직인다 — 순위 다툼이 촘촘한 구간에서는 앞자리가 바뀔 수 있다.",
-                en:"Re-fetching the same window on the same day gives identical values, but a few days later Google resamples and figures shift by a point or two — enough to swap places where the race is tight.",
-                ja:"同じ日に同じ期間を取り直すと値は同じですが、数日後にはGoogleが標本を取り直すため1〜2ポイント動きます — 接戦の区間では順位が入れ替わることがあります。"},
-
 "s5.eye":      {ko:"개인 브랜드평판", en:"Member brand reputation", ja:"個人ブランド評判"},
 /* 컷(10 · 11 …)과 인원은 reputation.json 에서 온다 — 문장에 박아 두면 달이 바뀔 때 조용히 틀린다 */
 "s5.h":        {ko:(컷,n)=>`TOP ${컷} 안에 리센느가 ${n}명`,
@@ -710,6 +689,7 @@ const 출처값 = {
   trends:     {en:"trends/api, called directly", ja:"trends/api を直接呼び出し"},
   reputation: {en:"Korea Institute of Corporate Reputation · brikorea",
                ja:"韓国企業評判研究所・brikorea"},
+  city:       {en:"Korea Institute of Corporate Reputation (brikorea.com)", ja:"韓国企業評判研究所 (brikorea.com)"},
   searches:   {en:"Google Trends", ja:"Googleトレンド"},
   archive:    {en:"YouTube @data-viz channel", ja:"YouTube @data-viz チャンネル"},
   emoticon:   {en:"e.kakao.com popularity ranking API", ja:"e.kakao.com 人気順位API"},
@@ -792,9 +772,9 @@ Object.assign(STR, {
 "home.dg.youtube":{ko:(w,f)=>`안원잘부 한국 구독자 순위. ${w}주 전엔 ${f}위였다`,
                    en:(w,f)=>`Korean subscriber rank of the WONI show. ${w} weeks ago it was #${f}`,
                    ja:(w,f)=>`アンウォンジャルブの韓国登録者順位。${w}週前は${f}位でした`},
-"home.dg.buzz":   {ko:p=>`${p} 지역별 검색 관심도 1위`,
-                   en:p=>`Top region by search interest, ${p}`,
-                   ja:p=>`${p}の地域別検索関心度1位`},
+"home.dg.buzz":   {ko:(m,who,k,n)=>`${m}월 도시 브랜드평판 · ${who} 고향. 고향 ${k}곳이 ${n}위 안`,
+                   en:(m,who,k,n)=>`City brand reputation, ${_달이름[m]} · ${who}'s hometown. ${k} hometowns in the top ${n}`,
+                   ja:(m,who,k,n)=>`${m}月の都市ブランド評判・${who}の故郷。故郷${k}か所が${n}位以内`},
 "home.feed.eye":  {ko:"최근 바뀐 것", en:"What changed recently", ja:"最近変わったこと"},
 "home.feed.h":    {ko:"이 페이지가 최근에 받은 것", en:"What this page picked up lately", ja:"このページが最近受け取ったもの"},
 "home.feed.ad":   {ko:(b,n)=>`${b} 광고 영상 ${n}편 공개`,
@@ -893,4 +873,32 @@ Object.assign(STR, {
 "s11.how.2":   {ko:null,
   en:"found by indexing 112 uploads (32 episodes, 80 Shorts) at one-second steps and comparing them against the emoticon art; the ones that search missed were fixed by watching the episodes and picking the frame with the same pose. The timestamp is where that frame sits.",
   ja:"112本(本編32・ショート80)を1秒間隔で索引化して絵文字の絵と照合し、そこで見つからなかったものは回を見直して同じポーズのフレームを目で確定しました。時刻はそのフレームの位置です。"},
+});
+
+/* ── 화제 탭 · 도시 브랜드평판 (city.json, 2026-10-10) ── */
+/* 도시 이름 — 표에 새 도시가 들어오면 여기에 더한다. 없으면 한국어 그대로 나온다. */
+Object.assign(이름표, {
+  "서울시": {en:"Seoul", ja:"ソウル"}, "부산시": {en:"Busan", ja:"釜山"}, "경주시": {en:"Gyeongju", ja:"慶州"},
+  "거제시": {en:"Geoje", ja:"巨済"}, "아산시": {en:"Asan", ja:"牙山"}, "용인시": {en:"Yongin", ja:"龍仁"},
+  "수원시": {en:"Suwon", ja:"水原"}, "대전시": {en:"Daejeon", ja:"大田"}, "청주시": {en:"Cheongju", ja:"清州"},
+  "광주시": {en:"Gwangju", ja:"光州"}, "천안시": {en:"Cheonan", ja:"天安"}, "창원시": {en:"Changwon", ja:"昌原"},
+  "대구시": {en:"Daegu", ja:"大邱"}, "고양시": {en:"Goyang", ja:"高陽"}, "울산시": {en:"Ulsan", ja:"蔚山"},
+});
+Object.assign(STR, {
+"sc.eye":    {ko:"도시 브랜드평판", en:"City brand reputation", ja:"都市ブランド評判"},
+"sc.h.all":  {ko:(k,n)=>`리센느 고향 ${k}곳, 모두 ${n}위 안`, en:(k,n)=>`All ${k} RESCENE hometowns are in the top ${n}`, ja:(k,n)=>`RESCENEの故郷${k}か所、すべて${n}位以内`},
+"sc.h.some": {ko:(k,n)=>`리센느 고향 ${k}곳이 ${n}위 안`, en:(k,n)=>`${k} RESCENE hometowns are in the top ${n}`, ja:(k,n)=>`RESCENEの故郷${k}か所が${n}位以内`},
+"sc.sub":    {ko:(y,m,n,s,out)=>`${y}년 ${m}월 대한민국 도시 브랜드평판에서 멤버 고향 도시는 ${n}곳 중 ${s}다. ${out}의 고향은 일본이라 이 표에 없다.`,
+              en:(y,m,n,s,out)=>`In the ${_달이름[m]} ${y} Korean city brand reputation table, the members' hometowns rank ${s} out of ${n}. ${out}'s hometown is in Japan, so it is not in this table.`,
+              ja:(y,m,n,s,out)=>`${y}年${m}月の韓国都市ブランド評判で、メンバーの故郷の都市は${n}か所中 ${s} です。${out}の故郷は日本なのでこの表にはありません。`},
+"sc.t.k":    {ko:(who,c)=>`${who} 고향 ${c}`, en:(who,c)=>`${who} · ${c}`, ja:(who,c)=>`${who}の故郷 ${c}`},
+"sc.home":   {ko:who=>`${who} 고향`, en:who=>`${who}'s hometown`, ja:who=>`${who}の故郷`},
+"sc.prev":   {ko:(m,r)=>`${m}월 ${r}위`, en:(m,r)=>`${_달이름[m]}: #${r}`, ja:(m,r)=>`${m}月 ${r}位`},
+"sc.scale":  {ko:(y,m,p,n,k)=>`${y}년 ${m}월 · 집계 ${p} · ${n}곳 중 1~${k}위 · 오른쪽은 지난달 순위`,
+              en:(y,m,p,n,k)=>`${_달이름[m]} ${y} · measured ${p} · ranks 1–${k} of ${n} cities · last month's rank on the right`,
+              ja:(y,m,p,n,k)=>`${y}年${m}月・集計 ${p}・${n}か所中 1〜${k}位・右は先月の順位`},
+"sc.foot":   {ko:d=>`브랜드평판지수는 인기 투표가 아니라 온라인 언급·반응량을 집계한 값이다. 이 달 지수는 원문이 1~5위만 적어 순위만 싣는다. 순위가 왜 움직였는지는 원문에 근거가 없어 적지 않는다. <b>${d}</b> 발표. 출처 `,
+              en:d=>`The brand reputation index aggregates online mentions and reactions; it is not a popularity vote. The source gives index values only for ranks 1–5 this month, so only ranks are shown. The source gives no reason for the moves, so none is stated here. Published <b>${d}</b>. Source: `,
+              ja:d=>`ブランド評判指数は人気投票ではなく、オンラインでの言及・反応量を集計した値です。今月の指数は原文が1〜5位しか載せていないため、順位だけを掲載しています。順位が動いた理由は原文に根拠がないため記していません。<b>${d}</b> 発表。出典 `},
+"sc.src":    {ko:null, en:"Korea Institute of Corporate Reputation · Korean city brand reputation", ja:"韓国企業評判研究所・韓国都市ブランド評判"},
 });

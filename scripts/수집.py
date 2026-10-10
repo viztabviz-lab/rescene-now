@@ -1176,7 +1176,7 @@ def ads():
     # 「실패」로 덮어써, 집에서 받아 둔 최신 값이 화면에서 실패로 보였다.
     # 셋은 주간로컬 로 옮겨 집 IP 에서 받는다 (작업 스케줄러 「리센느 주간 수집」).
     "weekly": [("club", 클럽)],
-    "주간로컬": [("trends", weekly_트렌드), ("rank", weekly_순위), ("region", 지역)],
+    "주간로컬": [("trends", weekly_트렌드), ("rank", weekly_순위)],
     "videos": [("videos", videos)],
     "streams": [("streams", streams)],
     "archive": [("archive", 아카이브)],

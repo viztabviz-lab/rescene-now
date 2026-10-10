@@ -742,18 +742,16 @@ footer p{max-width:60ch;margin:0}
   </section>
 
   
-<section id="sr">
-    <p class="eyebrow"><b>05</b> <span data-i18n="sr.eye">지역별 검색</span></p>
-    <h2 id="sr-h"></h2>
-    <p class="sub" id="sr-sub"></p>
-    <div class="controls">
-      <div class="seg" id="sr-seg" role="group" aria-label="기간"></div>
+<section id="sc">
+    <p class="eyebrow"><b>05</b> <span data-i18n="sc.eye">도시 브랜드평판</span></p>
+    <h2 id="sc-h"></h2>
+    <p class="sub" id="sc-sub"></p>
+    <div class="tiles" id="sc-tiles"></div>
+    <div class="chart" style="margin-top:10px">
+      <p class="scalenote" id="sc-scale"></p>
+      <div class="rows" id="sc-rows"></div>
     </div>
-    <div class="chart">
-      <p class="scalenote" id="sr-scale"></p>
-      <div class="rows" id="sr-rows"></div>
-    </div>
-    <p class="foot" id="sr-foot"></p>
+    <p class="foot" id="sc-foot"></p>
   </section>
 
   
@@ -846,7 +844,7 @@ footer p{max-width:60ch;margin:0}
 </div>
 
 <script>
-const 파일 = ["live","videos","streams","emoticon","trends","region","rank","club","reputation","searches","archive","milestone","status"];
+const 파일 = ["live","videos","streams","emoticon","trends","city","rank","club","reputation","searches","archive","milestone","status"];
 /* 화면은 채널 하나씩 보여준다. 무엇을 보고 있나가 이 한 곳에 모인다. */
 const 상태 = {채널:"리센느", 기준:"조회수", 형식:"전체", N:20};
 let D = null;   // 읽어 온 JSON 전부
@@ -1595,64 +1593,40 @@ function 조작붙이기(){
   });
   // 주소창에서 해시를 바꾸거나 뒤로 가기로 돌아왔을 때도 화면이 따라가야 한다
   /* 해시는 탭 라우터가 맡는다 (개편_탭.js) — 여기서 또 다루면 탭을 옮길 때 채널이 튄다 */
-  $("#sr-seg").addEventListener("click", e=>{
-    const b = e.target.closest("button");
-    if(b){ 지역구간 = +b.dataset.v; 그리기_region(D.region); }
-  });
   세그("#sv-metric", "기준");
   세그("#sv-kind", "형식");
   세그("#sv-n", "N", true);
 }
 
-/* ─────────────────────────────────────────── 05 지역별 검색 */
-/* 주인공을 코드에 박지 않는다. 지금 1위인 지역을 값에서 찾아 네 구간에서 따라간다 —
-   경남이 아닌 다른 곳이 1위가 되는 날에도 화면이 저절로 맞는다. */
-// 처음에는 마지막 구간(가장 좁은 기간)을 보여준다 — 제목이 말하는 결론이 그 구간이다.
-let 지역구간 = null;
-function 그리기_region(r){
-  const 구간 = r.구간 || [];
-  if(!구간.length) return;
-  if(지역구간 === null) 지역구간 = 구간.length - 1;
-  const 마지막 = 구간.at(-1), 첫구간 = 구간[0];
-  // 주인공은 「지금 1위」가 아니라 「첫 구간보다 가장 많이 올라온 곳」이다.
-  // 1위를 따라가게 했더니 조회할 때마다 주인공이 바뀌었다 — 앞자리가 1점 차 접전이라
-  // 로컬에서는 경남, 같은 날 Actions 에서는 부산이 1위였다. 이 화면의 주장은
-  // 「누가 1위인가」가 아니라 「기간을 좁힐수록 올라오는 곳이 있다」이다.
-  const 오른것 = 마지막.지역
-    .map(x => ({...x, 옛순: (첫구간.지역.find(y=>y.지역===x.지역) || {}).순위}))
-    .filter(x => x.옛순)
-    .sort((a,b) => (b.옛순 - b.순위) - (a.옛순 - a.순위) || a.순위 - b.순위)[0];
-  const 주인공 = 오른것.지역;
+/* ─────────────────────────────────────────── 05 도시 브랜드평판 */
+/* 멤버 고향 도시가 그 달 표의 어디에 있는지만 적는다. 왜 올랐는지는 원문에 근거가 없어
+   말하지 않는다. 지수는 기사가 1~5위만 적어 주므로 순위만 쓴다 — 막대도 그리지 않는다. */
+function 그리기_city(c){
+  const 고향 = c.표.filter(x => x.멤버), 컷 = c.표.length;
+  const 위 = n => t("s11.t2v", n);
+  $("#sc-h").textContent = 고향.length === c.고향수 ? t("sc.h.all", 고향.length, 컷)
+                                                  : t("sc.h.some", 고향.length, 컷);
+  $("#sc-sub").textContent = t("sc.sub", c.해, c.달, c.도시수,
+    고향.map(x => 이름표옮김(x.도시) + " " + 위(x.순위)).join(" · "), 이름표옮김(c.밖.멤버));
 
-  $("#sr-h").textContent = t("sr.h", 이름표옮김(주인공), 오른것.옛순, 오른것.순위);
-  $("#sr-sub").textContent = t("sr.sub", 이름표옮김(주인공), 첫구간.이름, 마지막.이름);
+  const 타 = $("#sc-tiles"); 타.innerHTML = "";
+  고향.forEach((x, i)=> 타.append(
+    타일(t("sc.t.k", 이름표옮김(x.멤버), 이름표옮김(x.도시)), 위(x.순위),
+        t("sc.prev", c.전달, x.전월순위), i === 0)));
 
-  const seg = $("#sr-seg"); seg.innerHTML = "";
-  구간.forEach((g, i)=>{
-    const b = el("button", i === 지역구간 ? "on" : "", g.이름);
-    b.type = "button"; b.dataset.v = String(i);
-    seg.append(b);
-  });
-
-  const g = 구간[지역구간] || 마지막;
-  $("#sr-scale").textContent = `${g.기간} · ${r.값의의미}`;
-  const c = $("#sr-rows"); c.innerHTML = "";
-  g.지역.forEach(x=>{
-    const 나 = x.지역 === 주인공;
-    const row = el("div", "row" + (나 ? " on" : ""));
+  $("#sc-scale").textContent = t("sc.scale", c.해, c.달, c.기간, c.도시수, 컷);
+  const 통 = $("#sc-rows"); 통.innerHTML = "";
+  c.표.forEach(x=>{
+    const row = el("div", "row" + (x.멤버 ? " on" : ""));
     row.append(el("span","rk", String(x.순위)));
     const mid = el("div","mid");
-    mid.append(el("div","nm", 이름표옮김(x.지역)));
-    const bar = el("div","bar"), i = el("i");
-    i.style.width = x.값 + "%";
-    bar.append(i); mid.append(bar);
-    row.append(mid, el("span","val num", String(x.값)));
-    c.append(row);
+    mid.append(el("div","nm", 이름표옮김(x.도시) + (x.멤버 ? " · " + t("sc.home", 이름표옮김(x.멤버)) : "")));
+    row.append(mid, el("span","val num", t("sc.prev", c.전달, x.전월순위)));
+    통.append(row);
   });
 
-  $("#sr-foot").innerHTML =
-    `${r.지역수주의} <b>${t("sr.rank", (g.지역.find(x=>x.지역===주인공)||{}).순위, g.지역.length)}</b> · ` +
-    `${t("sr.wobble")} ${r.미확인}`;
+  $("#sc-foot").innerHTML = t("sc.foot", c.게시) +
+    `<a href="${c.출처.주소}" target="_blank" rel="noopener" style="color:var(--pink)">${tj("sc.src", c.출처.이름)}</a>`;
 }
 
 /* ─────────────────────────────────────────── 05 브랜드평판 */
@@ -1867,7 +1841,7 @@ function 모두그리기(){
   그리기_trends(d.trends);
   그리기_rank(d.rank);
   그리기_mv(d.live);
-  그리기_region(d.region);
+  그리기_city(d.city);
   그리기_rep(d.reputation);
   그리기_club(d.club, d.live, d.milestone);
   그리기_search(d.searches);
@@ -1897,7 +1871,7 @@ function 모두그리기(){
     그리기_trends(d.trends);
     그리기_rank(d.rank);
     그리기_mv(d.live);
-    그리기_region(d.region);
+    그리기_city(d.city);
     그리기_rep(d.reputation);
     그리기_club(d.club, d.live, d.milestone);
     그리기_search(d.searches);
@@ -2083,7 +2057,7 @@ function 그리기_digest(){
   const d = D, 통 = $("#nh-digest");
   if(!d || !통) return;
   const 주 = d.rank.주간, 끝 = 주[주.length - 1], 첫 = 주[0];
-  const mv = d.live.MV, 지 = d.region.구간[d.region.구간.length - 1];
+  const mv = d.live.MV, 고 = d.city.표.filter(x => x.멤버);
   통.innerHTML = "";
   통.append(
     요약칸("youtube", t("tab.youtube"), t("home.dg.v.rank", 콤마(끝.한국)),
@@ -2092,7 +2066,8 @@ function 그리기_digest(){
     요약칸("ad", t("tab.ad"),
           광고 ? t("home.dg.v.brands", 광고.브랜드.length) : "—",
           광고 ? t("home.dg.ad", 광고.브랜드.reduce((n, a) => n + a.영상.length, 0)) : ""),
-    요약칸("buzz", t("tab.buzz"), 이름표옮김(지.지역[0].지역), t("home.dg.buzz", 기간표(지.이름))));
+    요약칸("buzz", t("tab.buzz"), 이름표옮김(고[0].도시) + " " + t("s11.t2v", 고[0].순위),
+          t("home.dg.buzz", d.city.달, 이름표옮김(고[0].멤버), 고.length, d.city.표.length)));
 }
 
 function 그리기_feed(){
