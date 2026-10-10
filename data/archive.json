@@ -1,9 +1,31 @@
 {
- "기준": "2026-10-10",
+ "기준": "2026-10-11",
  "설명": "갱신되지 않는 일회성 집계는 전부 여기 모은다. 카드 하나가 쇼츠 한 편이다.",
  "채널": "https://www.youtube.com/@data-viz",
  "썸네일주의": "i.ytimg.com 을 참조만 한다. 파일을 저장소에 복사하지 않고, 카드 전체가 영상 링크가 된다.",
  "카드": [
+  {
+   "id": "36NQNCkXA2w",
+   "날짜": "2026-10-11",
+   "제목": "아임 리브~ 리센느 대경은이 살아온 7,305일로 그린 한 장 #shorts",
+   "주장": "리센느 리브, 2006년 10월 11일생.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/36NQNCkXA2w",
+   "썸네일": "https://i.ytimg.com/vi/36NQNCkXA2w/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "CqYMUBoXzM0",
+   "날짜": "2026-10-10",
+   "제목": "리센느 미나미? 놀면 뭐하니 서울가요제 「M」이 부른 곡, 가요톱텐 몇 주 1위? #shorts",
+   "주장": "놀면 뭐하니 '90s 서울가요제 예선에 나온 14곡이 KBS 가요톱텐에서 몇 주 1위를 했는지 방송 순서대로 봅니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/CqYMUBoXzM0",
+   "썸네일": "https://i.ytimg.com/vi/CqYMUBoXzM0/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
   {
    "id": "yF47-6rYqSs",
    "날짜": "2026-10-10",
