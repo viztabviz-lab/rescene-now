@@ -156,6 +156,25 @@ h2{
 .tile.on .v{color:var(--pink)}
 .tile .d{font-size:12px;color:var(--ink-3);margin-top:1px}
 
+/* ── 이모티콘 시즌 고르기 — 대표 그림이 곧 단추다 ── */
+.emopick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 10px}
+.emopick button{
+  display:flex;align-items:center;gap:12px;min-width:0;text-align:left;font:inherit;color:inherit;cursor:pointer;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:10px;
+}
+.emopick button:hover{border-color:var(--track)}
+.emopick button.on{border-color:var(--pink)}
+.emopick img{width:84px;height:84px;flex:none;border-radius:9px;object-fit:cover;background:var(--track)}
+.emopick .tx{min-width:0}
+.emopick .nm{font-weight:700;font-size:14.5px;line-height:1.3}
+.emopick button.on .nm{color:var(--pink)}
+.emopick .d{font-size:12px;color:var(--ink-3);margin-top:3px}
+.emopick .st{font-size:12.5px;color:var(--ink-2);font-weight:600;margin-top:3px}
+@media (max-width:520px){
+  .emopick button{flex-direction:column;align-items:flex-start;gap:9px}
+  .emopick img{width:100%;height:auto;aspect-ratio:1}
+}
+
 /* ── 차트 공통 ── */
 .chart{
   background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
@@ -752,6 +771,7 @@ footer p{max-width:60ch;margin:0}
     <p class="eyebrow"><b>04</b> <span data-i18n="s11.eye">카카오 이모티콘</span></p>
     <h2 id="s11-h">여섯 탭이 전부 같은 1위</h2>
     <p class="sub" id="s11-sub"></p>
+    <div class="emopick" id="s11-pick"></div>
     <div class="tiles" id="s11-tiles"></div>
 
     <h3 class="subhead" data-i18n="s11.rank.h">연령 탭마다 1위와 2위</h3>
@@ -1424,7 +1444,37 @@ function 그리기_streams(st){
 /* ─────────────────────────────────────────── 04 카카오 이모티콘 (안원잘부) */
 /* 순위는 실시간으로 바뀐다. 「전 탭 1위」를 화면에 적어 두지 않고 받아 온 값으로
    문장을 만든다 — 2위로 내려가면 화면도 2위라고 말해야 한다. */
-function 그리기_emoticon(e){
+/* 시즌이 둘이다 — 대표 그림 단추로 고르고, 아래 화면 전체가 고른 시즌으로 바뀐다.
+   처음에는 목록 맨 앞(가장 최근 시즌)을 편다. */
+let 이모키 = null;
+function 그리기_emoticon(전체){
+  const 시즌들 = 전체.시즌;
+  const e = 시즌들.find(x => x.키 === 이모키) || 시즌들[0];
+  이모키 = e.키;
+  const 고르기 = $("#s11-pick"); 고르기.innerHTML = "";
+  시즌들.forEach(x=>{
+    const b = el("button", x.키 === 이모키 ? "on" : "");
+    b.type = "button"; b.setAttribute("aria-pressed", String(x.키 === 이모키));
+    if(x.상품.대표){
+      const 그림 = el("img");
+      그림.src = x.상품.대표; 그림.alt = t("s11.pk.alt", x.상품.이름);
+      그림.width = 216; 그림.height = 216; 그림.loading = "lazy"; 그림.referrerPolicy = "no-referrer";
+      그림.onerror = () => 그림.remove();
+      b.append(그림);
+    }
+    const 든 = x.순위.탭.filter(t => t.리센느순위);
+    const 꼭대기 = 든.length ? Math.min(...든.map(t => t.리센느순위)) : null;
+    const 일위수 = 든.filter(t => t.리센느순위 === 1).length;
+    const 글 = el("div","tx");
+    글.append(el("div","nm", x.상품.이름),
+      el("div","d", t("s11.pk.d", x.상품.출시, x.상품.종수)),
+      el("div","st", 일위수 === x.순위.탭.length ? t("s11.pk.all", 일위수)
+        : 꼭대기 ? t("s11.pk.best", 꼭대기) : t("s11.rank.out")));
+    b.append(글);
+    b.addEventListener("click", ()=>{ 이모키 = x.키; 그리기_emoticon(전체); });
+    고르기.append(b);
+  });
+
   const 탭 = e.순위.탭, 상 = e.상품, 가 = e.가격;
   const 든것 = 탭.filter(t => t.리센느순위);
   const 일위 = 탭.filter(t => t.리센느순위 === 1).length;
@@ -1432,10 +1482,8 @@ function 그리기_emoticon(e){
   // 「그 탭 1위」를 보여준다 — 리센느가 모든 탭 1위가 아닐 때는 2위보다 이쪽이 말이 된다
   const 일위종류 = new Set(탭.map(t => t["1위"])).size;
 
-  // 제목에 쓰는 작은 수는 한글로 적는다 — 「6개 탭」보다 「여섯 탭」이 읽힌다
-  const 한글수 = n => (LANG === "ko"
-    ? (["","한","두","세","네","다섯","여섯","일곱","여덟","아홉","열"][n] || String(n))
-    : String(n));
+  // 수는 아라비아 숫자로 적는다 — 「여섯 탭」보다 「6개 탭」이 훑어 읽힌다
+  const 한글수 = n => String(n);
   $("#s11-h").textContent =
     일위 === 탭.length ? t("s11.h.all", 한글수(탭.length))
     : 일위 ? t("s11.h.some", 한글수(탭.length), 한글수(일위))
@@ -1508,7 +1556,8 @@ function 그리기_emoticon(e){
     lb.append(tr);
   });
 
-  $("#s11-foot").innerHTML = t("s11.foot", tj("s11.how", e.원본.찾은법)) +
+  $("#s11-foot").innerHTML = t("s11.foot", tj(e.키 === "1" ? "s11.how" : "s11.how." + e.키, e.원본.찾은법),
+      e.원본.자막다시씀 ? t("s11.foot.rw") : "") +
     `<a href="${상.링크}" target="_blank" rel="noopener" style="color:var(--pink)">${t("s11.foot.link")}</a>`;
 }
 

@@ -947,16 +947,16 @@ def _카카오(경로, 파라미터=None):
 
 
 def 이모티콘():
-    """여섯 탭의 인기 순위에서 이 상품이 몇 위인지, 그 위아래가 무엇인지 다시 받는다.
+    """여섯 탭의 인기 순위에서 시즌마다 몇 위인지, 그 탭 1~3위가 무엇인지 다시 받는다.
 
     **순위는 실시간으로 바뀐다.** 그래서 화면이 「전 탭 1위」라고 적어 두지 않고
     받아 온 값으로 문장을 만든다 — 2위로 내려가면 화면도 2위라고 말해야 한다.
     24종이 어느 편에서 나왔는지는 사람이 프레임으로 확정한 값이라 건드리지 않는다.
+    탭은 한 번만 받아 시즌들이 나눠 쓴다. 대표 그림 주소도 상품 응답에서 같이 고친다.
     """
     e = 읽기("emoticon.json")
-    slug = e["상품"]["slug"]
 
-    탭들 = []
+    판 = []
     for 이름, 코드 in 카카오탭:
         q = {"miniOnly": "false", "page": "0", "size": "50"}
         if 코드:
@@ -964,30 +964,43 @@ def 이모티콘():
         items = _카카오("items/hot", q).get("items") or []
         if len(items) < 3:
             raise RuntimeError(f"{이름} 탭이 {len(items)}개뿐이다 — 응답 모양이 바뀌었을 수 있다")
-        자리 = next((i + 1 for i, x in enumerate(items) if x.get("slug") == slug), None)
-        탭들.append({"탭": 이름, "코드": 코드 or "전체", "리센느순위": 자리,
-                   "1위": items[0]["title"], "2위": items[1]["title"], "3위": items[2]["title"]})
+        판.append((이름, 코드, items))
         time.sleep(0.4)
 
-    가 = (_카카오("items/" + slug).get("hero") or {}).get("price") or {}
-    if 가.get("value"):
-        할인 = 가.get("discount") or {}
-        e["가격"] = {"정가": int(할인.get("originalValue") or 가["value"]),
-                   "판매가": int(가["value"]),
-                   "할인율": (100 - int(할인["rate"])) if 할인.get("rate") else 0,
-                   "문구": 할인.get("description") or "",
-                   "기준일": 오늘}
+    말들 = []
+    for s in e["시즌"]:
+        slug = s["상품"]["slug"]
+        탭들 = [{"탭": 이름, "코드": 코드 or "전체",
+                "리센느순위": next((i + 1 for i, x in enumerate(items) if x.get("slug") == slug), None),
+                "1위": items[0]["title"], "2위": items[1]["title"], "3위": items[2]["title"]}
+               for 이름, 코드, items in 판]
 
-    e["순위"]["탭"] = 탭들
-    e["순위"]["수집시각"] = 지금        # 실시간 값이라 분 단위로 남긴다
+        상세 = _카카오("items/" + slug)
+        가 = (상세.get("hero") or {}).get("price") or {}
+        if 가.get("value"):
+            할인 = 가.get("discount") or {}
+            s["가격"] = {"정가": int(할인.get("originalValue") or 가["value"]),
+                       "판매가": int(가["value"]),
+                       "할인율": (100 - int(할인["rate"])) if 할인.get("rate") else 0,
+                       "문구": 할인.get("description") or "",
+                       "기준일": 오늘}
+        대표 = (상세.get("contents") or {}).get("mainThumbnailUrl")
+        if 대표:
+            s["상품"]["대표"] = 대표
+        time.sleep(0.4)
+
+        s["순위"]["탭"] = 탭들
+        s["순위"]["수집시각"] = 지금        # 실시간 값이라 분 단위로 남긴다
+
+        안든탭 = [t["탭"] for t in 탭들 if not t["리센느순위"]]
+        최고 = min((t["리센느순위"] for t in 탭들 if t["리센느순위"]), default=None)
+        말들.append(f"{s['상품']['이름']}: 여섯 탭 중 {sum(1 for t in 탭들 if t['리센느순위'] == 1)}곳 1위"
+                  + (f" · 최고 {최고}위" if 최고 else "")
+                  + (f" · 50위 밖: {', '.join(안든탭)}" if 안든탭 else ""))
+
     e["기준"] = 오늘
     쓰기("emoticon.json", e)
-
-    안든탭 = [t["탭"] for t in 탭들 if not t["리센느순위"]]
-    최고 = min((t["리센느순위"] for t in 탭들 if t["리센느순위"]), default=None)
-    말 = (f"여섯 탭 중 {sum(1 for t in 탭들 if t['리센느순위'] == 1)}곳 1위"
-          + (f" · 최고 {최고}위" if 최고 else "")
-          + (f" · 50위 밖: {', '.join(안든탭)}" if 안든탭 else ""))
+    말 = " / ".join(말들)
     print(f"    {말}")
     상태기록("emoticon", "OK", 오늘, 말)
     return 말
