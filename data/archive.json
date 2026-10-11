@@ -1,9 +1,31 @@
 {
- "기준": "2026-10-11",
+ "기준": "2026-10-12",
  "설명": "갱신되지 않는 일회성 집계는 전부 여기 모은다. 카드 하나가 쇼츠 한 편이다.",
  "채널": "https://www.youtube.com/@data-viz",
  "썸네일주의": "i.ytimg.com 을 참조만 한다. 파일을 저장소에 복사하지 않고, 카드 전체가 영상 링크가 된다.",
  "카드": [
+  {
+   "id": "cmsnYdTvLHc",
+   "날짜": "2026-10-11",
+   "제목": "리센느 리브 생일 라이브, 가장 많았던 순간은? #shorts",
+   "주장": "2026년 10월 11일 리브 생일 날 저녁 8시 반 리센느 리브 라이브 동시 접속을 30초마다 73번 쟀습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/cmsnYdTvLHc",
+   "썸네일": "https://i.ytimg.com/vi/cmsnYdTvLHc/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "huEa1KQhFUA",
+   "날짜": "2026-10-11",
+   "제목": "리센느 나온 SBS 8뉴스, 끝날 때 몇 명이 보고 있었을까? #shorts",
+   "주장": "2026년 10월 11일 리센느가 나온 SBS 8뉴스 유튜브 생중계 동시 접속을 30초마다 70번 쟀습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/huEa1KQhFUA",
+   "썸네일": "https://i.ytimg.com/vi/huEa1KQhFUA/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
   {
    "id": "y8onv_FreMk",
    "날짜": "2026-10-11",
