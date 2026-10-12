@@ -1,9 +1,53 @@
 {
- "기준": "2026-10-12",
+ "기준": "2026-10-13",
  "설명": "갱신되지 않는 일회성 집계는 전부 여기 모은다. 카드 하나가 쇼츠 한 편이다.",
  "채널": "https://www.youtube.com/@data-viz",
  "썸네일주의": "i.ytimg.com 을 참조만 한다. 파일을 저장소에 복사하지 않고, 카드 전체가 영상 링크가 된다.",
  "카드": [
+  {
+   "id": "beDOLW47eIY",
+   "날짜": "2026-10-12",
+   "제목": "안원잘부 「망했다」 모음, 마지막은 피디니무 #shorts",
+   "주장": "안원잘부에서 「망했다」가 나온 장면 7개를 모았습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/beDOLW47eIY",
+   "썸네일": "https://i.ytimg.com/vi/beDOLW47eIY/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "LHv3glq4IHU",
+   "날짜": "2026-10-12",
+   "제목": "안원잘부 ㅁ 10개, 무슨 말이었을까? #shorts",
+   "주장": "제목이 ㅁ 10개였던 안원잘부 USJ 할로윈 편.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/LHv3glq4IHU",
+   "썸네일": "https://i.ytimg.com/vi/LHv3glq4IHU/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "PkFTPVgakyQ",
+   "날짜": "2026-10-12",
+   "제목": "안원잘부 ㅁ 새 편, 최고 동접 기록 #shorts",
+   "주장": "2026년 10월 12일 안원잘부 「망해버린 미나미의 오사카 여행」 프리미어를 영상 9분부터 20초마다 재봤습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/PkFTPVgakyQ",
+   "썸네일": "https://i.ytimg.com/vi/PkFTPVgakyQ/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "zuUpwnJR6Y4",
+   "날짜": "2026-10-12",
+   "제목": "리센느 노래 부른 박상철, 댓글 공감 1위는? #shorts",
+   "주장": "리센느 제나가 부른 「빵빵」에 박상철 님이 LOVE ATTACK으로 답가를 보냈습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/zuUpwnJR6Y4",
+   "썸네일": "https://i.ytimg.com/vi/zuUpwnJR6Y4/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
   {
    "id": "cmsnYdTvLHc",
    "날짜": "2026-10-11",
