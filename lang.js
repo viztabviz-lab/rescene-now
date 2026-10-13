@@ -724,6 +724,7 @@ Object.assign(이름표, {
   "더마비":     {en:"Derma:B"},                                          // 채널 「더마비 Derma:B」
   "와키윌리":    {en:"Wacky WiLLy"},                                      // 채널 「와키윌리-Wacky WiLLy」
   "티오더":     {en:"Torder"},                                           // torder.com
+  "메가패스":    {en:"MEGAPASS"},                                         // 광고 「Make Sure. 2028 MEGAPASS」
 });
 
 /* 분야와 링크 종류 — 값은 한국어 식별자이고 글자만 바뀐다 */
@@ -741,6 +742,7 @@ Object.assign(낱말, {
   "교복":     {en:"School uniforms", ja:"学生服"},
   "게임":     {en:"Games", ja:"ゲーム"},
   "IT":      {en:"IT", ja:"IT"},
+  "교육":     {en:"Education", ja:"教育"},
   "향수":     {en:"Perfume", ja:"香水"},
   "기획전":   {en:"Collection", ja:"特設ページ"},
   "상품":     {en:"Product", ja:"商品"},
