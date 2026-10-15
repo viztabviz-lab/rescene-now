@@ -1,9 +1,31 @@
 {
- "기준": "2026-10-15",
+ "기준": "2026-10-16",
  "설명": "갱신되지 않는 일회성 집계는 전부 여기 모은다. 카드 하나가 쇼츠 한 편이다.",
  "채널": "https://www.youtube.com/@data-viz",
  "썸네일주의": "i.ytimg.com 을 참조만 한다. 파일을 저장소에 복사하지 않고, 카드 전체가 영상 링크가 된다.",
  "카드": [
+  {
+   "id": "78z8rALZcGc",
+   "날짜": "2026-10-15",
+   "제목": "리센느 효과, 거제시가 밝혔다 — 덕포해수욕장 카드 매출 +134.4% #shorts",
+   "주장": "거제시가 발표한 리센느 효과, 숫자로 모아 봤습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/78z8rALZcGc",
+   "썸네일": "https://i.ytimg.com/vi/78z8rALZcGc/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "MuqqhXzrpFk",
+   "날짜": "2026-10-15",
+   "제목": "리센느 MMA 모두의 스타상 투표하는 법 — 카카오뱅크 앱에서 하루 1번 #shorts",
+   "주장": "📌 카카오뱅크 MMA 투표하는 법 (하루 1번 · 10월 15일~30일)",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/MuqqhXzrpFk",
+   "썸네일": "https://i.ytimg.com/vi/MuqqhXzrpFk/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
   {
    "id": "0JZF4X_aMMw",
    "날짜": "2026-10-15",
