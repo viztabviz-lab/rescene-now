@@ -1,9 +1,31 @@
 {
- "기준": "2026-10-16",
+ "기준": "2026-10-17",
  "설명": "갱신되지 않는 일회성 집계는 전부 여기 모은다. 카드 하나가 쇼츠 한 편이다.",
  "채널": "https://www.youtube.com/@data-viz",
  "썸네일주의": "i.ytimg.com 을 참조만 한다. 파일을 저장소에 복사하지 않고, 카드 전체가 영상 링크가 된다.",
  "카드": [
+  {
+   "id": "DywuorUICAU",
+   "날짜": "2026-10-17",
+   "제목": "안원잘부 기다리다 만든 조회수 TOP 10 가장 많이 다시 본 장면",
+   "주장": "매주 금요일 저녁 7시 안원잘부 프리미어 기다리다..",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/DywuorUICAU",
+   "썸네일": "https://i.ytimg.com/vi/DywuorUICAU/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "luQuPJLkXTY",
+   "날짜": "2026-10-16",
+   "제목": "리센느 PULSE, 몇십 년 만에 다시 산 앨범 #shorts",
+   "주장": "리센느 PULSE 쇼츠 2편에 달린 댓글 1,487개를 모두 읽었습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/luQuPJLkXTY",
+   "썸네일": "https://i.ytimg.com/vi/luQuPJLkXTY/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
   {
    "id": "3mq1LJjJV2M",
    "날짜": "2026-10-16",
