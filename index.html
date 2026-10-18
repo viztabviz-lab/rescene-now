@@ -112,6 +112,15 @@ h2{
 .foot{color:var(--ink-3);font-size:12.5px;margin:14px 0 0;line-height:1.6}
 .foot b{color:var(--ink-2);font-weight:600}
 
+/* ── 별도 페이지로 가는 띠 ── */
+.promo{display:flex;align-items:center;gap:14px;margin-top:10px;padding:16px 18px;text-decoration:none;
+  background:var(--surface);border:1px solid var(--pink-dim);border-radius:var(--r);transition:border-color .15s}
+.promo:hover{border-color:var(--pink)}
+.promo-ic{width:40px;height:40px;border-radius:10px;background:var(--pink);display:grid;place-items:center;font-size:20px;flex:none}
+.promo b{display:block;font-size:16px;line-height:1.35}
+.promo small{display:block;font-size:13px;color:var(--ink-3);line-height:1.45}
+.promo .arr{margin-left:auto;color:var(--pink);font-size:18px}
+
 /* ── 00 게이지 ── */
 .heroes{display:grid;gap:10px;align-items:stretch}
 @media (min-width:760px){.heroes{grid-template-columns:1fr 1fr}}
@@ -407,7 +416,7 @@ footer p{max-width:60ch;margin:0}
 /* 주 메뉴 */
 .tabs{position:sticky;top:0;z-index:6;background:var(--bg);margin:30px -20px 0;padding:10px 20px;border-bottom:1px solid var(--line)}
 @media (max-width:420px){.tabs{margin-inline:-16px;padding-inline:16px}}
-.tabs .row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:4px}
+.tabs .row{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:4px}
 .tab{border:0;background:none;cursor:pointer;border-radius:10px;padding:9px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:1px;color:var(--ink-3);min-width:0;font:inherit}
 .tab b{font-size:15px;font-weight:700;letter-spacing:-.01em;white-space:nowrap}
 .tab small{font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
@@ -415,6 +424,8 @@ footer p{max-width:60ch;margin:0}
 .tab[aria-selected="true"]{background:var(--ink);color:#1a1a19}
 .tab[aria-selected="true"] small{color:#55554f}
 @media (max-width:620px){.tab small{display:none}.tab b{font-size:14px}.tab{padding:9px 2px}}
+/* 탭이 6개라 폰에서는 「YouTube」가 칸을 넘친다(390px en·ja) — 좁은 화면만 글자를 줄인다 */
+@media (max-width:440px){.tabs .row{gap:2px;padding:3px}.tab{padding:9px 0}.tab b{font-size:12.5px;letter-spacing:-.03em}}
 .tabpane[hidden]{display:none}
 .tabpane .chtabs{position:static;margin-top:22px}
 
@@ -504,12 +515,20 @@ footer p{max-width:60ch;margin:0}
     <button type="button" class="tab" role="tab" data-tab="music" aria-selected="false" tabindex="-1"><b data-i18n="tab.music">음원</b><small data-i18n="tab.music.sub">멜론 · MV</small></button>
     <button type="button" class="tab" role="tab" data-tab="ad" aria-selected="false" tabindex="-1"><b data-i18n="tab.ad">광고</b><small data-i18n="tab.ad.sub">브랜드 · 평판</small></button>
     <button type="button" class="tab" role="tab" data-tab="buzz" aria-selected="false" tabindex="-1"><b data-i18n="tab.buzz">화제</b><small data-i18n="tab.buzz.sub">검색 · 이모티콘</small></button>
+    <button type="button" class="tab" role="tab" data-tab="story" aria-selected="false" tabindex="-1"><b data-i18n="tab.story">스토리</b><small data-i18n="tab.story.sub">다이어리 · 몰 · 앨범</small></button>
   </div>
 </nav>
 <div class="tabpane" data-tab="home" role="tabpanel">
 <section id="s0">
     <div class="heroes" id="hero"></div>
   </section>
+
+<!-- 스토리 탭으로 가는 띠. 구역 번호를 세지 않도록 section 이 아니다 -->
+<a class="promo" href="#story" data-go="story">
+  <span class="promo-ic">📔</span>
+  <span><b data-i18n="home.story.h">안원잘부 성장 스토리</b><small data-i18n="home.story.sub">2027 다이어리 타임라인을 칸마다 그 편으로 · 몰·이모티콘·앨범 바로 가기</small></span>
+  <span class="arr">→</span>
+</a>
 
   
 <section id="s1">
@@ -799,6 +818,13 @@ footer p{max-width:60ch;margin:0}
   </section>
 
   
+</div>
+<div class="tabpane" data-tab="story" role="tabpanel" hidden>
+  <!-- 안원잘부 성장 스토리 — story.html 을 그대로 끼운다(멜론 차트와 같은 방식).
+       story.html 은 혼자서도 열리는 페이지이고, ?embed=1 이면 머리 줄을 숨기고 제 높이를 알려 준다.
+       section 이 아니어서 구역 번호를 세지 않는다. 나라말을 바꾸면 주소를 다시 써서 새로 읽힌다. -->
+  <iframe id="story-frame" data-src="story.html?embed=1" title="안원잘부 성장 스토리" loading="lazy"
+          style="width:100%;border:0;display:block;height:4200px;margin-top:8px;background:var(--bg)"></iframe>
 </div>
 <section id="s9">
     <p class="eyebrow"><b>09</b> <span data-i18n="s9.eye">출처</span></p>
@@ -1904,7 +1930,7 @@ function 모두그리기(){
    위 스크립트의 것을 그대로 쓴다 — $ · el · 날 · D · 상태 · 전환 · t · 이름 · 낱 · 만 · 콤마.
    여기서 다시 정의하면 이름이 겹쳐 페이지가 죽는다.
    ═══════════════════════════════════════════════════════════════════════ */
-const 탭목록 = ["home", "youtube", "music", "ad", "buzz"];
+const 탭목록 = ["home", "youtube", "music", "ad", "buzz", "story"];
 const 광고멤버들 = ["원이", "리브", "미나미", "메이", "제나"];
 let 지금탭 = "home", 광고 = null, 광고멤버 = "전체";
 
@@ -2179,7 +2205,26 @@ addEventListener("message", function (e) {
   var h = e.data && e.data["멜론차트높이"];
   var fr = document.getElementById("sm-frame");
   if (fr && typeof h === "number" && h > 200 && h < 6000) fr.style.height = h + "px";
+  /* story.html 도 같은 방식 — 타임라인이 길어 상한을 넉넉히 둔다 */
+  var sh = e.data && e.data["스토리높이"];
+  var sf = document.getElementById("story-frame");
+  if (sf && typeof sh === "number" && sh > 200 && sh < 20000) sf.style.height = sh + "px";
 });
+/* 스토리 탭의 iframe 은 나라말을 주소로 받는다. 지금 나라말과 다르면 다시 쓴다(처음 한 번 + 바꿀 때마다) */
+(function () {
+  var sf = document.getElementById("story-frame");
+  if (!sf) return;
+  var 처음 = true;
+  function 맞추기() {
+    /* LANG 은 데이터를 다 받은 뒤에 정해진다 — 처음에는 같은 규칙(첫나라말)으로 직접 고른다 */
+    var 말 = 처음 ? 첫나라말() : LANG; 처음 = false;
+    var 주소 = sf.dataset.src + "&lang=" + 말;
+    if (sf.getAttribute("src") !== 주소) sf.setAttribute("src", 주소);
+  }
+  맞추기();
+  var 줄 = document.getElementById("langs");
+  if (줄) 줄.addEventListener("click", function () { setTimeout(맞추기, 0); });
+})();
 </script>
 </body>
 </html>
