@@ -852,6 +852,8 @@ Object.assign(STR, {
 "rm.cat.cvs":     {ko:"편의점", en:"Convenience stores", ja:"コンビニ"},
 "rm.cat.coffee":  {ko:"커피전문점", en:"Coffee chains", ja:"コーヒーチェーン"},
 "rm.cat.girlsolo":{ko:"걸그룹 개인", en:"Girl group members", ja:"ガールズグループ個人"},
+"rm.cat.girlgroup":{ko:"걸그룹", en:"Girl groups", ja:"ガールズグループ"},
+"rm.cat.idolgroup":{ko:"아이돌그룹", en:"Idol groups", ja:"アイドルグループ"},
 "rm.move":        {ko:(pm,a,m,b)=>`${pm}월 ${a}위 → ${m}월 ${b}위`,
                    en:(pm,a,m,b)=>`${_달이름[pm]} #${a} → ${_달이름[m]} #${b}`,
                    ja:(pm,a,m,b)=>`${pm}月 ${a}位 → ${m}月 ${b}位`},
@@ -903,4 +905,13 @@ Object.assign(STR, {
               en:d=>`The brand reputation index aggregates online mentions and reactions; it is not a popularity vote. The source gives index values only for ranks 1–5 this month, so only ranks are shown. The source gives no reason for the moves, so none is stated here. Published <b>${d}</b>. Source: `,
               ja:d=>`ブランド評判指数は人気投票ではなく、オンラインでの言及・反応量を集計した値です。今月の指数は原文が1〜5位しか載せていないため、順位だけを掲載しています。順位が動いた理由は原文に根拠がないため記していません。<b>${d}</b> 発表。出典 `},
 "sc.src":    {ko:null, en:"Korea Institute of Corporate Reputation · Korean city brand reputation", ja:"韓国企業評判研究所・韓国都市ブランド評判"},
+});
+/* 별도 페이지(story.html)로 가는 홈 띠 — 페이지 안 문구는 story.html 이 st.* 로 덧붙인다 */
+Object.assign(STR, {
+"tab.story":      {ko:"스토리", en:"Story", ja:"成長"},
+"tab.story.sub":  {ko:"다이어리 · 몰 · 앨범", en:"Diary · shop · album", ja:"ダイアリー・モール"},
+"home.story.h":   {ko:"안원잘부 성장 스토리", en:"WONI's channel, growing up", ja:"アンウォンジャルブ 成長ストーリー"},
+"home.story.sub": {ko:"2027 다이어리 타임라인을 칸마다 그 편으로 · 몰·이모티콘·앨범 바로 가기",
+                   en:"The 2027 diary timeline, step by step, linked to each episode · shop, emoticons and album links",
+                   ja:"2027ダイアリーのタイムラインを各回につないだページ・モール・絵文字・アルバムへのリンク"},
 });
