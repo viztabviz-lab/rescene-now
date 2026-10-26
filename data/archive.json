@@ -1,9 +1,42 @@
 {
- "기준": "2026-10-26",
+ "기준": "2026-10-27",
  "설명": "갱신되지 않는 일회성 집계는 전부 여기 모은다. 카드 하나가 쇼츠 한 편이다.",
  "채널": "https://www.youtube.com/@data-viz",
  "썸네일주의": "i.ytimg.com 을 참조만 한다. 파일을 저장소에 복사하지 않고, 카드 전체가 영상 링크가 된다.",
  "카드": [
+  {
+   "id": "IuYZTwS5lwI",
+   "날짜": "2026-10-27",
+   "제목": "안원잘부 이번 편 500만까지 27시간, 몇 위? 롱폼 25편 전부 카운트다운",
+   "주장": "안원잘부 롱폼을 「500만 조회수까지 걸린 시간」으로 줄 세웠습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/IuYZTwS5lwI",
+   "썸네일": "https://i.ytimg.com/vi/IuYZTwS5lwI/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "CiSyXDS4XNU",
+   "날짜": "2026-10-26",
+   "제목": "안원잘부 「4인조 리센느」 24시간, 댓글이 가장 많이 짚은 장면 TOP 5 #shorts",
+   "주장": "안원잘부 「4인조 걸그룹 리센느」 공개 24시간.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/CiSyXDS4XNU",
+   "썸네일": "https://i.ytimg.com/vi/CiSyXDS4XNU/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "0csrE_6Uol8",
+   "날짜": "2026-10-26",
+   "제목": "리센느 제나, 호피 사랑 7개월 — 「호피 좋아하는 친구」부터 MLB 매장까지",
+   "주장": "리센느 제나의 호피 사랑, 공식 영상에서 7개월을 날짜순으로 이었습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/0csrE_6Uol8",
+   "썸네일": "https://i.ytimg.com/vi/0csrE_6Uol8/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
   {
    "id": "YfQUa9fPIkg",
    "날짜": "2026-10-25",
