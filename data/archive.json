@@ -1,9 +1,141 @@
 {
- "기준": "2026-10-22",
+ "기준": "2026-10-26",
  "설명": "갱신되지 않는 일회성 집계는 전부 여기 모은다. 카드 하나가 쇼츠 한 편이다.",
  "채널": "https://www.youtube.com/@data-viz",
  "썸네일주의": "i.ytimg.com 을 참조만 한다. 파일을 저장소에 복사하지 않고, 카드 전체가 영상 링크가 된다.",
  "카드": [
+  {
+   "id": "YfQUa9fPIkg",
+   "날짜": "2026-10-25",
+   "제목": "리센느 안원잘부 속 MLB 10개, 다 사면 얼마? #shorts",
+   "주장": "안원잘부 10월 25일 편 「4인조 걸그룹 리센느」의 MLB 매장 장면.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/YfQUa9fPIkg",
+   "썸네일": "https://i.ytimg.com/vi/YfQUa9fPIkg/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "Miys5KKETmA",
+   "날짜": "2026-10-25",
+   "제목": "안원잘부 새 편, 채팅 ㅋ 터진 장면은? #shorts",
+   "주장": "안원잘부 「4인조 걸그룹 리센느」 10월 25일 19시 프리미어.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/Miys5KKETmA",
+   "썸네일": "https://i.ytimg.com/vi/Miys5KKETmA/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "1jhXmicJ3j4",
+   "날짜": "2026-10-25",
+   "제목": "안원잘부 새 편, 영상 시작 전에 이미 4.4만 명 #shorts",
+   "주장": "2026년 10월 25일 안원잘부 「4인조 걸그룹 리센느」 프리미어를 20초마다 재봤습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/1jhXmicJ3j4",
+   "썸네일": "https://i.ytimg.com/vi/1jhXmicJ3j4/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "K223C5lSW2M",
+   "날짜": "2026-10-25",
+   "제목": "리센느 [PULSE] 트랙리스트 공지, 리마인 반응 1위는? #shorts",
+   "주장": "「RESCENE [PULSE] Tracklist  4th Mini Album [PULSE]  2026.11.03 6PM (KST)」 트랙리스트 공지에 달린 한…",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/K223C5lSW2M",
+   "썸네일": "https://i.ytimg.com/vi/K223C5lSW2M/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "8XVSBKK6KA0",
+   "날짜": "2026-10-24",
+   "제목": "리센느와 여행 앱 3곳, 20일 동안 3번 마지막은? #shorts",
+   "주장": "리센느와 함께한 여행 앱, 10월에만 3곳입니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/8XVSBKK6KA0",
+   "썸네일": "https://i.ytimg.com/vi/8XVSBKK6KA0/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "Ilzli65Mb24",
+   "날짜": "2026-10-24",
+   "제목": "리센느 손에 갤럭시, 84일 — 선물 받은 날부터 삼성 실루엣까지",
+   "주장": "7월 31일 삼성에서 이름표 붙은 갤럭시 Z 폴드8 · 플립8을 선물받은 날부터 10월 23일 삼성전자가 올린 「시작해볼까?」 실루엣 5명까지, 84일을 날짜…",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/Ilzli65Mb24",
+   "썸네일": "https://i.ytimg.com/vi/Ilzli65Mb24/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "1UJCE369DlA",
+   "날짜": "2026-10-24",
+   "제목": "리센느 10월 가수 브랜드평판 몇 위?",
+   "주장": "한국기업평판연구소 가수 브랜드평판 2026년 10월을 10위부터 하나씩 열었습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/1UJCE369DlA",
+   "썸네일": "https://i.ytimg.com/vi/1UJCE369DlA/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "iPIclY1sIEQ",
+   "날짜": "2026-10-23",
+   "제목": "안원잘부, 처음 공개된 유튜브 화제성 순위에서 몇 위?",
+   "주장": "굿데이터코퍼레이션 펀덱스가 유튜브 예능의 화제성 순위를 TV 프로그램처럼 처음 공개했습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/iPIclY1sIEQ",
+   "썸네일": "https://i.ytimg.com/vi/iPIclY1sIEQ/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "_F8G6Z2mFN4",
+   "날짜": "2026-10-23",
+   "제목": "리센느 Pretty Girl, 공개 106일 만에 공식 채널 조회수 1위",
+   "주장": "리센느 Pretty Girl이 LOVE ATTACK에 이어 리센느 공식 채널 조회수 1위가 됐습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/_F8G6Z2mFN4",
+   "썸네일": "https://i.ytimg.com/vi/_F8G6Z2mFN4/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "OqXQravp9cM",
+   "날짜": "2026-10-22",
+   "제목": "리센느 고향 도시 4곳, 10월 도시 브랜드평판 몇 위?",
+   "주장": "한국기업평판연구소 대한민국 도시 브랜드평판 2026년 10월을 15위부터 한 줄씩 열었습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/OqXQravp9cM",
+   "썸네일": "https://i.ytimg.com/vi/OqXQravp9cM/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "BXPtTRVAosA",
+   "날짜": "2026-10-22",
+   "제목": "리센느 PULSE 트레일러 공개 2시간, 팬 댓글에 가장 많은 말은? #shorts",
+   "주장": "리센느 4th 미니 「PULSE」 컨셉 트레일러가 10월 22일 18시에 공개됐습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/BXPtTRVAosA",
+   "썸네일": "https://i.ytimg.com/vi/BXPtTRVAosA/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "O9watzZ95Ng",
+   "날짜": "2026-10-22",
+   "제목": "안원잘부 700만까지 4.6일, 이번 편은 몇 위? 롱폼 11편 카운트다운",
+   "주장": "안원잘부 롱폼을 「700만 조회수까지 걸린 시간」으로 줄 세웠습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/O9watzZ95Ng",
+   "썸네일": "https://i.ytimg.com/vi/O9watzZ95Ng/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
   {
    "id": "87ZMVbsCegY",
    "날짜": "2026-10-22",
