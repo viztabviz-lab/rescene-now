@@ -23,6 +23,29 @@ AFTER_MIN = int(os.environ.get("AFTER_MIN", "30"))
 OUT = os.environ.get("OUT_DIR", "out")
 CSV = os.path.join(OUT, "track", VID + ".csv")
 DONE = os.path.join(OUT, "track", VID + ".done")
+STEP = int(os.environ.get("STEP", "0"))                       # 0 이 아니면 STEP 단위 돌파를 따로 적는다
+MILE = os.path.join(OUT, "track", VID + "_돌파.csv")
+
+
+def 마지막값():
+    if not os.path.exists(CSV):
+        return None, None
+    rows = [r for r in csv.DictReader(open(CSV, encoding="utf-8")) if r["views"]]
+    return (rows[-1]["kst"], int(rows[-1]["views"])) if rows else (None, None)
+
+
+def 돌파기록(앞시각, 앞값, 시각, 값):
+    """STEP 단위를 새로 넘었으면 「직전 회차 ~ 이번 회차」 창을 _돌파.csv 에 남긴다"""
+    if not STEP or 앞값 is None or 값 // STEP <= 앞값 // STEP:
+        return
+    새파일 = not os.path.exists(MILE)
+    with open(MILE, "a", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        if 새파일:
+            w.writerow(["돌파", "직전_kst", "직전_views", "넘은_kst", "넘은_views"])
+        for k in range(앞값 // STEP + 1, 값 // STEP + 1):
+            w.writerow([k * STEP, 앞시각, 앞값, 시각, 값])
+            print("돌파", format(k * STEP, ","), 시각, flush=True)
 
 
 def 재기():
@@ -63,6 +86,8 @@ while time.time() - 시작 < RUN_MIN * 60:
     t0, now = time.time(), datetime.datetime.now(KST)
     try:
         v, l, c = 재기()
+        앞시각, 앞값 = 마지막값()
+        돌파기록(앞시각, 앞값, now.strftime("%Y-%m-%d %H:%M:%S"), v)
         with open(CSV, "a", newline="", encoding="utf-8") as f:
             csv.writer(f).writerow([now.strftime("%Y-%m-%d %H:%M:%S"), v, l, c])
         n += 1
@@ -76,7 +101,7 @@ while time.time() - 시작 < RUN_MIN * 60:
     if 끝:
         open(DONE, "w", encoding="utf-8").write(끝 + "\n")
         break
-    if n % 5 == 0:
+    if n % 5 == 0 or (STEP and os.path.exists(MILE) and os.path.getmtime(MILE) > t0):
         push("track: %s %s" % (VID, now.strftime("%m-%d %H:%M")))
     time.sleep(max(1, 60 - (time.time() - t0)))
 
