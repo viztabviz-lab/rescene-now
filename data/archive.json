@@ -1,9 +1,97 @@
 {
- "기준": "2026-11-04",
+ "기준": "2026-11-05",
  "설명": "갱신되지 않는 일회성 집계는 전부 여기 모은다. 카드 하나가 쇼츠 한 편이다.",
  "채널": "https://www.youtube.com/@data-viz",
  "썸네일주의": "i.ytimg.com 을 참조만 한다. 파일을 저장소에 복사하지 않고, 카드 전체가 영상 링크가 된다.",
  "카드": [
+  {
+   "id": "e_ub9IU_4vM",
+   "날짜": "2026-11-05",
+   "제목": "리센느 미나미가 쓴 백화요란, 한 획씩 #shorts",
+   "주장": "안원잘부 「미나미의 본모습」에서 미나미가 받은 붓글씨 과제, 百花繚乱(백화요란).",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/e_ub9IU_4vM",
+   "썸네일": "https://i.ytimg.com/vi/e_ub9IU_4vM/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "FfRp5McnD4s",
+   "날짜": "2026-11-05",
+   "제목": "리센느, 11월 05일 01시 기준 멜론 Top 45위 내 10곡",
+   "주장": "PULSE가 나온 지 31시간, 11월 05일 01시 기준 멜론 TOP100에서 리센느 노래를 낮은 순위부터 하나씩 열었습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/FfRp5McnD4s",
+   "썸네일": "https://i.ytimg.com/vi/FfRp5McnD4s/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "x1Vhfk4y3Qg",
+   "날짜": "2026-11-05",
+   "제목": "리센느 PULSE 초동 2일차, 도트 하나에 10장",
+   "주장": "리센느 4번째 미니앨범 PULSE, 초동 2일차(11월 04일) 한터차트 판매량입니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/x1Vhfk4y3Qg",
+   "썸네일": "https://i.ytimg.com/vi/x1Vhfk4y3Qg/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "NIv68PeIazE",
+   "날짜": "2026-11-05",
+   "제목": "리센느, 11월 05일 00시 기준 멜론 Top 10에 8곡",
+   "주장": "PULSE가 나온 지 30시간, 11월 05일 00시 기준 멜론 TOP100 Top 10을 10위부터 1위까지 하나씩 열었습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/NIv68PeIazE",
+   "썸네일": "https://i.ytimg.com/vi/NIv68PeIazE/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "97OKW3aPNsU",
+   "날짜": "2026-11-05",
+   "제목": "안원잘부 「정작가 컴백」 댓글에 가장 많이 나온 말 TOP 5 #shorts",
+   "주장": "안원잘부 쇼츠 「정작가의 컴백을 축하합니다」 공개 1시간 47분.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/97OKW3aPNsU",
+   "썸네일": "https://i.ytimg.com/vi/97OKW3aPNsU/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "mBxxBbvolsQ",
+   "날짜": "2026-11-04",
+   "제목": "리센느, 11월 04일 23시 기준 멜론 Top 20위 내 10곡",
+   "주장": "PULSE가 나온 지 29시간, 11월 04일 23시 기준 멜론 TOP100에서 리센느 노래를 낮은 순위부터 하나씩 열었습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/mBxxBbvolsQ",
+   "썸네일": "https://i.ytimg.com/vi/mBxxBbvolsQ/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "EZB52EUXGjI",
+   "날짜": "2026-11-04",
+   "제목": "리센느 Dragon, 누구의 노래? 재드래곤 · 지드래곤 · 파이리 #shorts",
+   "주장": "RESCENE 4th Mini Album 「PULSE」 수록곡 「Dragon」.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/EZB52EUXGjI",
+   "썸네일": "https://i.ytimg.com/vi/EZB52EUXGjI/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "voFFTREpJFQ",
+   "날짜": "2026-11-04",
+   "제목": "리센느 789.8만, 11월 신인 아이돌그룹 브랜드평판 몇 위?",
+   "주장": "한국기업평판연구소 신인 아이돌그룹 브랜드평판 2026년 11월을 5위부터 하나씩 열었습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/voFFTREpJFQ",
+   "썸네일": "https://i.ytimg.com/vi/voFFTREpJFQ/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
   {
    "id": "D9gBNzX6hZs",
    "날짜": "2026-11-04",
