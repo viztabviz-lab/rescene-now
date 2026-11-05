@@ -25,8 +25,8 @@ concurrency:
 
 env:
   VIDEO_ID: pey3E47eSc8            # 리센느 「With」 공식 MV (2026-11-03 18:00 KST 공개) — 100만 단위 돌파 시각
-  TARGET: "20000000"
-  DEADLINE: "2026-12-03T18:00:00+09:00"
+  TARGET: "0"                      # 0 = 목표 없음 — 사용자가 멈추라고 할 때까지(261105)
+  DEADLINE: "2027-12-31T23:59:00+09:00"
   STEP: "1000000"
   RUN_MIN: "50"
   AFTER_MIN: "60"
