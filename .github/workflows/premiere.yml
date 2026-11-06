@@ -1,0 +1,38 @@
+name: 안원잘부 프리미어 동접
+
+# PC 없이 안원잘부 프리미어 동접을 10초 간격으로 적는다(2026-11-06, PC 끄고 이동하는 날 만들었다).
+# 손으로 띄운다: gh workflow run premiere.yml -R viztabviz-lab/rescene-now -f deadline=2026-11-06T22:40:00+09:00
+# 결과는 track 브랜치 track/premiere_<영상ID>.csv · track/premiere_<YYMMDD>.log
+on:
+  workflow_dispatch:
+    inputs:
+      deadline:
+        description: "감시 마감(KST ISO)"
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: premiere-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+      - name: track 브랜치를 out/ 에 연다
+        run: |
+          git config user.name  "rescene-now bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin track
+          git worktree add out FETCH_HEAD
+          cd out && git checkout -q -B track
+      - name: 감시·수집
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          DEADLINE: ${{ inputs.deadline }}
+          OUT_DIR: out
+        run: python3 -X utf8 scripts/premiere_watch.py
