@@ -243,7 +243,7 @@ const STR = {
                 ja:(f,n,at)=>`出典 Melon デイリーTOP100(前日0〜24時集計)。増減はMelon画面の前日比。デイリーは過去の日付を後から取得できないため、${f}から収集した<b>${n}日</b>分だけが最高順位と過去の点に入る。最終収集 ${at}。曲をクリックするとMelonの曲ページへ移動する。`},
 "sm.eye":      {ko:"멜론 주간차트", en:"Melon weekly chart", ja:"Melon 週間チャート"},
 "sm.h":        {ko:"주간 TOP10 안에 리센느가 3곡",
-                en:"Three RESCENE songs in the weekly Top 10",
+                en:"3 RESCENE songs in the weekly Top 10",
                 ja:"週間TOP10にRESCENEが3曲"},
 "sm.sub":      {ko:"재생을 누르면 지난 12주가 한 주씩 흐른다. 슬라이더로 아무 주나 잡을 수 있고, 선 위에 마우스를 올리면 그 주 10곡 순위가 다 나온다. 「표로 보기」에 12주 원표가 있다.",
                 en:"Press play to run through the last 12 weeks one week at a time. Drag the slider to any week, or hover a line to see all 10 ranks for that week. 「표로 보기」 opens the full 12-week table. The chart itself is in Korean.",
