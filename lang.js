@@ -745,6 +745,7 @@ Object.assign(이름표, {
   "메가패스":    {en:"MEGAPASS"},                                         // 광고 「Make Sure. 2028 MEGAPASS」
   "우리은행":    {en:"Woori Bank"},                                       // 영문은 공식 표기, 일본어 공식 표기는 확인 못 함
   "갤럭시 Z 폴드8": {en:"Galaxy Z Fold8", ja:"Galaxy Z Fold8"},           // 삼성전자 제품명(#GalaxyZFold8)
+  "드래곤빌리지3": {en:"Dragon Village 3"},                                 // 영상 태그 「DRAGON VILLAGE 3」, 일본어 공식 표기는 확인 못 함
 });
 
 /* 분야와 링크 종류 — 값은 한국어 식별자이고 글자만 바뀐다 */
