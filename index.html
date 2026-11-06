@@ -357,7 +357,32 @@ details td,details th{padding:5px 12px 5px 0;border-bottom:1px solid var(--line)
 /* ── 라이브 아카이브 ── */
 .subhead{font-size:17px;font-weight:700;letter-spacing:-.015em;margin:34px 0 6px}
 .pane{position:relative}                 /* 툴팁이 이 안에서 자리를 잡는다 */
-.row.mem{grid-template-columns:58px 1fr auto}
+.row.mem{grid-template-columns:58px 1fr auto}   /* 클래스 이름 .mem 을 다른 곳에 다시 쓰지 말 것 — 광고 칩이 .mem 을 쓸 때 이 이 줄을 flex 로 덮어 막대가 왼쪽에 몰렸다(261106) */
+/* ── 멜론 일간 — 순위 · 곡 · 1~100위 띠(로그 눈금) · 등락. 띠가 남은 폭을 다 쓴다 ── */
+.row.mdrow{grid-template-columns:44px minmax(150px,330px) 1fr 64px;gap:14px}
+.mdaxis{display:grid;grid-template-columns:44px minmax(150px,330px) 1fr 64px;gap:14px;padding:0 4px;margin-top:10px}
+.mdrow .rk{font-size:20px;font-weight:800;color:var(--pink);width:auto;text-align:right;font-variant-numeric:tabular-nums}
+.mdrow .nm{margin-bottom:2px;color:var(--ink);font-weight:600}
+.mdrow .meta{margin-top:0}
+.mdstrip,.mdticks{position:relative;height:22px}
+.mdstrip::before{content:"";position:absolute;left:0;right:0;top:10px;height:2px;background:var(--track);border-radius:1px}
+.mdstrip i{position:absolute;top:7px;width:8px;height:8px;margin-left:-4px;border-radius:50%;background:var(--ink-3);opacity:.45}
+.mdstrip i.now{top:4px;width:14px;height:14px;margin-left:-7px;background:var(--pink);opacity:1;box-shadow:0 0 0 3px var(--bg)}
+.mdticks{height:16px;font-size:11px;color:var(--ink-3)}
+.mdticks span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.mdticks span:first-child{transform:none}
+.mdticks span:last-child{transform:translateX(-100%)}
+.mdchg{font-size:13.5px;font-weight:700;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.mdchg.up{color:#ff5a5a}.mdchg.down{color:#5aa0ff}.mdchg.same{color:var(--ink-3)}.mdchg.new{color:var(--pink)}
+@media (max-width:620px){
+  .row.mdrow,.mdaxis{grid-template-columns:34px 1fr 52px;gap:10px}
+  .mdrow .mdstrip,.mdaxis .mdticks{grid-column:2 / 3}
+  .mdrow .mid{grid-column:2 / 3}
+  .mdrow .mdchg{grid-row:1;grid-column:3}
+  .mdaxis>span:not(.mdticks){display:none}
+  .mdaxis .mdticks{grid-column:2 / 3}
+  .mdticks .t50{display:none}
+}
 .row .who{font-size:14.5px;color:var(--ink);font-weight:700}
 /* 누적 막대 — 단독은 제 색, 함께는 무채색. 색이 곧 범례다 */
 .bar.stack{display:flex;gap:0}
@@ -474,10 +499,10 @@ footer p{max-width:60ch;margin:0}
 .nmrow{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
 .nmrow b{font-size:19px;font-weight:800;letter-spacing:-.02em}
 .nmrow span{font-size:12.5px;color:var(--ink-3);text-align:right}
-.mem{display:flex;flex-wrap:wrap;gap:4px}
-.mem i{font-style:normal;font-size:12px;border:1px solid var(--pink-dim);color:var(--pink);border-radius:999px;padding:1px 9px}
-.mem i.all{background:var(--pink);color:#1a1a19;border-color:var(--pink);font-weight:700}
-.mem i.unk{border-color:var(--line);color:var(--ink-3)}
+.adchips{display:flex;flex-wrap:wrap;gap:4px}
+.adchips i{font-style:normal;font-size:12px;border:1px solid var(--pink-dim);color:var(--pink);border-radius:999px;padding:1px 9px}
+.adchips i.all{background:var(--pink);color:#1a1a19;border-color:var(--pink);font-weight:700}
+.adchips i.unk{border-color:var(--line);color:var(--ink-3)}
 .lk{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:4px}
 .lk a{font-size:13px;text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:6px 11px;color:var(--ink);background:var(--bg)}
 .lk a:hover{border-color:var(--ink-3)}
@@ -690,6 +715,20 @@ footer p{max-width:60ch;margin:0}
     </div>
     <div class="rows" id="s4-rows"></div>
     <p class="foot" id="s4-foot"></p>
+  </section>
+
+  
+<section id="md" hidden>
+    <p class="eyebrow"><b>03</b> <span data-i18n="md.eye">멜론 일간차트</span></p>
+    <h2 id="md-h"></h2>
+    <p class="sub" id="md-sub"></p>
+    <div class="legend">
+      <span><i style="background:var(--pink)"></i><span data-i18n="md.lg.now">기준일 순위</span></span>
+      <span><i style="background:var(--ink-3)"></i><span data-i18n="md.lg.past">수집한 지난 날</span></span>
+    </div>
+    <div class="mdaxis" aria-hidden="true"><span></span><span></span><span class="mdticks" id="md-ticks"></span><span></span></div>
+    <div class="rows" id="md-rows"></div>
+    <p class="foot" id="md-foot"></p>
   </section>
 
   
@@ -2025,7 +2064,7 @@ function 광고카드(a){
                             .filter(Boolean).join(" · ")));
   몸.append(줄);
 
-  const 멤 = el("div", "mem");
+  const 멤 = el("div", "adchips");
   // 기사에 그룹 이름만 있는 곳은 멤버를 추측하지 않는다 — 멤버 딱지처럼 보이면 안 된다
   if(멤버미확인(a))      멤.append(el("i", "unk", t("ad.mem.unk")));
   else if(전원인가(a))   멤.append(el("i", "all", t("ad.mem.all")));
@@ -2190,15 +2229,55 @@ function 그리기_개편(){
   탭보이기(처음.탭);
 
   /* 광고는 따로 받는다 — 이 파일이 없거나 늦어도 나머지 화면은 그대로 뜬다 */
+  fetch("data/melon_daily.json", {cache:"no-cache"})
+    .then(r => r.ok ? r.json() : Promise.reject(r.status))
+    .then(j => { 멜론일간 = j; 그리기_멜론일간(); 번호매기기(); })
+    .catch(()=>{ 멜론일간 = null; 그리기_멜론일간(); });
+
   fetch("data/ads.json", {cache:"no-cache"})
     .then(r => r.ok ? r.json() : Promise.reject(r.status))
     .then(j => { 광고 = j; 그리기_ads(); 그리기_digest(); 그리기_feed(); 번호매기기(); })
     .catch(()=>{ 광고 = null; 그리기_ads(); });
 })();
 
+/* ─────────────────────────────────────────── 멜론 일간 — 리센느 곡만
+   data/melon_daily.json 은 따로 받는다(없으면 구역을 숨긴다). 만드는 곳: Resceneescene-now_멜론일간.py */
+let 멜론일간 = null;
+const 순위x = r => (Math.log(r) / Math.log(100) * 100);      // 1위 = 0%, 100위 = 100% — 로그라 상위권이 한쪽에 몰리지 않는다
+function 날짜점(s){ return s.slice(5).replace("-", "."); }      // 2026-11-04 → 11.04 (두 자리)
+function 그리기_멜론일간(){
+  const sec = $("#md"); const j = 멜론일간;
+  if(!sec) return;
+  if(!j || !j.곡 || !j.곡.length){ sec.hidden = true; return; }
+  sec.hidden = false;
+  const 곡 = j.곡, 최고 = 곡[0];
+  $("#md-h").textContent = t("md.h", 날짜점(j.기준), 곡.length);
+  $("#md-sub").textContent = t("md.sub", 최고.곡, 최고.순위, 곡.filter(c=>c.순위<=10).length, 곡.filter(c=>c.순위<=30).length);
+  $("#md-ticks").innerHTML = [1,2,5,10,20,50,100].map(r=>`<span class="t${r}" style="left:${순위x(r).toFixed(2)}%">${t("md.tick", r)}</span>`).join("");
+  const c = $("#md-rows"); c.innerHTML = "";
+  곡.forEach(x=>{
+    const a = el("a", "row mdrow");
+    a.href = `https://www.melon.com/song/detail.htm?songId=${x.곡ID}`; a.target = "_blank"; a.rel = "noopener";
+    a.setAttribute("aria-label", t("md.aria", x.곡, x.순위, x.최고));
+    a.append(el("span", "rk", String(x.순위)));
+    const mid = el("div", "mid");
+    mid.append(el("div", "nm", x.곡));
+    const meta = el("div", "meta"); meta.innerHTML = t("md.meta", x.앨범 || "", x.최고, 날짜점(x.최고일), x.차트인일수);
+    mid.append(meta); a.append(mid);
+    const st = el("div", "mdstrip");
+    x.이력.forEach(([d, r])=>{ if(d === j.기준) return; const i = el("i"); i.style.left = 순위x(r).toFixed(2)+"%"; i.title = `${날짜점(d)} ${r}`; st.append(i); });
+    const now = el("i", "now"); now.style.left = 순위x(x.순위).toFixed(2)+"%"; st.append(now);
+    a.append(st);
+    const 기호 = {up:"▲ "+x.등락칸, down:"▼ "+x.등락칸, same:"–", new:"NEW"}[x.등락] || "";
+    a.append(el("span", "mdchg " + (x.등락||""), 기호));
+    c.append(a);
+  });
+  $("#md-foot").innerHTML = t("md.foot", 날짜점(j.첫날), j.수집일수, j.수집시각.slice(5).replace("-", ".").replace(" ", " "));
+}
+
 /* 나라말을 바꾸면 값이 든 문장은 전부 다시 만든다 — 새 화면도 그 줄에 끼운다 */
 모두그리기 = (function(옛){
-  return function(){ 옛(); 그리기_개편(); };
+  return function(){ 옛(); 그리기_개편(); 그리기_멜론일간(); };
 })(모두그리기);
 
 </script>
