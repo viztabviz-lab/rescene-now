@@ -1,9 +1,64 @@
 {
- "기준": "2026-11-11",
+ "기준": "2026-11-12",
  "설명": "갱신되지 않는 일회성 집계는 전부 여기 모은다. 카드 하나가 쇼츠 한 편이다.",
  "채널": "https://www.youtube.com/@data-viz",
  "썸네일주의": "i.ytimg.com 을 참조만 한다. 파일을 저장소에 복사하지 않고, 카드 전체가 영상 링크가 된다.",
  "카드": [
+  {
+   "id": "tpbKOWVLfK4",
+   "날짜": "2026-11-12",
+   "제목": "리센느 멜론 주간인기상 1위까지 1,558표 · 투표하는 법 #shorts",
+   "주장": "리센느(RESCENE) 「With」가 멜론 주간인기상 11월 2주차 투표 2위입니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/tpbKOWVLfK4",
+   "썸네일": "https://i.ytimg.com/vi/tpbKOWVLfK4/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "nD7LASkvHw4",
+   "날짜": "2026-11-12",
+   "제목": "리센느 라이브 218편, 가장 길었던 날은 7시간 16분 #shorts",
+   "주장": "리센느 공식 채널 라이브 218편을 방송한 날 순서로 세웠습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/nD7LASkvHw4",
+   "썸네일": "https://i.ytimg.com/vi/nD7LASkvHw4/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "HdvwVcAx9sw",
+   "날짜": "2026-11-11",
+   "제목": "리센느 백화요란 쇼챔피언, 멤버별로 노래한 시간 몇 초? #shorts",
+   "주장": "리센느 백화요란 (Inside Out) 쇼챔피언 무대(2026년 11월 11일 방송)에서 멤버마다 노래한 시간을 쟀습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/HdvwVcAx9sw",
+   "썸네일": "https://i.ytimg.com/vi/HdvwVcAx9sw/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "C_ApDZwq4Vo",
+   "날짜": "2026-11-11",
+   "제목": "리센느 With, 멜론 일간 Top 3 좋아요 누적도 평균도 1위",
+   "주장": "리센느 With가 멜론 일간 차트(11월 10일) 3위에 올랐습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/C_ApDZwq4Vo",
+   "썸네일": "https://i.ytimg.com/vi/C_ApDZwq4Vo/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "A94nfkFwuWQ",
+   "날짜": "2026-11-11",
+   "제목": "리센느, 쇼챔피언 첫 1위 · 어제 더쇼에 이어 With 2관왕 #shorts",
+   "주장": "리센느는 올여름 음악방송 1위를 6번 했습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/A94nfkFwuWQ",
+   "썸네일": "https://i.ytimg.com/vi/A94nfkFwuWQ/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
   {
    "id": "mNFbAU6Dcag",
    "날짜": "2026-11-10",
