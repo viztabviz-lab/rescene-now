@@ -1,9 +1,53 @@
 {
- "기준": "2026-11-12",
+ "기준": "2026-11-13",
  "설명": "갱신되지 않는 일회성 집계는 전부 여기 모은다. 카드 하나가 쇼츠 한 편이다.",
  "채널": "https://www.youtube.com/@data-viz",
  "썸네일주의": "i.ytimg.com 을 참조만 한다. 파일을 저장소에 복사하지 않고, 카드 전체가 영상 링크가 된다.",
  "카드": [
+  {
+   "id": "3l6gvYJTG08",
+   "날짜": "2026-11-13",
+   "제목": "리센느, 13일의 금요일 「숨바꼭질2」 18시 공개",
+   "주장": "리센느가 Mnet Plus 오리지널 공포 버라이어티 「숨바꼭질2」의 8번째 플레이어로 나옵니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/3l6gvYJTG08",
+   "썸네일": "https://i.ytimg.com/vi/3l6gvYJTG08/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "BsZKm1MkgIQ",
+   "날짜": "2026-11-13",
+   "제목": "리센느, 빌보드 코리아 글로벌 K-Songs Top 100에 8곡",
+   "주장": "빌보드 코리아 글로벌 K-Songs 11월 14일 자 차트에서 리센느 노래를 낮은 순위부터 하나씩 열었습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/BsZKm1MkgIQ",
+   "썸네일": "https://i.ytimg.com/vi/BsZKm1MkgIQ/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "HwAgxXFXPns",
+   "날짜": "2026-11-12",
+   "제목": "리센느 With 디즈니 뮤비 댓글, 가장 많이 한 말은? #shorts",
+   "주장": "디즈니 코리아가 공개한 리센느 'With' (헥스: 마녀왕국 OST) 뮤직비디오의 댓글을 모두 받아, 가장 많은 사람이 남긴 말을 주제별로 셌습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/HwAgxXFXPns",
+   "썸네일": "https://i.ytimg.com/vi/HwAgxXFXPns/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "DYj1lCoVV7Y",
+   "날짜": "2026-11-12",
+   "제목": "리센느 이번 주말 방송, 어디서 볼까?",
+   "주장": "리센느의 이번 주말 방송 · 유튜브 일정을 날짜와 시각 순으로 정리했습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/DYj1lCoVV7Y",
+   "썸네일": "https://i.ytimg.com/vi/DYj1lCoVV7Y/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
   {
    "id": "dhpy8YIy5bs",
    "날짜": "2026-11-12",
