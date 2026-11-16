@@ -1,9 +1,64 @@
 {
- "기준": "2026-11-16",
+ "기준": "2026-11-17",
  "설명": "갱신되지 않는 일회성 집계는 전부 여기 모은다. 카드 하나가 쇼츠 한 편이다.",
  "채널": "https://www.youtube.com/@data-viz",
  "썸네일주의": "i.ytimg.com 을 참조만 한다. 파일을 저장소에 복사하지 않고, 카드 전체가 영상 링크가 된다.",
  "카드": [
+  {
+   "id": "UsVhAMuIXyk",
+   "날짜": "2026-11-17",
+   "제목": "리센느, 유튜브 한국 인기곡 Top 100에 9곡 #shorts",
+   "주장": "유튜브 한국 인기곡 Top 100 주간 차트(11월 06일~12일)에서 리센느 노래를 낮은 순위부터 하나씩 열었습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/UsVhAMuIXyk",
+   "썸네일": "https://i.ytimg.com/vi/UsVhAMuIXyk/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "x7ftR6L9pAA",
+   "날짜": "2026-11-16",
+   "제목": "리센느 RESCENE 「With」 가사 비디오 | Fan-made Lyric Video",
+   "주장": "리센느(RESCENE) 4th Mini Album 「PULSE」 타이틀곡 「With」의 가사를 낱말 하나하나 박자에 맞춰 띄운 팬메이드 가사 비디오입니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/x7ftR6L9pAA",
+   "썸네일": "https://i.ytimg.com/vi/x7ftR6L9pAA/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "yQt35A5_6MQ",
+   "날짜": "2026-11-16",
+   "제목": "리센느 With, 멜론 주간인기상 11월 2주차 1위 · 75.18점 #shorts",
+   "주장": "리센느(RESCENE) 「With」가 멜론 주간인기상 11월 2주차 1위입니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/yQt35A5_6MQ",
+   "썸네일": "https://i.ytimg.com/vi/yQt35A5_6MQ/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "jFZIkIiBCN4",
+   "날짜": "2026-11-16",
+   "제목": "리센느, PULSE 13일 결산 — 음악방송 1위 4관왕 #shorts",
+   "주장": "리센느 미니 4집 PULSE 활동이 11월 15일 인기가요를 끝으로 마무리됐습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/jFZIkIiBCN4",
+   "썸네일": "https://i.ytimg.com/vi/jFZIkIiBCN4/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "eeHT59QOdHk",
+   "날짜": "2026-11-16",
+   "제목": "리센느 빵, 1개월 만에 200만 개 — 2개월엔 몇 개? #shorts",
+   "주장": "리센느 X CU 멤버 빵 5종, 출시 약 2개월 만에 350만 개를 넘었습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/eeHT59QOdHk",
+   "썸네일": "https://i.ytimg.com/vi/eeHT59QOdHk/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
   {
    "id": "aVMdh1tG5jE",
    "날짜": "2026-11-15",
