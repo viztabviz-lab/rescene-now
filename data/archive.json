@@ -5,6 +5,17 @@
  "썸네일주의": "i.ytimg.com 을 참조만 한다. 파일을 저장소에 복사하지 않고, 카드 전체가 영상 링크가 된다.",
  "카드": [
   {
+   "id": "z05oS8_BL4g",
+   "날짜": "2026-11-17",
+   "제목": "리센느 모델 CU, 11월 간편식 브랜드평판 몇 위?",
+   "주장": "한국기업평판연구소 간편식 브랜드평판 2026년 11월.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/z05oS8_BL4g",
+   "썸네일": "https://i.ytimg.com/vi/z05oS8_BL4g/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
    "id": "UsVhAMuIXyk",
    "날짜": "2026-11-17",
    "제목": "리센느, 유튜브 한국 인기곡 Top 100에 9곡 #shorts",
@@ -3808,7 +3819,7 @@
    "링크": "https://www.youtube.com/shorts/vwvPqlbfHzY",
    "썸네일": "https://i.ytimg.com/vi/vwvPqlbfHzY/mqdefault.jpg",
    "공개예정": false,
-   "공개": true
+   "공개": false
   },
   {
    "id": "ohKp2LbGVg8",
