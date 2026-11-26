@@ -1,9 +1,42 @@
 {
- "기준": "2026-11-26",
+ "기준": "2026-11-27",
  "설명": "갱신되지 않는 일회성 집계는 전부 여기 모은다. 카드 하나가 쇼츠 한 편이다.",
  "채널": "https://www.youtube.com/@data-viz",
  "썸네일주의": "i.ytimg.com 을 참조만 한다. 파일을 저장소에 복사하지 않고, 카드 전체가 영상 링크가 된다.",
  "카드": [
+  {
+   "id": "rcAsNsCvYGo",
+   "날짜": "2026-11-27",
+   "제목": "리센느 제나가 살아온 6,574일로 그린 한 장 #shorts",
+   "주장": "리센느 제나, 2008년 11월 27일생.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/rcAsNsCvYGo",
+   "썸네일": "https://i.ytimg.com/vi/rcAsNsCvYGo/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "0isLAkmBw4E",
+   "날짜": "2026-11-26",
+   "제목": "리센느 곡 제목으로 쓴 감기송, 숨은 곡은 몇 개? #shorts",
+   "주장": "리센느 곡 제목만 빌려 「감기 조심송」 가사를 새로 쓰고, AI로 노래를 만들었습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/0isLAkmBw4E",
+   "썸네일": "https://i.ytimg.com/vi/0isLAkmBw4E/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
+  {
+   "id": "k954BQ_ywsE",
+   "날짜": "2026-11-26",
+   "제목": "광고주들이 좋아하는 리센느 라이브, 말로 꺼낸 브랜드 7개",
+   "주장": "11월 25일 밤 RESCENE 공식 라이브 「리모와 MZ즈」 97분을 처음부터 끝까지 받아쓰고, 멤버가 말로 꺼낸 브랜드를 첫 언급 순서로 모았습니다.",
+   "수치": "",
+   "링크": "https://www.youtube.com/shorts/k954BQ_ywsE",
+   "썸네일": "https://i.ytimg.com/vi/k954BQ_ywsE/mqdefault.jpg",
+   "공개예정": false,
+   "공개": true
+  },
   {
    "id": "5E_FXuEIWaA",
    "날짜": "2026-11-26",
